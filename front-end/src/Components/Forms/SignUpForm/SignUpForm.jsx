@@ -1,5 +1,6 @@
 import React from 'react'
-// import animateSignup from './animateSignup.png'
+import './SignUp.css'
+import animateSignup from '../../../assets/animateSignup.png'
 import { Input, Button, Checkbox } from "antd";
 
 export default function SignUpForm() {
@@ -43,7 +44,7 @@ export default function SignUpForm() {
             </div>
             <div className="imgDiv">
                 <img
-                    // src={animateSignup}
+                    src={animateSignup}
                     alt=""
                 />
             </div>

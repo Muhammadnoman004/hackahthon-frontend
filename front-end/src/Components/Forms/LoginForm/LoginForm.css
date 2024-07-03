@@ -29,7 +29,6 @@ body {
 
 .inp {
     display: flex;
-
     margin-bottom: 10px;
     flex-direction: row;
     justify-content: space-between;
@@ -58,11 +57,12 @@ body {
     .btn {
         display: flex;
         justify-content: center;
-
-
     }
 
     .mainDiv {
-        margin-left: -15px;
+        width: 300px !important;
+        margin: auto !important;
+        margin-top: 10vh !important;
+        padding: 0px !important;
     }
 }

@@ -5,7 +5,7 @@ import Signup from '../Pages/Signup/Signup';
 import Login from '../Pages/Login/Login';
 import TeacherHome from '../Pages/Teachers/Home/Home';
 import StudentHomePage from '../Pages/Students/StudentHomePage';
-
+import StudentAllAssignmentPage from '../Pages/Students/StudentAllAssignmentPage';
 
 const router = createBrowserRouter([
     {
@@ -27,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: "/student-home",
         element: <StudentHomePage />
+    },
+    {
+        path: "/student-assignment-listing",
+        element: <StudentAllAssignmentPage />
     },
 ])
 

@@ -6,6 +6,7 @@ import Login from '../Pages/Login/Login';
 import TeacherHome from '../Pages/Teachers/Home/Home';
 import StudentHomePage from '../Pages/Students/StudentHomePage';
 import StudentAllAssignmentPage from '../Pages/Students/StudentAllAssignmentPage';
+import StudentAssignmentTodoPage from '../Pages/Students/StudentAssignmentTodoPage';
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: "/student-assignment-listing",
         element: <StudentAllAssignmentPage />
+    },
+    {
+        path: "/student-assignment-todo",
+        element: <StudentAssignmentTodoPage />
     },
 ])
 

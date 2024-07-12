@@ -8,6 +8,7 @@ import StudentHomePage from '../Pages/Students/StudentHomePage';
 import StudentAllAssignmentPage from '../Pages/Students/StudentAllAssignmentPage';
 import StudentAssignmentTodoPage from '../Pages/Students/StudentAssignmentTodoPage';
 import AllClassFellowsPage from '../Pages/Students/AllClassFellowsPage';
+import StudentSettingPage from '../Pages/Students/StudendSettingPage';
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     {
         path: "/student-classfellows",
         element: <AllClassFellowsPage />
+    },
+    {
+        path: "/student-setting",
+        element: <StudentSettingPage />
     },
 ])
 

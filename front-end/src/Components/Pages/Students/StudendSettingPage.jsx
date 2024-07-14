@@ -3,13 +3,15 @@ import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
-import { Menu } from 'antd';
+import { Button, Menu } from 'antd';
 import { Container } from 'react-bootstrap';
+import Navbars from '../../Navbars/Navbars';
+import Footer from '../../Footer/Footer';
 
 const items = [
     {
         key: 'sub1',
-        icon: <FaBell />,
+        icon: <FaBell color='#87CEEB' />,
         label: 'Notifications',
         children: [
             {
@@ -46,7 +48,7 @@ const items = [
     },
     {
         key: 'sub2',
-        icon: <FaUserLock />,
+        icon: <FaUserLock color='#87CEEB' />,
         label: 'Update profile',
         children: [
             {
@@ -76,7 +78,7 @@ const items = [
     {
         key: 'sub5',
         label: 'Change password',
-        icon: <FaUserLock />,
+        icon: <FaUserLock color='#87CEEB' />,
         children: [
             {
                 key: '9',
@@ -99,7 +101,7 @@ const items = [
     {
         key: 'sub4',
         label: 'Help',
-        icon: <ImSearch />,
+        icon: <ImSearch color='#87CEEB' />,
         children: [
             {
                 key: '13',
@@ -127,6 +129,7 @@ const onClick = (e) => {
 export default function StudentSettingPage() {
     return (
         <div>
+            <Navbars />
             <Container>
                 <div className='flex m-4 text-2xl font-mono font-extrabold'>
                     <h1 className='flex-1'>Settings</h1>
@@ -143,11 +146,11 @@ export default function StudentSettingPage() {
                     items={items}
                 />
 
-                <div className='flex mx-72'>
-                    <MdOutlineLogout className='my-1 text-lg ' />
-                    <h1 className='text-lg mx-2'>Logout</h1>
+                <div className='mx-64 p-1'>
+                    <Button icon={<MdOutlineLogout />} className='text-lg mx-2'>Logout</Button>
                 </div>
             </Container>
+            <Footer />
         </div>
     )
 }

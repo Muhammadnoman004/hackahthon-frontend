@@ -4,7 +4,17 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ], theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'sky-blue': '#87CEEB',
+      }
+    },
+    screens: {
+      'sm': '559px',
+      'md': '768px',
+      'lg': '992px',
+      'xl': '1200px',
+    }
   },
   plugins: [],
 }

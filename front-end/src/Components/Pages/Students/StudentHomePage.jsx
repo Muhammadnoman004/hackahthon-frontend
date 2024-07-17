@@ -27,7 +27,7 @@ export default function StudentHomePage() {
                                         margin: 'auto',
                                         marginBottom: 30
                                     }}
-                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://s3-alpha-sig.figma.com/img/2ebd/a06f/cba634dae41e756ff7f59d1390872737?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=muV73o7cCh55NLYEvtXRN9-ZKTw7h70lC8vyxJjrmYVJdAV1qGywJg0M6KhcYuBfgXnSmKbo3V4OKOK45bbJXCC4mwXxjDRYUDm7tChQwkxh2iBT04EgqbfdQ3KQVd7hP6KlD4B7Q2h4MSlFdUMZ8feFW8ODwHUswCd-lwyIIQQqIrFofBY9M-FppPnZqQ6bUSy2cmOMUJKJ66excVRO-8oCkdoz~g1Zb0mvtdYsqg9k5gZ1N7gF5A9fpNUiYxbkZy8LZla4LwBCnaMmr2FZ~~D2guH02btUlRkrMzQQmKxSWlgFv~Lt0Y42DHBreVOiGOeoCPTiM~4KhlM3GL93bQ__" />}
+                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPIQRaKMkaQh1KFCfy8Xmz4H_Jy3waZw2mw&s" />}
                                 >
                                     <div className='flex relative bottom-12'>
                                         <h1 className='flex-1 relative top-8 right-3 font-semibold'>Web development</h1>
@@ -49,7 +49,7 @@ export default function StudentHomePage() {
                                         margin: 'auto',
                                         marginBottom: 30
                                     }}
-                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://s3-alpha-sig.figma.com/img/2ebd/a06f/cba634dae41e756ff7f59d1390872737?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=muV73o7cCh55NLYEvtXRN9-ZKTw7h70lC8vyxJjrmYVJdAV1qGywJg0M6KhcYuBfgXnSmKbo3V4OKOK45bbJXCC4mwXxjDRYUDm7tChQwkxh2iBT04EgqbfdQ3KQVd7hP6KlD4B7Q2h4MSlFdUMZ8feFW8ODwHUswCd-lwyIIQQqIrFofBY9M-FppPnZqQ6bUSy2cmOMUJKJ66excVRO-8oCkdoz~g1Zb0mvtdYsqg9k5gZ1N7gF5A9fpNUiYxbkZy8LZla4LwBCnaMmr2FZ~~D2guH02btUlRkrMzQQmKxSWlgFv~Lt0Y42DHBreVOiGOeoCPTiM~4KhlM3GL93bQ__" />}
+                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPIQRaKMkaQh1KFCfy8Xmz4H_Jy3waZw2mw&s" />}
                                 >
                                     <div className='flex relative bottom-12'>
                                         <h1 className='flex-1 relative top-8 right-3 font-semibold'>Python development</h1>
@@ -71,7 +71,7 @@ export default function StudentHomePage() {
                                         margin: 'auto',
                                         marginBottom: 30
                                     }}
-                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://s3-alpha-sig.figma.com/img/2ebd/a06f/cba634dae41e756ff7f59d1390872737?Expires=1721001600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=muV73o7cCh55NLYEvtXRN9-ZKTw7h70lC8vyxJjrmYVJdAV1qGywJg0M6KhcYuBfgXnSmKbo3V4OKOK45bbJXCC4mwXxjDRYUDm7tChQwkxh2iBT04EgqbfdQ3KQVd7hP6KlD4B7Q2h4MSlFdUMZ8feFW8ODwHUswCd-lwyIIQQqIrFofBY9M-FppPnZqQ6bUSy2cmOMUJKJ66excVRO-8oCkdoz~g1Zb0mvtdYsqg9k5gZ1N7gF5A9fpNUiYxbkZy8LZla4LwBCnaMmr2FZ~~D2guH02btUlRkrMzQQmKxSWlgFv~Lt0Y42DHBreVOiGOeoCPTiM~4KhlM3GL93bQ__" />}
+                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPIQRaKMkaQh1KFCfy8Xmz4H_Jy3waZw2mw&s" />}
                                 >
                                     <div className='flex relative bottom-12'>
                                         <h1 className='flex-1 relative top-8 right-3 font-semibold'>Backend development</h1>

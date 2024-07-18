@@ -1,49 +1,47 @@
 import React from 'react'
-import './LoginForm.css'
-import animateLogin from '../../../assets/animateSignup.png'
-import { Input, Button, Checkbox } from "antd";
+import { Input } from "antd";
+import animateSignup from '../../../assets/animateSignup.png'
+import { MdMailOutline } from "react-icons/md";
+import { LiaUserLockSolid } from 'react-icons/lia';
+import { Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
 
-    const onChange = (e) => {
-        console.log(`checked = ${e.target.checked}`);
-    };
-
     return (
+        <div className='h-screen absolute w-screen sm:bg-stone-100'>
+            <div className="bg-sky-blue m-auto flex justify-center items-center h-screen sm:w-fit sm:h-auto sm:absolute inset-x-0 top-32 rounded-lg">
+                <div className="flex flex-col justify-center items-center w-screen sm:w-96 h-auto p-3">
+                    <div className='mb-4 mt-5 text-4xl font-bold sm:font-semibold sm:text-3xl'>
+                        <h1>Login</h1>
+                    </div>
+                    <div className=" w-screen px-4 sm:w-96">
+                        <div className="mb-3">
+                            <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />
+                            } />
+                        </div>
+                        <div className="mb-3">
+                            <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
+                        </div>
+                        <div>
+                            <span className='text-gray-600'>Don't have an account ? </span>
+                            <Link to={'/signup'}><span className='font-semibold hover:underline hover:font-bold'>Sign up</span></Link>
+                        </div>
 
-        <div className="mainDiv">
-            <div className="loginDiv">
-                <div className="head">
-                    <h1>Login</h1>
+                        <div className='mb-5 mt-4'>
+                            <Button variant='outline-dark'>Login</Button>
+                        </div>
+
+                    </div>
                 </div>
-                <div className="Form">
-
-                    <div className="inp">
-
-                        <Input type="email" placeholder="Enter Email" />
-                    </div>
-                    <div className="inp">
-                        <Input type="password" placeholder="Enter Password" />
-                    </div>
-
-
-                    <div className="inp">
-                        <Checkbox onChange={onChange}>Remember me</Checkbox>
-                    </div>
-                    <div className="btn">
-                        <Button className="Button" >
-                            Login
-                        </Button>
-                    </div>
+                <div className="sm:visible">
+                    <img
+                        className='w-96'
+                        src={animateSignup}
+                        alt=""
+                    />
                 </div>
-            </div>
-            <div className="imgDiv">
-                <img
-                    src={animateLogin}
-                    alt=""
-                />
             </div>
         </div>
-
     )
 }

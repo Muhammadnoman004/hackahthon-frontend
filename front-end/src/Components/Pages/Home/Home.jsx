@@ -13,7 +13,7 @@ export default function Home() {
       {/* <NotificationModal /> */}
       <StudentHomePage />
       {/* <StudentUpdateProfilePage /> */}
-      <AssignmentSubmitFormModal />
+      {/* <AssignmentSubmitFormModal /> */}
     </div >
   )
 }

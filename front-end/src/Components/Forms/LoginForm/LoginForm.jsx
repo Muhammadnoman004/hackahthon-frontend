@@ -10,7 +10,7 @@ export default function LoginForm() {
 
     return (
         <div className='h-screen absolute w-screen sm:bg-stone-100'>
-            <div className="bg-sky-blue m-auto flex justify-center items-center h-screen sm:w-fit sm:h-auto sm:absolute inset-x-0 top-32 rounded-lg">
+            <div className="bg-sky-blue m-auto flex justify-center items-center h-screen sm:w-fit sm:h-auto sm:absolute inset-x-0 top-32 sm:rounded-lg">
                 <div className="flex flex-col justify-center items-center w-screen sm:w-96 h-auto p-3">
                     <div className='mb-4 mt-5 text-4xl font-bold sm:font-semibold sm:text-3xl'>
                         <h1>Login</h1>

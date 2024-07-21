@@ -9,7 +9,7 @@ import StudentAssignmentTodoPage from '../Pages/Students/StudentAssignmentTodoPa
 import AllClassFellowsPage from '../Pages/Students/AllClassFellowsPage';
 import StudentSettingPage from '../Pages/Students/StudendSettingPage';
 import Navbars from '../Navbars/Navbars';
-import TeacherHomePage from '../Pages/Teachers/TeacherHomePage/TeacherHomePage';
+import TeacherHomePage from '../Pages/Teachers/TeacherHomePage';
 
 const router = createBrowserRouter([
     {

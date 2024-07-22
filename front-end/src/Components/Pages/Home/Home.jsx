@@ -5,6 +5,7 @@ import StudentHomePage from '../Students/StudentHomePage'
 import NotificationModal from '../../NotificationModal/NotificationModal'
 import StudentUpdateProfilePage from '../Students/StudentUpdateProfilePage'
 import AssignmentSubmitFormModal from '../../AssignmentSubmitFormModal/AssignmentSubmitFormModal'
+import TeacherStudentPage from '../Teachers/TeacherStudentPage'
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <StudentHomePage />
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
+      <TeacherStudentPage />
     </div >
   )
 }

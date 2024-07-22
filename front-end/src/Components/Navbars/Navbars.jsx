@@ -8,7 +8,7 @@ import Navbar from 'react-bootstrap/Navbar';
 export default function Navbars() {
     return (
         <div>
-            <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" style={{ background: "#87CEEB" }}>
+            <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" className='bg-sky-blue' >
                 <Container>
                     <Navbar.Brand href="#home" className='font-bold'>SMIT</Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />

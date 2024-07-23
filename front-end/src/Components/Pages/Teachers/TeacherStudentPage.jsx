@@ -1,101 +1,9 @@
 import React from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { Container } from 'react-bootstrap'
-import { Input, Select, Space, Table, Tag } from 'antd'
+import { Input, Select, Space, } from 'antd'
 import { IoSearchSharp } from "react-icons/io5";
-
-const columns = [
-    {
-        title: 'Serial No.',
-        dataIndex: 'serialNo',
-        key: 'serialNo',
-        width: 100
-    },
-    {
-        title: 'Topic',
-        dataIndex: 'topic',
-        key: 'topic',
-        width: 250
-    },
-    {
-        title: 'Issues Date',
-        dataIndex: 'issueDate',
-        key: 'issueDate',
-        width: 150,
-    },
-    {
-        title: 'Due Date',
-        dataIndex: 'expireDate',
-        key: 'expireDate',
-        width: 150,
-    },
-    {
-        title: 'Status',
-        key: 'tags',
-        dataIndex: 'tags',
-        width: 100,
-        render: (_, { tags }) => (
-            <>
-                {tags.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'expired') {
-                        color = 'volcano';
-                    }
-                    if (tag === 'submitted') {
-                        color = 'geekblue'
-                    }
-                    if (tag === 'pending') {
-                        color = 'green'
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-];
-
-const data = [
-    {
-        key: '1',
-        serialNo: '01',
-        issueDate: '02-06-24',
-        expireDate: '10-08-24',
-        topic: 'HTML',
-        tags: ['submitted'],
-
-    },
-    {
-        key: '2',
-        serialNo: '02',
-        issueDate: '04-06-24',
-        expireDate: '12-08-24',
-        topic: 'CSS',
-        tags: ['expired'],
-
-    },
-    {
-        key: '3',
-        serialNo: '03',
-        issueDate: '06-06-24',
-        expireDate: '14-08-24',
-        topic: 'JavaScript',
-        tags: ['pending'],
-
-    },
-    {
-        key: '4',
-        serialNo: '04',
-        issueDate: '08-06-24',
-        expireDate: '16-08-24',
-        topic: 'React JS',
-        tags: ['submitted'],
-
-    },
-];
+import { Flex, Progress } from 'antd';
 
 
 export default function TeacherStudentPage() {
@@ -134,12 +42,22 @@ export default function TeacherStudentPage() {
                     </div>
 
                     <div>
-                        <Table
-                            columns={columns}
-                            dataSource={data}
-                            bordered={false} // Set bordered to false to remove borders
-                            pagination={false} // Remove pagination
-                        />
+                        <div>
+                            <p>Noman</p>
+                            <p>roll no</p>
+                        </div>
+                        <div>Batch-10</div>
+                        <div>
+                            <Progress
+                                percent={60}
+                                percentPosition={{
+                                    align: 'end',
+                                    type: 'inner',
+                                }}
+                                size={[300, 20]}
+                                strokeColor="#001342"
+                            />
+                        </div>
                     </div>
                 </div>
 

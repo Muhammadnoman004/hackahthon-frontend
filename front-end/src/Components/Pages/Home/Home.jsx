@@ -12,7 +12,7 @@ export default function Home() {
     <div>
       <Navbars />
       {/* <NotificationModal /> */}
-      <StudentHomePage />
+      {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
       <TeacherStudentPage />

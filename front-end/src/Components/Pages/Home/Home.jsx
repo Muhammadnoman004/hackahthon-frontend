@@ -6,6 +6,7 @@ import NotificationModal from '../../NotificationModal/NotificationModal'
 import StudentUpdateProfilePage from '../Students/StudentUpdateProfilePage'
 import AssignmentSubmitFormModal from '../../AssignmentSubmitFormModal/AssignmentSubmitFormModal'
 import TeacherStudentPage from '../Teachers/TeacherStudentPage'
+import AllAssignmentListing from '../Teachers/AllAssignmentListing'
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
       <TeacherStudentPage />
+      <AllAssignmentListing />
     </div >
   )
 }

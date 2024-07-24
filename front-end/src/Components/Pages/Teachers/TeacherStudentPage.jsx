@@ -1,9 +1,9 @@
 import React from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { Container } from 'react-bootstrap'
-import { Input, Select, Space, } from 'antd'
+import { Button, Input, Select, Space, } from 'antd'
 import { IoSearchSharp } from "react-icons/io5";
-import { Flex, Progress } from 'antd';
+import { Progress } from 'antd';
 
 
 export default function TeacherStudentPage() {
@@ -41,24 +41,82 @@ export default function TeacherStudentPage() {
                         </div>
                     </div>
 
-                    <div>
-                        <div>
-                            <p>Noman</p>
-                            <p>roll no</p>
+                    <div className='flex gap-4 flex-col'>
+
+                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
+                            <div>
+                                <p className='font-semibold font-serif'>Noman</p>
+                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
+                            </div>
+                            <div>Batch-10</div>
+                            <div>
+                                <Progress
+                                    percent={100}
+                                    percentPosition={{
+                                        align: 'center',
+                                        type: 'inner',
+                                    }}
+                                    size={[300, 20]}
+                                />
+                            </div>
+
+                            <div>
+                                <Button type='text' className='border-none'>
+                                    View Overall Report
+                                </Button>
+                            </div>
                         </div>
-                        <div>Batch-10</div>
-                        <div>
-                            <Progress
-                                percent={60}
-                                percentPosition={{
-                                    align: 'end',
-                                    type: 'inner',
-                                }}
-                                size={[300, 20]}
-                                strokeColor="#001342"
-                            />
+
+                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
+                            <div>
+                                <p className='font-semibold font-serif'>Huzaifa</p>
+                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
+                            </div>
+                            <div>Batch-10</div>
+                            <div>
+                                <Progress
+                                    percent={50}
+                                    percentPosition={{
+                                        align: 'center',
+                                        type: 'inner',
+                                    }}
+                                    size={[300, 20]}
+                                    strokeColor="#DDD70C"
+                                />
+                            </div>
+
+                            <div>
+                                <Button type='text' className='border-none'>
+                                    View Overall Report
+                                </Button>
+                            </div>
+                        </div>
+
+                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
+                            <div>
+                                <p className='font-semibold font-serif'>Jamsheed</p>
+                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
+                            </div>
+                            <div>Batch-10</div>
+                            <div>
+                                <Progress
+                                    percent={30}
+                                    percentPosition={{
+                                        align: 'center',
+                                        type: 'inner',
+                                    }}
+                                    size={[300, 20]}
+                                />
+                            </div>
+
+                            <div>
+                                <Button type='text' className='border-none'>
+                                    View Overall Report
+                                </Button>
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </Container>

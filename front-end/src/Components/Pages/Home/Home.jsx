@@ -16,7 +16,7 @@ export default function Home() {
       {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
-      <TeacherStudentPage />
+      {/* <TeacherStudentPage /> */}
       <AllAssignmentListing />
     </div >
   )

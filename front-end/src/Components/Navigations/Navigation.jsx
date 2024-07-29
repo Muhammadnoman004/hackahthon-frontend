@@ -25,23 +25,23 @@ const router = createBrowserRouter([
         element: <Login />
     },
     {
-        path: "/student-home",
+        path: "/student/home",
         element: <StudentHomePage />
     },
     {
-        path: "/student-assignment-listing",
+        path: "/student/assignment/listing",
         element: <StudentAllAssignmentPage />
     },
     {
-        path: "/student-assignment-todo",
+        path: "/student/assignment/todo",
         element: <StudentAssignmentTodoPage />
     },
     {
-        path: "/student-classfellows",
+        path: "/student/classfellows",
         element: <AllClassFellowsPage />
     },
     {
-        path: "/student-setting",
+        path: "/student/setting",
         element: <StudentSettingPage />
     },
     {

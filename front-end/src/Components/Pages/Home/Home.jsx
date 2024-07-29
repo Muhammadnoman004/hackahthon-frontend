@@ -19,7 +19,7 @@ export default function Home() {
       {/* <AssignmentSubmitFormModal /> */}
       {/* <TeacherStudentPage /> */}
       <AllAssignmentListing />
-      <CreateAssignmentModal />
+      {/* <CreateAssignmentModal /> */}
     </div >
   )
 }

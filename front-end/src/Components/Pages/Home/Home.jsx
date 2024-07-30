@@ -8,6 +8,7 @@ import AssignmentSubmitFormModal from '../../AssignmentSubmitFormModal/Assignmen
 import TeacherStudentPage from '../Teachers/TeacherStudentPage'
 import AllAssignmentListing from '../Teachers/AllAssignmentListing'
 import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentModal'
+import AllStudentGradePage from '../Teachers/AllStudentGradePage'
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
       {/* <AssignmentSubmitFormModal /> */}
       {/* <TeacherStudentPage /> */}
       <AllAssignmentListing />
+      <AllStudentGradePage />
       {/* <CreateAssignmentModal /> */}
     </div >
   )

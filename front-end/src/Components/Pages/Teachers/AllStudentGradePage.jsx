@@ -1,8 +1,131 @@
 import { BellFilled } from '@ant-design/icons'
-import { Input, Select, Space } from 'antd'
+import { Input, Select, Space, Table, Tag } from 'antd'
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { IoSearchSharp } from 'react-icons/io5'
+
+const columns = [
+    {
+        title: 'S/No',
+        dataIndex: 'serialNo',
+        key: 'serialNo',
+        width: 50,
+        render: (number) => <a>{number}</a>,
+    },
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => (
+            <div>
+                <div>{text}</div>
+                <div style={{ marginTop: '10px', fontSize: '12px', color: 'gray' }}>{record.rollNum}</div>
+            </div>
+        )
+    },
+    {
+        title: 'Batch',
+        dataIndex: 'batch',
+        key: 'batch',
+        render: (text) => <a>{text}</a>,
+    },
+    {
+        title: 'Point',
+        dataIndex: 'point',
+        key: 'point',
+        render: (number) => <a>{number}</a>,
+    },
+    {
+        title: 'Grade',
+        dataIndex: 'grade',
+        key: 'grade',
+        render: (text) => <a>{text}</a>,
+    },
+    {
+        title: 'Status',
+        key: 'tags',
+        dataIndex: 'tags',
+        render: (_, { tags }) => (
+            <>
+                {tags.map((tag) => {
+                    let color = tag.length > 5 ? 'geekblue' : 'green';
+                    if (tag === 'expired') {
+                        color = 'volcano';
+                    }
+                    if (tag === 'submitted') {
+                        color = 'geekblue'
+                    }
+                    if (tag === 'pending') {
+                        color = 'green'
+                    }
+                    return (
+                        <Tag color={color} key={tag}>
+                            {tag.toUpperCase()}
+                        </Tag>
+                    );
+                })}
+            </>
+        ),
+    },
+    {
+        title: 'Action',
+        dataIndex: 'action',
+        key: 'action',
+        render: (text) => <a>{text}</a>,
+    },
+    // Add more columns as needed
+];
+
+const dataSource = [
+    {
+        key: '1',
+        serialNo: 1,
+        name: 'M. Noman',
+        rollNum: '101',
+        batch: 'Batch-10',
+        point: 90,
+        grade: 'A+1',
+        tags: ['submitted'],
+        action: 'Preview'
+    },
+    {
+        key: '2',
+        serialNo: 2,
+        name: 'Huzaifa Khan',
+        rollNum: '102',
+        point: 'N / A',
+        batch: 'Batch-11',
+        grade: 'N / A',
+        tags: ['pending'],
+        action: 'Preview'
+
+    },
+    {
+        key: '3',
+        serialNo: 3,
+        name: 'Jamsheed Khan',
+        rollNum: '103',
+        point: 100,
+        batch: 'Batch-12',
+        grade: 'A+1',
+        tags: ['submitted'],
+        action: 'Preview'
+
+    },
+    {
+        key: '4',
+        serialNo: 4,
+        name: 'Tayyab',
+        rollNum: '104',
+        point: 'N / A',
+        batch: 'Batch-10',
+        grade: 'N / A',
+        tags: ['expired'],
+        action: 'Preview'
+
+    }
+    // Add more data as needed
+];
 
 export default function AllStudentGradePage() {
     return (
@@ -37,6 +160,8 @@ export default function AllStudentGradePage() {
 
                     </div>
                 </div>
+                <Table dataSource={dataSource} columns={columns} />
+
             </Container>
         </div>
     )

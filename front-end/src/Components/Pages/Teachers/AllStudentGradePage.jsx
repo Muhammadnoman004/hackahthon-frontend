@@ -136,7 +136,7 @@ export default function AllStudentGradePage() {
                     <BellFilled className='flex-2 text-amber-400' />
                 </div>
 
-                <div className='flex justify-between mb-4'>
+                <div className='flex justify-between p-4 mb-4'>
 
                     <div>
                         <Input size="large" placeholder="Search" prefix={<IoSearchSharp />} className='rounded-3xl w-96' />
@@ -160,7 +160,7 @@ export default function AllStudentGradePage() {
 
                     </div>
                 </div>
-                <Table dataSource={dataSource} columns={columns} />
+                <Table className='mx-6' dataSource={dataSource} columns={columns} />
 
             </Container>
         </div>

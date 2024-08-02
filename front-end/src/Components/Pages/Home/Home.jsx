@@ -18,9 +18,9 @@ export default function Home() {
       {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
-      {/* <TeacherStudentPage /> */}
-      <AllAssignmentListing />
-      <AllStudentGradePage />
+      <TeacherStudentPage />
+      {/* <AllAssignmentListing /> */}
+      {/* <AllStudentGradePage /> */}
       {/* <CreateAssignmentModal /> */}
     </div >
   )

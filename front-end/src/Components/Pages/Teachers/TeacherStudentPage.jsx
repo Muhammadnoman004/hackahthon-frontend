@@ -1,9 +1,116 @@
 import React from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { Container } from 'react-bootstrap'
-import { Button, Input, Select, Space, } from 'antd'
+import { Input, Select, Space, Table, } from 'antd'
 import { IoSearchSharp } from "react-icons/io5";
 import { Progress } from 'antd';
+
+const columns = [
+    {
+        title: 'S/No',
+        dataIndex: 'serialNo',
+        key: 'serialNo',
+        width: 50,
+        render: (number) => <a>{number}</a>,
+    },
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => (
+            <div>
+                <div>{text}</div>
+                <div style={{ marginTop: '10px', fontSize: '12px', color: 'gray' }}>{record.rollNum}</div>
+            </div>
+        )
+    },
+    {
+        title: 'Batch',
+        dataIndex: 'batch',
+        key: 'batch',
+        render: (text) => <a>{text}</a>,
+    },
+    {
+        title: 'Progrees',
+        dataIndex: 'progrees',
+        key: 'progrees',
+        render: (progress) => {
+            let strokeColor = '';
+            if (progress <= 40) {
+                strokeColor = 'red';
+            } else if (progress <= 70) {
+                strokeColor = '#d5d017';
+            }
+
+
+
+            return (
+                <a>
+                    <Progress
+                        percent={progress}
+                        strokeColor={strokeColor}
+                        percentPosition={{
+                            align: 'center',
+                            type: 'inner',
+                        }}
+                        size={[200, 20]}
+                    />
+                </a>
+            );
+        },
+    },
+    {
+        title: 'Action',
+        dataIndex: 'action',
+        key: 'action',
+        render: (text) => <a>{text}</a>,
+    },
+    // Add more columns as needed
+];
+
+const dataSource = [
+    {
+        key: '1',
+        serialNo: 1,
+        name: 'M. Noman',
+        rollNum: '128066',
+        batch: 'Batch-10',
+        progrees: 100,
+        action: 'View Overall Report'
+    },
+    {
+        key: '2',
+        serialNo: 2,
+        name: 'Huzaifa Khan',
+        rollNum: '128088',
+        batch: 'Batch-11',
+        progrees: 90,
+        action: 'View Overall Report'
+
+    },
+    {
+        key: '3',
+        serialNo: 3,
+        name: 'Jamsheed Khan',
+        rollNum: '128089',
+        batch: 'Batch-12',
+        progrees: 50,
+        action: 'View Overall Report'
+
+    },
+    {
+        key: '4',
+        serialNo: 4,
+        name: 'Tayyab',
+        rollNum: '128090',
+        batch: 'Batch-10',
+        progrees: 30,
+        action: 'View Overall Report'
+
+    }
+    // Add more data as needed
+];
+
 
 
 export default function TeacherStudentPage() {
@@ -15,7 +122,7 @@ export default function TeacherStudentPage() {
                     <BellFilled className='flex-2 text-amber-400' />
                 </div>
 
-                <div className='bg-sky-blue w-auto p-4 rounded-lg'>
+                <div className='p-4 rounded-lg'>
                     <div className='flex justify-between mb-4'>
 
                         <div>
@@ -41,81 +148,7 @@ export default function TeacherStudentPage() {
                         </div>
                     </div>
 
-                    <div className='flex gap-4 flex-col'>
-
-                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
-                            <div>
-                                <p className='font-semibold font-serif'>Noman</p>
-                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
-                            </div>
-                            <div>Batch-10</div>
-                            <div>
-                                <Progress
-                                    percent={100}
-                                    percentPosition={{
-                                        align: 'center',
-                                        type: 'inner',
-                                    }}
-                                    size={[300, 20]}
-                                />
-                            </div>
-
-                            <div>
-                                <Button type='text' className='border-none'>
-                                    View Overall Report
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
-                            <div>
-                                <p className='font-semibold font-serif'>Huzaifa</p>
-                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
-                            </div>
-                            <div>Batch-10</div>
-                            <div>
-                                <Progress
-                                    percent={50}
-                                    percentPosition={{
-                                        align: 'center',
-                                        type: 'inner',
-                                    }}
-                                    size={[300, 20]}
-                                    strokeColor="#DDD70C"
-                                />
-                            </div>
-
-                            <div>
-                                <Button type='text' className='border-none'>
-                                    View Overall Report
-                                </Button>
-                            </div>
-                        </div>
-
-                        <div className='flex justify-between p-3 rounded-md bg-gray-200 shadow-xl'>
-                            <div>
-                                <p className='font-semibold font-serif'>Jamsheed</p>
-                                <p className='text-xs font-mono mx-2 text-sky-600'>128066</p>
-                            </div>
-                            <div>Batch-10</div>
-                            <div>
-                                <Progress
-                                    percent={30}
-                                    percentPosition={{
-                                        align: 'center',
-                                        type: 'inner',
-                                    }}
-                                    size={[300, 20]}
-                                />
-                            </div>
-
-                            <div>
-                                <Button type='text' className='border-none'>
-                                    View Overall Report
-                                </Button>
-                            </div>
-                        </div>
-                    </div>
+                    <Table dataSource={dataSource} columns={columns} />
 
                 </div>
 

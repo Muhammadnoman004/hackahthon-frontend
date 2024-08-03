@@ -9,6 +9,7 @@ import TeacherStudentPage from '../Teachers/TeacherStudentPage'
 import AllAssignmentListing from '../Teachers/AllAssignmentListing'
 import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentModal'
 import AllStudentGradePage from '../Teachers/AllStudentGradePage'
+import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGenerate'
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
+      <StudentReportGenerate />
       <TeacherStudentPage />
       {/* <AllAssignmentListing /> */}
       {/* <AllStudentGradePage /> */}

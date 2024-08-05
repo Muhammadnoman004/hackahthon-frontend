@@ -11,6 +11,7 @@ import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentM
 import AllStudentGradePage from '../Teachers/AllStudentGradePage'
 import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGenerate'
 import ChangePasswordModal from '../../ChangePasswordModal/ChangePasswordModal'
+import AdminHomePage from '../Admin/AdminHomePage'
 
 export default function Home() {
   return (
@@ -21,7 +22,8 @@ export default function Home() {
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
       <StudentReportGenerate />
-      <ChangePasswordModal />
+      <AdminHomePage />
+      {/* <ChangePasswordModal/> */}
       {/* <TeacherStudentPage /> */}
       {/* <AllAssignmentListing /> */}
       {/* <AllStudentGradePage /> */}

@@ -24,7 +24,6 @@ export default function Home() {
       {/* <AssignmentSubmitFormModal /> */}
       {/* <StudentReportGenerate /> */}
       <AdminHomePage />
-      <AllTeacherPage />
       {/* <ChangePasswordModal/> */}
       {/* <TeacherStudentPage /> */}
       {/* <AllAssignmentListing /> */}

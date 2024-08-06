@@ -3,6 +3,7 @@ import { Space, Table } from 'antd';
 import { Container } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
+import AllTeacherPage from './AllTeacherPage';
 
 const columns = [
     {
@@ -11,7 +12,7 @@ const columns = [
         key: 'serialNo',
         width: '10%',
         render: (number) => <a>{number}</a>,
-        sorter: (a, b) => a.age - b.age,
+        sorter: (a, b) => a.serialNo - b.serialNo,
     },
     {
         title: 'Course Name',
@@ -34,25 +35,21 @@ const data = [
         key: '1',
         serialNo: '01',
         name: 'Web Development',
-        age: 32,
     },
     {
         key: '2',
         serialNo: '02',
         name: 'Mobile App Development',
-        age: 42,
     },
     {
         key: '3',
         serialNo: '03',
         name: 'Python',
-        age: 32,
     },
     {
         key: '4',
         serialNo: '04',
         name: 'Graphic Designing',
-        age: 32,
     },
 ];
 
@@ -73,6 +70,7 @@ export default function AdminHomePage() {
                     </div>
                 </div>
                 <Table columns={columns} dataSource={data} />
+                <AllTeacherPage />
             </Container>
         </div >
     )

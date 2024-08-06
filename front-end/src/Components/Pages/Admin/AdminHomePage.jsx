@@ -1,5 +1,4 @@
 import React from 'react'
-import { BellFilled } from '@ant-design/icons'
 import { Space, Table } from 'antd';
 import { Container } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
@@ -61,12 +60,8 @@ export default function AdminHomePage() {
     return (
         <div>
             <Container>
-                <div className='flex m-4 text-2xl font-mono font-extrabold'>
-                    <h1 className='flex-1'>Admin Dashboard</h1>
-                    <BellFilled className='flex-2 text-amber-400' />
-                </div>
-                <div className='m-4 text-2xl font-serif font-semibold'>
-                    <h1>Welcome Noman,</h1>
+                <div className='m-4 text-2xl font-mono font-extrabold'>
+                    <h1>Admin Dashboard</h1>
                 </div>
 
                 <div className='flex justify-between m-4'>
@@ -77,8 +72,7 @@ export default function AdminHomePage() {
                         <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg'>Add Course</button>
                     </div>
                 </div>
-
-                <Table columns={columns} dataSource={data} />;
+                <Table columns={columns} dataSource={data} />
             </Container>
         </div >
     )

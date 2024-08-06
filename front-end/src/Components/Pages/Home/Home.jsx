@@ -12,6 +12,7 @@ import AllStudentGradePage from '../Teachers/AllStudentGradePage'
 import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGenerate'
 import ChangePasswordModal from '../../ChangePasswordModal/ChangePasswordModal'
 import AdminHomePage from '../Admin/AdminHomePage'
+import AllTeacherPage from '../Admin/AllTeacherPage'
 
 export default function Home() {
   return (
@@ -21,8 +22,9 @@ export default function Home() {
       {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
-      <StudentReportGenerate />
+      {/* <StudentReportGenerate /> */}
       <AdminHomePage />
+      <AllTeacherPage />
       {/* <ChangePasswordModal/> */}
       {/* <TeacherStudentPage /> */}
       {/* <AllAssignmentListing /> */}

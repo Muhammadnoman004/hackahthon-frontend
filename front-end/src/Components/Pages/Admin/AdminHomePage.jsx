@@ -1,9 +1,8 @@
 import React from 'react'
-import { Space, Table } from 'antd';
+import { Button, Space, Table } from 'antd';
 import { Container } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
-import AllTeacherPage from './AllTeacherPage';
 import AllStudentPage from './AllStudentPage';
 
 const columns = [
@@ -58,10 +57,11 @@ export default function AdminHomePage() {
     return (
         <div>
             <Container>
-                <div className='m-4 text-2xl font-mono font-extrabold'>
-                    <h1>Admin Dashboard</h1>
+                <div className='my-4 flex gap-3'>
+                    <Button>All Teachers</Button>
+                    <Button>All Students</Button>
                 </div>
-
+                <AllStudentPage />
                 <div className='flex justify-between m-4'>
                     <div>
                         <h1 className='font-bold text-xl'>All Courses</h1>
@@ -71,8 +71,6 @@ export default function AdminHomePage() {
                     </div>
                 </div>
                 <Table columns={columns} dataSource={data} />
-                <AllTeacherPage />
-                <AllStudentPage />
             </Container>
         </div >
     )

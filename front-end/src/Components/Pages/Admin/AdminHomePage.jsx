@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap'
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import AllTeacherPage from './AllTeacherPage';
+import AllStudentPage from './AllStudentPage';
 
 const columns = [
     {
@@ -71,6 +72,7 @@ export default function AdminHomePage() {
                 </div>
                 <Table columns={columns} dataSource={data} />
                 <AllTeacherPage />
+                <AllStudentPage />
             </Container>
         </div >
     )

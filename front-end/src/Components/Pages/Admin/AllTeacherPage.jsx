@@ -73,7 +73,7 @@ export default function AllTeacherPage() {
                     </div>
                 </div>
 
-                <Table className='shadow-xl' bordered columns={columns} dataSource={data} />
+                <Table className='shadow-xl mb-5' bordered columns={columns} dataSource={data} />
 
             </Container>
         </div>

@@ -13,6 +13,7 @@ import TeacherHomePage from '../Pages/Teachers/TeacherHomePage';
 import AdminHomePage from '../Pages/Admin/AdminHomePage';
 import AllTeacherPage from '../Pages/Admin/AllTeacherPage';
 import AllStudentPage from '../Pages/Admin/AllStudentPage';
+import AdminCoursePage from '../Pages/Admin/AdminCoursePage';
 
 const router = createBrowserRouter([
     {
@@ -97,6 +98,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars />
             < AllStudentPage />
+        </>
+    },
+    {
+        path: "/admin/course",
+        element: <>
+            <Navbars />
+            < AdminCoursePage />
         </>
     },
 

@@ -1,30 +1,49 @@
-import { UserOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { HiUserCircle } from "react-icons/hi2";
 import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import SmitLogo from '../../assets/smit.png';
+import { Link } from 'react-router-dom';
 
 export default function Navbars() {
+
+    const navlink = [
+        {
+            key: 1,
+            text: <Link to={'/admin/dashboard'}>Home</Link>,
+        },
+        {
+            key: 2,
+            text: <Link to={'/admin/teacher'}>Teachers</Link>
+        },
+        {
+            key: 3,
+            text: <Link to={'/admin/student'}>Students</Link>
+        },
+        {
+            key: 4,
+            text: <Link to={'/admin/setting'}>Settings</Link>
+        },
+    ]
+
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" className='bg-sky-blue' >
                 <Container>
-                    <Navbar.Brand href="#home" className='font-bold'>SMIT</Navbar.Brand>
+                    <Navbar.Brand href="#home" className='font-bold'><img width={110} src={SmitLogo} alt="#logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#assignments">Assignments</Nav.Link>
-                            <Nav.Link href="#to-do">To-Do</Nav.Link>
-                            <Nav.Link href="#classmates">Classmates</Nav.Link>
-                            <Nav.Link href="#setting">Setting</Nav.Link>
+                            {navlink.map((navText, index) => {
+                                return (
+                                    <Nav.Link className='text-white hover:drop-shadow-lg hover:underline' key={index}>{navText.text}</Nav.Link>
+                                )
+                            })}
                         </Nav>
                         <Nav>
-                            <Nav.Link href="#deets"><Button >Login</Button></Nav.Link>
-                            <Nav.Link href="#deets"><Button >signup</Button></Nav.Link>
-                            <Nav.Link eventKey={2} href="#memes">
-                                <UserOutlined />
+                            <Nav.Link className='text-white text-4xl hover:drop-shadow-lg' eventKey={2}>
+                                <HiUserCircle />
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>

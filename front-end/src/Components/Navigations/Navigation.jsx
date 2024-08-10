@@ -82,28 +82,28 @@ const router = createBrowserRouter([
     {
         path: "/admin/dashboard",
         element: <>
-            <Navbars />
+            <Navbars title={'Admin | Dashboard'} />
             < AdminHomePage />
         </>
     },
     {
         path: "/admin/teacher",
         element: <>
-            <Navbars />
+            <Navbars title={'Admin | Tranier'} />
             < AllTeacherPage />
         </>
     },
     {
         path: "/admin/student",
         element: <>
-            <Navbars />
+            <Navbars title={'Admin | Student'} />
             < AllStudentPage />
         </>
     },
     {
         path: "/admin/course",
         element: <>
-            <Navbars />
+            <Navbars title={'Admin | Course'} />
             < AdminCoursePage />
         </>
     },

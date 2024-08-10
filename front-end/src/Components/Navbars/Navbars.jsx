@@ -5,8 +5,9 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
 import { Link } from 'react-router-dom';
+import PageTitle from "../PageTitle/PageTitle";
 
-export default function Navbars() {
+export default function Navbars({ title }) {
 
     const navlink = [
         {
@@ -47,6 +48,9 @@ export default function Navbars() {
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
+                    <div>
+                        <PageTitle title={title} />
+                    </div>
                 </Container>
             </Navbar>
         </div>

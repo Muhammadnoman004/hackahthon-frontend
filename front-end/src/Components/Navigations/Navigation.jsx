@@ -15,6 +15,7 @@ import AllTeacherPage from '../Pages/Admin/AllTeacherPage';
 import AllStudentPage from '../Pages/Admin/AllStudentPage';
 import AdminCoursePage from '../Pages/Admin/AdminCoursePage';
 import NotFound from '../Pages/NotFound/NotFound';
+import AdminSettingPage from '../Pages/Admin/AdminSettingPage';
 
 const router = createBrowserRouter([
     {
@@ -110,6 +111,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Admin | Course'} />
             < AdminCoursePage />
+        </>
+    },
+    {
+        path: "/admin/setting",
+        element: <>
+            <Navbars title={'Admin | Setting'} />
+            < AdminSettingPage />
         </>
     },
 

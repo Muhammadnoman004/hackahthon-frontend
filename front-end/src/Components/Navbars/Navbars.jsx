@@ -47,10 +47,10 @@ export default function Navbars({ title }) {
                                 <HiUserCircle />
                             </Nav.Link>
                         </Nav>
+                        <div>
+                            <PageTitle title={title} />
+                        </div>
                     </Navbar.Collapse>
-                    <div>
-                        <PageTitle title={title} />
-                    </div>
                 </Container>
             </Navbar>
         </div>

@@ -14,6 +14,7 @@ import AdminHomePage from '../Pages/Admin/AdminHomePage';
 import AllTeacherPage from '../Pages/Admin/AllTeacherPage';
 import AllStudentPage from '../Pages/Admin/AllStudentPage';
 import AdminCoursePage from '../Pages/Admin/AdminCoursePage';
+import NotFound from '../Pages/NotFound/NotFound';
 
 const router = createBrowserRouter([
     {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "*",
+        element: <NotFound />
     },
 
     // Students Routes

@@ -16,6 +16,8 @@ import AllStudentPage from '../Pages/Admin/AllStudentPage';
 import AdminCoursePage from '../Pages/Admin/AdminCoursePage';
 import NotFound from '../Pages/NotFound/NotFound';
 import AdminSettingPage from '../Pages/Admin/AdminSettingPage';
+import AllAssignmentListing from '../Pages/Teachers/AllAssignmentListing';
+import TeacherStudentPage from '../Pages/Teachers/TeacherStudentPage';
 
 const router = createBrowserRouter([
     {
@@ -40,35 +42,35 @@ const router = createBrowserRouter([
     {
         path: "/student/home",
         element: <>
-            <Navbars />
+            <Navbars title={'Student | Dashboard'} />
             <StudentHomePage />
         </>
     },
     {
         path: "/student/assignment/listing",
         element: <>
-            <Navbars />
+            <Navbars title={'Student | Assignment'} />
             <StudentAllAssignmentPage />
         </>
     },
     {
         path: "/student/assignment/todo",
         element: <>
-            <Navbars />
+            <Navbars title={'Student | Todo'} />
             <StudentAssignmentTodoPage />
         </>
     },
     {
         path: "/student/classfellows",
         element: <>
-            <Navbars />
+            <Navbars title={'Student | Classfellow'} />
             <AllClassFellowsPage />
         </>
     },
     {
         path: "/student/setting",
         element: <>
-            <Navbars />
+            <Navbars title={'Student | Setting'} />
             <StudentSettingPage />
         </>
     },
@@ -78,8 +80,22 @@ const router = createBrowserRouter([
     {
         path: "/trainer/dashboard",
         element: <>
-            <Navbars />
+            <Navbars title={'Teacher | Dashboard'} />
             < TeacherHomePage />
+        </>
+    },
+    {
+        path: "/trainer/assignment/listing",
+        element: <>
+            <Navbars title={'Teacher | Assignment'} />
+            < AllAssignmentListing />
+        </>
+    },
+    {
+        path: "/trainer/student",
+        element: <>
+            <Navbars title={'Teacher | Student'} />
+            < TeacherStudentPage />
         </>
     },
 

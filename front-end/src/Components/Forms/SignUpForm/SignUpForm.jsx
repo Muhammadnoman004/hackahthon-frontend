@@ -1,12 +1,17 @@
 import React from 'react'
-import { Input } from "antd";
+import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
 import { FaRegUser } from 'react-icons/fa';
 import { LiaUserLockSolid } from 'react-icons/lia';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+const onFinish = (values) => {
+    console.log('Success:', values);
+};
+const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+};
 
 export default function SignUpForm() {
 
@@ -18,28 +23,80 @@ export default function SignUpForm() {
                         <h1>Sign up</h1>
                     </div>
                     <div className=" w-screen px-4 sm:w-96">
-                        <div className="mb-3">
-                            <Input type="text" placeholder="Username" size='large' prefix={<FaRegUser className='text-sm' />} />
-                        </div>
-                        <div className="mb-3">
-                            <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />
-                            } />
-                        </div>
-                        <div className="mb-3">
-                            <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
-                        </div>
-                        <div className="mb-3">
-                            <Input.Password placeholder="Confirm Password" size='large' prefix={<LiaUserLockSolid />} />
-                        </div>
-                        <div>
-                            <span className='text-gray-600'>Already have an account ? </span>
-                            <Link to={'/login'}><span className='font-semibold hover:underline hover:font-bold'>Login</span></Link>
-                        </div>
+                        <Form
+                            name="basic"
+                            labelCol={{
+                                span: 8,
+                            }}
+                            style={{
+                                maxWidth: 600,
+                            }}
+                            initialValues={{
+                                remember: true,
+                            }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                        >
+                            <Form.Item
+                                name="username"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please Enter username!',
+                                    },
+                                ]}>
+                                <div>
+                                    <Input type="text" placeholder="Username" size='large' prefix={<FaRegUser className='text-sm' />} />
+                                </div>
+                            </Form.Item>
+                            <Form.Item
+                                name="email"
+                                rules={[
+                                    {
+                                        required: true,
+                                        type: 'email',
+                                        message: 'Please Enter Email!',
+                                    },
+                                ]}>
+                                <div>
+                                    <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />} />
+                                </div>
+                            </Form.Item>
+                            <Form.Item
+                                name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please Enter Password!',
+                                    },
+                                ]}>
+                                <div>
+                                    <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
+                                </div>
+                            </Form.Item>
+                            <Form.Item
+                                name="confirmpassword"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please Confirm Password!',
+                                    },
+                                ]}>
+                                <div>
+                                    <Input.Password placeholder="Confirm Password" size='large' prefix={<LiaUserLockSolid />} />
+                                </div>
+                            </Form.Item>
+                            <div>
+                                <span className='text-gray-600'>Already have an account ? </span>
+                                <Link to={'/login'}><span className='font-semibold hover:underline hover:font-bold'>Login</span></Link>
+                            </div>
 
-                        <div className='mb-5 mt-4'>
-                            <Button variant='outline-dark'>Register</Button>
-                        </div>
+                            <div className='mb-5 mt-4'>
+                                <Button type='text' className='border-black font-bold' htmlType="submit">Register</Button>
+                            </div>
 
+                        </Form >
                     </div>
                 </div>
                 <div className="sm:visible">
@@ -50,6 +107,6 @@ export default function SignUpForm() {
                     />
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

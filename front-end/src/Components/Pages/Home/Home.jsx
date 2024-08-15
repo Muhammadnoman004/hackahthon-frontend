@@ -13,17 +13,19 @@ import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGene
 import ChangePasswordModal from '../../ChangePasswordModal/ChangePasswordModal'
 import AdminHomePage from '../Admin/AdminHomePage'
 import AllTeacherPage from '../Admin/AllTeacherPage'
+import Signup from '../Signup/Signup'
 
 export default function Home() {
   return (
     <div>
-      <Navbars />
+      <Signup />
+      {/* <Navbars /> */}
       {/* <NotificationModal /> */}
       {/* <StudentHomePage /> */}
       {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
       {/* <StudentReportGenerate /> */}
-      <AdminHomePage />
+      {/* <AdminHomePage /> */}
       {/* <ChangePasswordModal/> */}
       {/* <TeacherStudentPage /> */}
       {/* <AllAssignmentListing /> */}

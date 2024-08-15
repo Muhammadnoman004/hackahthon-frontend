@@ -6,14 +6,17 @@ import { FaRegUser } from 'react-icons/fa';
 import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
 
-const onFinish = (values) => {
-    console.log('Success:', values);
-};
-const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-};
-
 export default function SignUpForm() {
+
+    const [form] = Form.useForm();
+
+    const onFinish = (values) => {
+        console.log('Success:', values);
+        form.resetFields();
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
     return (
         <div className='h-screen absolute w-screen sm:bg-stone-100'>
@@ -37,6 +40,7 @@ export default function SignUpForm() {
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
                             autoComplete="off"
+                            form={form}
                         >
                             <Form.Item
                                 name="username"

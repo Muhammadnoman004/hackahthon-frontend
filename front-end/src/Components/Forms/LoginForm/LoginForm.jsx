@@ -1,12 +1,21 @@
 import React from 'react'
-import { Input } from "antd";
+import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
 import { LiaUserLockSolid } from 'react-icons/lia';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 export default function LoginForm() {
+
+    const [form] = Form.useForm();
+
+    const onFinish = (values) => {
+        console.log('Success:', values);
+        form.resetFields();
+    };
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo);
+    };
 
     return (
         <div className='h-screen absolute w-screen sm:bg-stone-100'>
@@ -16,22 +25,56 @@ export default function LoginForm() {
                         <h1>Login</h1>
                     </div>
                     <div className=" w-screen px-4 sm:w-96">
-                        <div className="mb-3">
-                            <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />
-                            } />
-                        </div>
-                        <div className="mb-3">
-                            <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
-                        </div>
-                        <div>
-                            <span className='text-gray-600'>Don't have an account ? </span>
-                            <Link to={'/signup'}><span className='font-semibold hover:underline hover:font-bold'>Sign up</span></Link>
-                        </div>
+                        <Form
+                            name="basic"
+                            labelCol={{
+                                span: 8,
+                            }}
+                            style={{
+                                maxWidth: 600,
+                            }}
+                            initialValues={{
+                                remember: true,
+                            }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                            form={form}
+                        >
+                            <Form.Item
+                                name="email"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please Enter Email!',
+                                    },
+                                ]}>
+                                <div>
+                                    <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />
+                                    } />
+                                </div>
+                            </Form.Item>
+                            <Form.Item
+                                name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please Enter Password!',
+                                    },
+                                ]}>
+                                <div >
+                                    <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
+                                </div>
+                            </Form.Item>
+                            <div>
+                                <span className='text-gray-600'>Don't have an account ? </span>
+                                <Link to={'/signup'}><span className='font-semibold hover:underline hover:font-bold'>Sign up</span></Link>
+                            </div>
 
-                        <div className='mb-5 mt-4'>
-                            <Button variant='outline-dark'>Login</Button>
-                        </div>
-
+                            <div className='mb-5 mt-4'>
+                                <Button type='text' className='border-black font-bold' htmlType="submit">Login</Button>
+                            </div>
+                        </Form>
                     </div>
                 </div>
                 <div className="sm:visible">

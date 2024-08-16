@@ -48,6 +48,10 @@ export default function LoginForm() {
                                         required: true,
                                         message: 'Please Enter Email!',
                                     },
+                                    {
+                                        type: 'email',
+                                        message: 'Enter a valid email address'
+                                    }
                                 ]}>
                                 <div>
                                     <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />

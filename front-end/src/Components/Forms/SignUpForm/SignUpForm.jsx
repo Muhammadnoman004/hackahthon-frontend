@@ -62,6 +62,10 @@ export default function SignUpForm() {
                                         type: 'email',
                                         message: 'Please Enter Email!',
                                     },
+                                    {
+                                        type: 'email',
+                                        message: 'Enter a valid email address'
+                                    }
                                 ]}>
                                 <div>
                                     <Input type="email" placeholder="Enter Email" size='large' prefix={<MdMailOutline />} />
@@ -74,18 +78,33 @@ export default function SignUpForm() {
                                         required: true,
                                         message: 'Please Enter Password!',
                                     },
+                                    {
+                                        min: 6,
+                                        message: 'Password must be at least 6 characters'
+                                    }
                                 ]}>
                                 <div>
                                     <Input.Password placeholder="Enter password" size='large' prefix={<LiaUserLockSolid />} />
                                 </div>
                             </Form.Item>
                             <Form.Item
+                                validateDebounce={500}
+                                dependencies={['password']}
+                                hasFeedback
                                 name="confirmpassword"
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please Confirm Password!',
+                                        message: 'Please Confirm your Password!',
                                     },
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('password') === value) {
+                                                return Promise.resolve();
+                                            }
+                                            return Promise.reject(new Error('Password do not match!'))
+                                        }
+                                    })
                                 ]}>
                                 <div>
                                     <Input.Password placeholder="Confirm Password" size='large' prefix={<LiaUserLockSolid />} />

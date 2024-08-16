@@ -14,11 +14,13 @@ import ChangePasswordModal from '../../ChangePasswordModal/ChangePasswordModal'
 import AdminHomePage from '../Admin/AdminHomePage'
 import AllTeacherPage from '../Admin/AllTeacherPage'
 import Signup from '../Signup/Signup'
+import AccountVerification from '../AccountVerification/AccountVerification'
 
 export default function Home() {
   return (
     <div>
       <Signup />
+      {/* <AccountVerification /> */}
       {/* <Navbars /> */}
       {/* <NotificationModal /> */}
       {/* <StudentHomePage /> */}

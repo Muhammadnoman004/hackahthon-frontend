@@ -5,16 +5,19 @@ import { MdMailOutline } from "react-icons/md";
 import { FaRegUser } from 'react-icons/fa';
 import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify'
 
 export default function SignUpForm() {
 
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
+        toast.success('Sign Up Successfully!');
         console.log('Success:', values);
         form.resetFields();
     };
     const onFinishFailed = (errorInfo) => {
+        toast.error('Please enter all required fields!');
         console.log('Failed:', errorInfo);
     };
 
@@ -59,7 +62,6 @@ export default function SignUpForm() {
                                 rules={[
                                     {
                                         required: true,
-                                        type: 'email',
                                         message: 'Please Enter Email!',
                                     },
                                     {

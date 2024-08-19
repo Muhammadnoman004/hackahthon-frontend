@@ -17,12 +17,12 @@ export default function StudentUpdateProfilePage() {
     return (
         <div>
             <Container>
-                <div className='flex m-4 text-2xl font-mono font-extrabold mx-0'>
+                <div className='flex m-4 text-2xl font-mono font-extrabold mx-2'>
                     <h1 className='flex-1'>Update Profile</h1>
                     <BellFilled className='flex-2 text-amber-400 hover:text-amber-500 transition delay-100 cursor-pointer' />
                 </div>
                 <div className='flex justify-center'>
-                    <div className='bg-white my-2 p-7 rounded-lg shadow-lg shadow-slate-300'>
+                    <div className='bg-white my-2 p-7 mx-2 rounded-lg shadow-lg shadow-slate-300'>
                         <div>
                             <h1 className='text-lg font-bold uppercase'>User Inforamtion</h1>
                         </div>

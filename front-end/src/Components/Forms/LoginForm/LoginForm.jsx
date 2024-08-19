@@ -4,16 +4,19 @@ import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
 import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function LoginForm() {
 
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
+        toast.success('Logged in Successfully!')
         console.log('Success:', values);
         form.resetFields();
     };
     const onFinishFailed = (errorInfo) => {
+        toast.error('Please enter all fields!')
         console.log('Failed:', errorInfo);
     };
 
@@ -46,7 +49,7 @@ export default function LoginForm() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please Enter Email!',
+                                        message: 'Email is required',
                                     },
                                     {
                                         type: 'email',
@@ -63,7 +66,7 @@ export default function LoginForm() {
                                 rules={[
                                     {
                                         required: true,
-                                        message: 'Please Enter Password!',
+                                        message: 'Password is required',
                                     },
                                 ]}>
                                 <div >

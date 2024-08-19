@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap'
 export default function AccountVerification() {
   return (
     <div>
-      <div className='flex justify-center items-center absolute bottom-0 top-0 w-full'>
+      <div className='flex justify-center items-center absolute bottom-0 top-0 w-full bg-sky-100'>
         <div className='bg-white shadow-xl w-96 text-center p-4 rounded-xl m-3 sm:p-0'>
           <div className='text-4xl m-3 font-bold font-mono text-sky-blue drop-shadow-md'>
             <h1>Verify</h1>
@@ -22,7 +22,10 @@ export default function AccountVerification() {
           </div>
 
           <div className='m-5'>
-            <Input.OTP length={4} size='large' />
+            <Input.OTP
+              length={4}
+              size='large'
+            />
           </div>
           <div className='text-gray-500'>
             <h1>Did not get the code? <a href="" className='hover:text-sky-blue hover:underline'>Resend</a></h1>

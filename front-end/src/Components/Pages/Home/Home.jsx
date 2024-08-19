@@ -19,12 +19,12 @@ import AccountVerification from '../AccountVerification/AccountVerification'
 export default function Home() {
   return (
     <div>
-      {/* <Signup /> */}
+      <Signup />
       {/* <AccountVerification /> */}
       {/* <Navbars /> */}
       {/* <NotificationModal /> */}
       {/* <StudentHomePage /> */}
-      <StudentUpdateProfilePage />
+      {/* <StudentUpdateProfilePage /> */}
       {/* <AssignmentSubmitFormModal /> */}
       {/* <StudentReportGenerate /> */}
       {/* <AdminHomePage /> */}

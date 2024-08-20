@@ -1,8 +1,11 @@
-import React from 'react'
-import { Input } from 'antd'
+import React, { useState } from 'react'
 import { Button } from 'react-bootstrap'
+import OtpInput from 'react-otp-input';
 
 export default function AccountVerification() {
+
+  const [Otp, setOtp] = useState('')
+
   return (
     <div>
       <div className='flex justify-center items-center absolute bottom-0 top-0 w-full bg-sky-100'>
@@ -21,10 +24,16 @@ export default function AccountVerification() {
             </div>
           </div>
 
-          <div className='m-5'>
-            <Input.OTP
-              length={4}
-              size='large'
+          <div className='m-4'>
+            <OtpInput
+              value={Otp}
+              numInputs={4}
+              onChange={setOtp}
+              renderInput={(props) => <input {...props} />}
+              placeholder='1234'
+              inputType='text'
+              containerStyle={{ display: "inline", justifyContent: "center", alignItems: "center" }}
+              inputStyle={{ margin: '10px', width: '40px', height: "40px", border: '1px solid lightgray', borderRadius: "5px" }}
             />
           </div>
           <div className='text-gray-500'>

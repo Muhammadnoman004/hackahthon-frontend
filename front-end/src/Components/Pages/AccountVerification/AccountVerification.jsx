@@ -1,10 +1,21 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import OtpInput from 'react-otp-input';
+import { toast } from 'react-toastify';
 
-export default function AccountVerification() {
+export default function AccountVerification({ title }) {
 
   const [Otp, setOtp] = useState('')
+
+  const checkVerification = () => {
+    toast.success('OTP verified successfully')
+    console.log(Otp);
+    setOtp('')
+  }
+
+  useEffect(() => {
+    document.title = title
+  }, [document])
 
   return (
     <div>
@@ -40,7 +51,7 @@ export default function AccountVerification() {
             <h1>Did not get the code? <a href="" className='hover:text-sky-blue hover:underline'>Resend</a></h1>
           </div>
           <div className='my-4'>
-            <Button variant='info' className='bg-sky-blue text-white w-full border-none hover:bg-sky-400 '>Verify Now</Button>
+            <Button disabled={Otp.length !== 4} variant='info' onClick={checkVerification} className='bg-sky-blue text-white w-full border-none hover:bg-sky-400 '>Verify Now</Button>
           </div>
         </div>
       </div>

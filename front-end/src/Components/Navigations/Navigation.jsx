@@ -18,6 +18,7 @@ import NotFound from '../Pages/NotFound/NotFound';
 import AdminSettingPage from '../Pages/Admin/AdminSettingPage';
 import AllAssignmentListing from '../Pages/Teachers/AllAssignmentListing';
 import TeacherStudentPage from '../Pages/Teachers/TeacherStudentPage';
+import AccountVerification from '../Pages/AccountVerification/AccountVerification';
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: "/login",
         element: <Login />
+    },
+    {
+        path: "/account-verification",
+        element: <AccountVerification title={'Account-Verification'} />
     },
     {
         path: "/*",

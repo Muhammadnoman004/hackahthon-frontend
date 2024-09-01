@@ -15,12 +15,14 @@ import AdminHomePage from '../Admin/AdminHomePage'
 import AllTeacherPage from '../Admin/AllTeacherPage'
 import Signup from '../Signup/Signup'
 import AccountVerification from '../AccountVerification/AccountVerification'
+import Loader from '../../Loader/Loader'
 
 export default function Home() {
   return (
     <div>
       {/* <Signup /> */}
       <AccountVerification />
+      <Loader />
       {/* <Navbars /> */}
       {/* <NotificationModal /> */}
       {/* <StudentHomePage /> */}

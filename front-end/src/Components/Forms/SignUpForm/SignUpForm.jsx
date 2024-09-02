@@ -6,19 +6,33 @@ import { FaRegUser } from 'react-icons/fa';
 import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
+import api from '../../../api/api';
 
 export default function SignUpForm() {
 
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
-        toast.success('Sign Up Successfully!');
-        console.log('Success:', values);
-        form.resetFields();
+        values.role = 'student'
+        api.post('/api/users', {
+            username: values.username,
+            email: values.email,
+            password: values.password,
+            role: values.role
+        })
+            .then((res) => {
+                toast.success('Sign Up Successfully!');
+                console.log(res.data);
+                form.resetFields();
+            })
+            .catch((err) => {
+                toast.error('Something went wrong , please try again!');
+                console.log(err);
+            })
+
     };
     const onFinishFailed = (errorInfo) => {
         toast.error('Please enter all required fields!');
-        console.log('Failed:', errorInfo);
     };
 
     return (

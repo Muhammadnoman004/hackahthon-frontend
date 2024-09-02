@@ -20,9 +20,9 @@ import Loader from '../../Loader/Loader'
 export default function Home() {
   return (
     <div>
-      {/* <Signup /> */}
-      <AccountVerification />
-      <Loader />
+      <Signup />
+      {/* <AccountVerification /> */}
+      {/* <Loader /> */}
       {/* <Navbars /> */}
       {/* <NotificationModal /> */}
       {/* <StudentHomePage /> */}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
@@ -7,12 +7,16 @@ import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import api from '../../../api/api';
+import Loader from '../../Loader/Loader';
+import loader from '../../../Context/LoaderContext'
 
 export default function SignUpForm() {
 
+    const [loading, setloading] = useContext(loader)
     const [form] = Form.useForm();
 
     const onFinish = (values) => {
+        setloading(true)
         values.role = 'student'
         api.post('/api/users', {
             username: values.username,
@@ -22,12 +26,12 @@ export default function SignUpForm() {
         })
             .then((res) => {
                 toast.success('Sign Up Successfully!');
-                console.log(res.data);
+                setloading(false)
                 form.resetFields();
             })
             .catch((err) => {
                 toast.error('Something went wrong , please try again!');
-                console.log(err);
+                setloading(false)
             })
 
     };
@@ -144,6 +148,9 @@ export default function SignUpForm() {
                         src={animateSignup}
                         alt=""
                     />
+                </div>
+                <div>
+                    {loading && <Loader />}
                 </div>
             </div>
         </div >

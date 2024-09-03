@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from '../Pages/Home/Home';
 import Signup from '../Pages/Signup/Signup';
@@ -19,6 +19,7 @@ import AdminSettingPage from '../Pages/Admin/AdminSettingPage';
 import AllAssignmentListing from '../Pages/Teachers/AllAssignmentListing';
 import TeacherStudentPage from '../Pages/Teachers/TeacherStudentPage';
 import AccountVerification from '../Pages/AccountVerification/AccountVerification';
+import loader from '../../Context/LoaderContext';
 
 const router = createBrowserRouter([
     {
@@ -146,7 +147,10 @@ const router = createBrowserRouter([
 
 
 export default function Navigation() {
+    const [loading, setloading] = useState(false)
     return (
-        <RouterProvider router={router} />
+        <loader.Provider value={[loading, setloading]}>
+            < RouterProvider router={router} />
+        </loader.Provider>
     )
 }

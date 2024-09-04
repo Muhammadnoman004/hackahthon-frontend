@@ -5,13 +5,31 @@ import { MdMailOutline } from "react-icons/md";
 import { LiaUserLockSolid } from 'react-icons/lia';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import api from '../../../api/api';
 
 export default function LoginForm() {
 
     const [form] = Form.useForm();
 
-    const onFinish = (values) => {
-        toast.success('Logged in Successfully!')
+    const onFinish = async (values) => {
+
+        try {
+            const res = await api.post('api/users/auth', {
+                email: values.email,
+                password: values.password,
+            })
+            console.log(res);
+        }
+        catch (err) {
+            if (err.response?.data.message == "Please verify your email first!");
+            toast.error(err.response.data.message);
+            if (err.response?.data)
+                toast.error(err.response.data);
+            else {
+                toast.error("Something went wrong , Please try again!");
+            }
+        };
+        // toast.success('Logged in Successfully!')
         console.log('Success:', values);
         form.resetFields();
     };

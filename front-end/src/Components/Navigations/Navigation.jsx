@@ -36,7 +36,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/account-verification",
-        element: <AccountVerification title={'Account-Verification'} />
+        element: <AccountVerification title={'Account Verification'} />
     },
     {
         path: "/*",

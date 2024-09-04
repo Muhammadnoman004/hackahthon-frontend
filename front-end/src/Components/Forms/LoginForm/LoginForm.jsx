@@ -1,41 +1,52 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
 import { LiaUserLockSolid } from 'react-icons/lia';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import api from '../../../api/api';
+import Loader from '../../Loader/Loader';
+import loader from '../../../Context/LoaderContext';
 
 export default function LoginForm() {
 
+    const [loading, setloading] = useContext(loader);
     const [form] = Form.useForm();
+    const navigate = useNavigate()
 
     const onFinish = async (values) => {
-
+        setloading(true);
         try {
             const res = await api.post('api/users/auth', {
                 email: values.email,
                 password: values.password,
             })
-            console.log(res);
+            toast.success('Logged in Successfully!', {
+                onClose: () => {
+                    navigate('/student/home')
+                }
+            })
+            setloading(false);
+            form.resetFields();
         }
         catch (err) {
+            setloading(false)
             if (err.response?.data.message == "Please verify your email first!");
-            toast.error(err.response.data.message);
+            toast.error(err.response.data.message, {
+                onClose: () => {
+                    navigate('/account-verification')
+                }
+            });
             if (err.response?.data)
                 toast.error(err.response.data);
             else {
                 toast.error("Something went wrong , Please try again!");
             }
         };
-        // toast.success('Logged in Successfully!')
-        console.log('Success:', values);
-        form.resetFields();
     };
     const onFinishFailed = (errorInfo) => {
         toast.error('Please enter all fields!')
-        console.log('Failed:', errorInfo);
     };
 
     return (
@@ -108,6 +119,9 @@ export default function LoginForm() {
                         src={animateSignup}
                         alt=""
                     />
+                </div>
+                <div>
+                    {loading && <Loader />}
                 </div>
             </div>
         </div>

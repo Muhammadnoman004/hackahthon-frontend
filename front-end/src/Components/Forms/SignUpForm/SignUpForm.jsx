@@ -4,7 +4,7 @@ import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
 import { FaRegUser } from 'react-icons/fa';
 import { LiaUserLockSolid } from 'react-icons/lia';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import api from '../../../api/api';
 import Loader from '../../Loader/Loader';
@@ -14,6 +14,7 @@ export default function SignUpForm() {
 
     const [loading, setloading] = useContext(loader)
     const [form] = Form.useForm();
+    const navigate = useNavigate()
 
     const onFinish = (values) => {
         setloading(true)
@@ -25,13 +26,17 @@ export default function SignUpForm() {
             role: values.role
         })
             .then((res) => {
-                toast.success('Sign Up Successfully!');
+                toast.success('Sign Up Successfully!', {
+                    onClose: () => {
+                        navigate('/account-verification');
+                    }
+                });
                 setloading(false)
                 form.resetFields();
             })
             .catch((err) => {
-                toast.error('Something went wrong , please try again!');
                 setloading(false)
+                toast.error('Something went wrong , please try again!');
             })
 
     };

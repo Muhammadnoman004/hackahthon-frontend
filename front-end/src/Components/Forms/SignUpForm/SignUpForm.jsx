@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
@@ -13,10 +13,17 @@ import User from '../../../Context/Context';
 
 export default function SignUpForm() {
 
-    const { user, setuser } = useContext(User)
+    const { user, setUser } = useContext(User)
     const [loading, setloading] = useContext(loader)
     const [form] = Form.useForm();
     const navigate = useNavigate()
+
+    useEffect(() => {
+        if (user) {
+            console.log(user);
+            navigate('/')
+        }
+    }, [user])
 
     const onFinish = (values) => {
         setloading(true)
@@ -30,7 +37,8 @@ export default function SignUpForm() {
             .then((res) => {
                 toast.success('Sign Up Successfully!', {
                     onClose: () => {
-                        setuser(res.data);
+                        localStorage.setItem('token', res.data.token);
+                        setUser(res.data);
                         navigate('/account-verification');
                     }
                 });

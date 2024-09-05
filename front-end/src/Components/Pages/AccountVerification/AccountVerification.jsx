@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import OtpInput from 'react-otp-input';
 import { toast } from 'react-toastify';
+import api from '../../../api/api';
 
 export default function AccountVerification({ title }) {
 

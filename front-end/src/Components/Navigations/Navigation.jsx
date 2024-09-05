@@ -149,9 +149,9 @@ const router = createBrowserRouter([
 
 export default function Navigation() {
     const [loading, setloading] = useState(false)
-    const [user, setuser] = useState(null)
+    const [user, setUser] = useState(null)
     return (
-        <User.Provider value={{ user, setuser }}>
+        <User.Provider value={{ user, setUser }}>
             <loader.Provider value={[loading, setloading]}>
                 < RouterProvider router={router} />
             </loader.Provider>

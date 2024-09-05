@@ -24,6 +24,7 @@ export default function LoginForm() {
             })
             toast.success('Logged in Successfully!', {
                 onClose: () => {
+                    localStorage.setItem('token', res.data.token);
                     navigate('/student/home')
                 }
             })

@@ -1,17 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import OtpInput from 'react-otp-input';
 import { toast } from 'react-toastify';
 import api from '../../../api/api';
+import Loader from '../../Loader/Loader';
+import loader from '../../../Context/LoaderContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function AccountVerification({ title }) {
 
-  const [Otp, setOtp] = useState('')
+  const [loading, setloading] = useContext(loader);
+  const [Otp, setOtp] = useState('');
+  const navigate = useNavigate()
 
-  const checkVerification = () => {
-    toast.success('OTP verified successfully')
-    console.log(Otp);
-    setOtp('')
+  const checkVerification = async () => {
+    setloading(true);
+    try {
+      const res = await api.post('api/users/account-verification', {
+        otp: Otp,
+      })
+      toast.success('OTP verified successfully', {
+        onClose: () => {
+          navigate('/student/home');
+        }
+      })
+      setloading(false)
+      setOtp('')
+
+    }
+    catch (error) {
+      setloading(false)
+      toast.error(error.response.data);
+    }
   }
 
   useEffect(() => {
@@ -53,6 +73,9 @@ export default function AccountVerification({ title }) {
           </div>
           <div className='my-4'>
             <Button disabled={Otp.length !== 4} variant='info' onClick={checkVerification} className='bg-sky-blue text-white w-full border-none hover:bg-sky-400 '>Verify Now</Button>
+          </div>
+          <div>
+            {loading && <Loader />}
           </div>
         </div>
       </div>

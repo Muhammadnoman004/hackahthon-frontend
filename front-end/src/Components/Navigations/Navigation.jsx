@@ -20,6 +20,7 @@ import AllAssignmentListing from '../Pages/Teachers/AllAssignmentListing';
 import TeacherStudentPage from '../Pages/Teachers/TeacherStudentPage';
 import AccountVerification from '../Pages/AccountVerification/AccountVerification';
 import loader from '../../Context/LoaderContext';
+import User from '../../Context/Context';
 
 const router = createBrowserRouter([
     {
@@ -148,9 +149,12 @@ const router = createBrowserRouter([
 
 export default function Navigation() {
     const [loading, setloading] = useState(false)
+    const [user, setuser] = useState(null)
     return (
-        <loader.Provider value={[loading, setloading]}>
-            < RouterProvider router={router} />
-        </loader.Provider>
+        <User.Provider value={{ user, setuser }}>
+            <loader.Provider value={[loading, setloading]}>
+                < RouterProvider router={router} />
+            </loader.Provider>
+        </User.Provider>
     )
 }

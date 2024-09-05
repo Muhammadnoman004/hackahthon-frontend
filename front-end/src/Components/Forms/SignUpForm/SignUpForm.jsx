@@ -8,10 +8,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import api from '../../../api/api';
 import Loader from '../../Loader/Loader';
-import loader from '../../../Context/LoaderContext'
+import loader from '../../../Context/LoaderContext';
+import User from '../../../Context/Context';
 
 export default function SignUpForm() {
 
+    const { user, setuser } = useContext(User)
     const [loading, setloading] = useContext(loader)
     const [form] = Form.useForm();
     const navigate = useNavigate()
@@ -28,6 +30,7 @@ export default function SignUpForm() {
             .then((res) => {
                 toast.success('Sign Up Successfully!', {
                     onClose: () => {
+                        setuser(res.data);
                         navigate('/account-verification');
                     }
                 });

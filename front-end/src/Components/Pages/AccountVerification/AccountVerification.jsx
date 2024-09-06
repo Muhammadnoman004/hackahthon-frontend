@@ -21,7 +21,15 @@ export default function AccountVerification({ title }) {
       })
       toast.success('OTP verified successfully', {
         onClose: () => {
-          navigate('/student/home');
+          if (res.data.role === 'trainer') {
+            navigate('/trainer/dashboard');
+          }
+          else if (res.data.role === 'admin') {
+            navigate('/admin/dashboard');
+          }
+          else {
+            navigate('/student/dashboard')
+          }
         }
       })
       setloading(false)

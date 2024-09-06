@@ -12,19 +12,23 @@ export default function Navbars({ title }) {
     const navlink = [
         {
             key: 1,
-            text: <Link to={'/admin/dashboard'}>Home</Link>,
+            text: 'Home',
+            to: '/admin/dashboard',
         },
         {
             key: 2,
-            text: <Link to={'/admin/teacher'}>Teachers</Link>
+            text: 'Teachers',
+            to: '/admin/teacher',
         },
         {
             key: 3,
-            text: <Link to={'/admin/student'}>Students</Link>
+            text: 'Students',
+            to: '/admin/student',
         },
         {
             key: 4,
-            text: <Link to={'/admin/setting'}>Settings</Link>
+            text: 'Settings',
+            to: '/admin/setting',
         },
     ]
 
@@ -38,12 +42,12 @@ export default function Navbars({ title }) {
                         <Nav className="me-auto">
                             {navlink.map((navText, index) => {
                                 return (
-                                    <Nav.Link className='text-white hover:drop-shadow-lg hover:underline' key={index}>{navText.text}</Nav.Link>
+                                    <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>
                                 )
                             })}
                         </Nav>
                         <Nav>
-                            <Nav.Link className='text-white text-4xl hover:drop-shadow-lg' eventKey={2}>
+                            <Nav.Link className='text-white px-3 text-4xl hover:drop-shadow-lg' eventKey={2}>
                                 <HiUserCircle />
                             </Nav.Link>
                         </Nav>

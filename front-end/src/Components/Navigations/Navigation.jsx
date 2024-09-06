@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     // Students Routes
 
     {
-        path: "/student/home",
+        path: "/student/dashboard",
         element: <>
             <Navbars title={'Student | Dashboard'} />
             <StudentHomePage />

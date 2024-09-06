@@ -25,7 +25,15 @@ export default function LoginForm() {
             toast.success('Logged in Successfully!', {
                 onClose: () => {
                     localStorage.setItem('token', res.data.token);
-                    navigate('/student/home')
+                    if (res.data.role === 'trainer') {
+                        navigate('/trainer/dashboard');
+                    }
+                    else if (res.data.role === 'admin') {
+                        navigate('/admin/dashboard');
+                    }
+                    else {
+                        navigate('/student/dashboard')
+                    }
                 }
             })
             setloading(false);

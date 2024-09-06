@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbars from '../../Navbars/Navbars'
 import Footer from '../../Footer/Footer'
 import StudentHomePage from '../Students/StudentHomePage'
@@ -16,8 +16,23 @@ import AllTeacherPage from '../Admin/AllTeacherPage'
 import Signup from '../Signup/Signup'
 import AccountVerification from '../AccountVerification/AccountVerification'
 import Loader from '../../Loader/Loader'
+import api from '../../../api/api'
 
 export default function Home() {
+
+  useEffect(() => {
+    const FetchProfile = async () => {
+      try {
+        const res = await api.get('/api/users/profile');
+        console.log(res);
+
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    FetchProfile();
+  }, [])
+
   return (
     <div>
       <Signup />

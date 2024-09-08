@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Navbars from '../../Navbars/Navbars'
 import Footer from '../../Footer/Footer'
 import StudentHomePage from '../Students/StudentHomePage'
@@ -17,21 +17,37 @@ import Signup from '../Signup/Signup'
 import AccountVerification from '../AccountVerification/AccountVerification'
 import Loader from '../../Loader/Loader'
 import api from '../../../api/api'
+import User from '../../../Context/Context'
+import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
+
+  const { user, setUser } = useContext(User);
+  const navigate = useNavigate()
+
 
   useEffect(() => {
     const FetchProfile = async () => {
       try {
         const res = await api.get('/api/users/profile');
-        console.log(res);
+        localStorage.setItem('userID', res.data._id)
+        if (!res.data.isVerified) navigate('/account-verification');
+        setUser(res.data);
+
 
       } catch (error) {
         console.log(error);
+        localStorage.removeItem('token');
+        setUser(null);
+        navigate('/login')
       }
     }
-    FetchProfile();
-  }, [])
+    if (!user) {
+
+      FetchProfile();
+
+    }
+  }, [setUser])
 
   return (
     <div>

@@ -10,7 +10,9 @@ const useFetchProfile = () => {
         const getProfile = async () => {
             try {
                 const res = await api.get('/api/users/profile');
-                console.log(res.data);
+                localStorage.setItem('userID', res.data._id);
+                setUser(res.data)
+                console.log(user);
 
             } catch (error) {
                 console.log(error);

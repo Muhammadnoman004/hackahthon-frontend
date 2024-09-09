@@ -19,35 +19,40 @@ import Loader from '../../Loader/Loader'
 import api from '../../../api/api'
 import User from '../../../Context/Context'
 import { useNavigate } from 'react-router-dom'
+import loader from '../../../Context/LoaderContext'
 
 export default function Home() {
 
   const { user, setUser } = useContext(User);
+  const [loading, setloading] = useContext(loader);
   const navigate = useNavigate()
 
 
-  useEffect(() => {
-    const FetchProfile = async () => {
-      try {
-        const res = await api.get('/api/users/profile');
-        localStorage.setItem('userID', res.data._id)
-        if (!res.data.isVerified) navigate('/account-verification');
-        setUser(res.data);
+  // useEffect(() => {
+  //   const FetchProfile = async () => {
+  //     try {
+  //       setloading(true)
+  //       const res = await api.get('/api/users/profile');
+  //       localStorage.setItem('userID', res.data._id)
+  //       if (!res.data.isVerified) navigate('/account-verification');
+  //       setUser(res.data);
+  //       setloading(false)
 
 
-      } catch (error) {
-        console.log(error);
-        localStorage.removeItem('token');
-        setUser(null);
-        navigate('/login')
-      }
-    }
-    if (!user) {
+  //     } catch (error) {
+  //       console.log(error);
+  //       localStorage.removeItem('token');
+  //       setUser(null);
+  //       setloading(false)
+  //       navigate('/login')
+  //     }
+  //   }
+  //   if (!user) {
 
-      FetchProfile();
+  //     FetchProfile();
 
-    }
-  }, [setUser])
+  //   }
+  // }, [setUser])
 
   return (
     <div>

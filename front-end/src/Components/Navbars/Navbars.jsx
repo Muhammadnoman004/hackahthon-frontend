@@ -6,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
 import { Link, useLocation } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
-import usefetchProfile from "../../utils/usefetchProfile";
+import usefetchProfile from "../../utils/useFetchProfile";
 
 export default function Navbars({ title }) {
 

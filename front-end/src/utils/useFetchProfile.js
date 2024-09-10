@@ -4,7 +4,7 @@ import User from "../Context/Context"
 import api from "../api/api";
 import loader from "../Context/LoaderContext";
 
-const usefetchProfile = () => {
+const useFetchProfile = () => {
     const { user, setUser } = useContext(User);
     const [loading, setloading] = useContext(loader);
     const navigate = useNavigate();
@@ -36,4 +36,4 @@ const usefetchProfile = () => {
     return { user, setUser };
 }
 
-export default usefetchProfile;
+export default useFetchProfile;

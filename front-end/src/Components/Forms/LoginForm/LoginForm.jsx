@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import api from '../../../api/api';
 import Loader from '../../Loader/Loader';
 import loader from '../../../Context/LoaderContext';
-import usefetchProfile from '../../../utils/usefetchProfile';
+import usefetchProfile from '../../../utils/useFetchProfile';
 
 export default function LoginForm() {
 

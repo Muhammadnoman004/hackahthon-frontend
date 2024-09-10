@@ -8,10 +8,12 @@ import { toast } from 'react-toastify';
 import api from '../../../api/api';
 import Loader from '../../Loader/Loader';
 import loader from '../../../Context/LoaderContext';
+import usefetchProfile from '../../../utils/usefetchProfile';
 
 export default function LoginForm() {
 
     const [loading, setloading] = useContext(loader);
+    const { user, setUser } = usefetchProfile()
     const [form] = Form.useForm();
     const navigate = useNavigate()
 
@@ -26,6 +28,7 @@ export default function LoginForm() {
                 onClose: () => {
                     localStorage.setItem('token', res.data.token);
                     if (res.data.role === 'trainer') {
+                        setUser(res.data)
                         navigate('/trainer/dashboard');
                     }
                     else if (res.data.role === 'admin') {

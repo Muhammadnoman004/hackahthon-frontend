@@ -1,13 +1,37 @@
 import { HiUserCircle } from "react-icons/hi2";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
+import usefetchProfile from "../../utils/usefetchProfile";
 
 export default function Navbars({ title }) {
+
+    const { user, setUser } = usefetchProfile();
+    const location = useLocation();
+    const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/setting">Profile</Link>) });
+    const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
+    const [settingkey, setSettingkey] = useState({ key: '2', label: (<Link to="/student/setting">Setting</Link>) });
+
+
+    useEffect(() => {
+        if (user?.role) {
+            setUpdatedkey({
+                key: '0',
+                label:
+                    user.role === 'admin' ? (
+                        <Link to="/admin/setting"> Profile</Link >
+                    ) : user.role === 'trainer' ? (
+                        <Link to="/trainer/setting"> Profile</Link >
+                    ) : (
+                        <Link to="/student/setting"> Profile</Link >
+                    ),
+            })
+        }
+    })
 
     const navlink = [
         {

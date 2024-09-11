@@ -23,15 +23,61 @@ export default function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/setting"> Profile</Link >
+                        <Link to="/admin/setting">  <HiUserCircle /></Link >
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/setting"> Profile</Link >
+                        <Link to="/trainer/setting">  <HiUserCircle /></Link >
                     ) : (
-                        <Link to="/student/setting"> Profile</Link >
+                        <Link to="/student/setting">  <HiUserCircle /></Link >
+                    ),
+            })
+
+            setHomekey({
+                key: '1',
+                label:
+                    user.role === 'admin' ? (
+                        <Link to="/admin/dashboard"> Home</Link >
+                    ) : user.role === 'trainer' ? (
+                        <Link to="/trainer/dashboard"> Home</Link >
+                    ) : (
+                        <Link to="/student/dashboard"> Home</Link >
+                    ),
+
+            })
+
+            setSettingkey({
+                key: '2',
+                label:
+                    user.role === 'admin' ? (
+                        <Link to="/admin/setting"> Setting</Link >
+                    ) : user.role === 'trainer' ? (
+                        <Link to="/trainer/setting"> Setting</Link >
+                    ) : (
+                        <Link to="/student/setting"> Setting</Link >
                     ),
             })
         }
-    })
+
+    }, [user]);
+
+    const AdminNavItems = [
+        homekey,
+        { key: '3', label: (<Link to="/admin/teacher">Teachers</Link>) },
+        { key: '4', label: (<Link to="admin/student">Students</Link>) },
+        settingkey,
+        updatedkey,
+    ]
+
+    const TrainerNavItems = [
+        homekey,
+        settingkey,
+        updatedkey
+    ]
+
+    const StudentNavItems = [
+        homekey,
+        settingkey,
+        updatedkey
+    ]
 
     const navlink = [
         {

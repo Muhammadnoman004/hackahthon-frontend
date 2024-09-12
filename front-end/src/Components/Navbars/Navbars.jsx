@@ -1,16 +1,17 @@
 import { HiUserCircle } from "react-icons/hi2";
-import React, { useEffect, useState } from 'react'
+import React, { memo, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
 import { Link, useLocation } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
-import usefetchProfile from "../../utils/useFetchProfile";
+// import usefetchProfile from "../../utils/useFetchProfile";
+import useFetchProfile from "../../utils/useFetchProfile";
 
-export default function Navbars({ title }) {
+export default memo(function Navbars({ title }) {
 
-    const { user, setUser } = usefetchProfile();
+    const { user, setUser } = useFetchProfile();
     const location = useLocation();
     const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/setting">Profile</Link>) });
     const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
@@ -18,6 +19,8 @@ export default function Navbars({ title }) {
 
 
     useEffect(() => {
+        console.log(user);
+
         if (user?.role) {
             setUpdatedkey({
                 key: '0',
@@ -79,6 +82,26 @@ export default function Navbars({ title }) {
         updatedkey
     ]
 
+    const getNavItem = () => {
+        // Admin Routes
+        if (location.pathname.includes("/admin/dashboard")) return 1;
+        if (location.pathname.includes("/admin/teacher")) return 3;
+        if (location.pathname.includes("/admin/student")) return 4;
+        if (location.pathname.includes("/admin/setting")) return 2;
+
+        // Trainer Routes
+        if (location.pathname.includes("/trainer/dashboard")) return 1;
+        if (location.pathname.includes("/trainer/setting")) return 2;
+
+        // Student Routes
+        if (location.pathname.includes("/student/dashboard")) return 1;
+        if (location.pathname.includes("/student/setting")) return 2;
+
+        // if (user?.role === 'admin') return AdminNavItems;
+        // if (user?.role === 'trainer') return TrainerNavItems;
+        // return StudentNavItems; // Default for students
+    }
+
     const navlink = [
         {
             key: 1,
@@ -115,6 +138,11 @@ export default function Navbars({ title }) {
                                     <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>
                                 )
                             })}
+                            {/* {getNavItem().map((navItem) => (
+                                <Nav.Item key={navItem.key}>
+                                    {navItem.label}
+                                </Nav.Item>
+                            ))} */}
                         </Nav>
                         <Nav>
                             <Nav.Link className='text-white px-3 text-4xl hover:drop-shadow-lg' eventKey={2}>
@@ -129,4 +157,4 @@ export default function Navbars({ title }) {
             </Navbar>
         </div>
     )
-}
+})

@@ -11,25 +11,24 @@ const useFetchProfile = () => {
 
 
     useEffect(() => {
-        const getProfile = async () => {
+        const fetchProfile = async () => {
             try {
                 setloading(true);
-                const res = await api.get('/api/users/profile');
-                localStorage.setItem('userID', res.data._id);
-                if (!res.data.isVerified) navigate('/account-verification');
+                const res = await api.get("/api/users/profile");
+                localStorage.setItem("userId", res.data._id);
+                if (!res.data.isVerified) navigate("/account-verification")
                 setUser(res.data);
                 setloading(false);
-
             } catch (error) {
                 setloading(false);
-                localStorage.removeItem('token');
+                localStorage.removeItem("token");
                 setUser(null);
-                navigate('/login');
+                navigate("/login");
             }
+        };
 
-            if (!user) {
-                getProfile()
-            }
+        if (!user) {
+            fetchProfile();
         }
     }, [setUser]);
 

@@ -14,7 +14,8 @@ import useFetchProfile from '../../../utils/useFetchProfile';
 export default function LoginForm() {
 
     const [loading, setloading] = useContext(loader);
-    const { user, setUser } = useFetchProfile()
+    const { user, setUser } = useFetchProfile();
+    // const { user, setUser } = useProfile();
     const [form] = Form.useForm();
     const navigate = useNavigate()
 
@@ -28,8 +29,8 @@ export default function LoginForm() {
             toast.success('Logged in Successfully!', {
                 onClose: () => {
                     localStorage.setItem('token', res.data.token);
+                    setUser(res.data)
                     if (res.data.role === 'trainer') {
-                        setUser(res.data)
                         navigate('/trainer/dashboard');
                     }
                     else if (res.data.role === 'admin') {

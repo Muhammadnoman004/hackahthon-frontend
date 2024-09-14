@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Button, Form, Input } from "antd";
 import animateSignup from '../../../assets/animateSignup.png'
 import { MdMailOutline } from "react-icons/md";
@@ -18,6 +18,19 @@ export default function LoginForm() {
     // const { user, setUser } = useProfile();
     const [form] = Form.useForm();
     const navigate = useNavigate()
+
+    useEffect(() => {
+        console.log(user);
+        if (user && user.isVerified) {
+            if (user?.role === 'trainer') {
+                navigate('/trainer/dashboard');
+            } else if (user?.role === 'admin') {
+                navigate('/admin/dashboard');
+            } else {
+                navigate('/');
+            }
+        }
+    }, [user])
 
     const onFinish = async (values) => {
         setloading(true);

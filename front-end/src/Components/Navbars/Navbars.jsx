@@ -14,7 +14,7 @@ export default memo(function Navbars({ title }) {
     const { user } = useFetchProfile();
     // const { user } = useProfile()
     const location = useLocation();
-    const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/setting">Profile</Link>) });
+    const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/setting"><HiUserCircle className="text-3xl" /></Link>) });
     const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
     const [settingkey, setSettingkey] = useState({ key: '2', label: (<Link to="/student/setting">Setting</Link>) });
 
@@ -27,11 +27,11 @@ export default memo(function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/setting">  <HiUserCircle /></Link >
+                        <Link to="/admin/setting">  <HiUserCircle className="text-3xl" /></Link >
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/setting">  <HiUserCircle /></Link >
+                        <Link to="/trainer/setting">  <HiUserCircle className="text-3xl" /></Link >
                     ) : (
-                        <Link to="/student/setting">  <HiUserCircle /></Link >
+                        <Link to="/student/setting">  <HiUserCircle className="text-3xl" /></Link >
                     ),
             })
 
@@ -103,29 +103,6 @@ export default memo(function Navbars({ title }) {
         return StudentNavItems; // Default for students
     }
 
-    // const navlink = [
-    //     {
-    //         key: 1,
-    //         text: 'Home',
-    //         to: '/admin/dashboard',
-    //     },
-    //     {
-    //         key: 2,
-    //         text: 'Teachers',
-    //         to: '/admin/teacher',
-    //     },
-    //     {
-    //         key: 3,
-    //         text: 'Students',
-    //         to: '/admin/student',
-    //     },
-    //     {
-    //         key: 4,
-    //         text: 'Settings',
-    //         to: '/admin/setting',
-    //     },
-    // ]
-
     return (
         <div>
             <Navbar collapseOnSelect expand="lg" data-bs-theme="dark" className='bg-sky-blue' >
@@ -133,7 +110,7 @@ export default memo(function Navbars({ title }) {
                     <Navbar.Brand href="#home" className='font-bold'><img width={110} src={SmitLogo} alt="#logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="me-auto">
+                        <Nav className="ms-auto pl-5  sm:gap-4 md:gap-4 lg:gap-10">
                             {/* {navlink.map((navText, index) => {
                                 return (
                                     <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>
@@ -146,9 +123,9 @@ export default memo(function Navbars({ title }) {
                             ))}
                         </Nav>
                         <Nav>
-                            <Nav.Link className='text-white px-3 text-4xl hover:drop-shadow-lg' eventKey={2}>
+                            {/* <Nav.Link className='text-white px-3 text-4xl hover:drop-shadow-lg' eventKey={2}>
                                 <HiUserCircle />
-                            </Nav.Link>
+                            </Nav.Link> */}
                         </Nav>
                         <div>
                             <PageTitle title={title} />

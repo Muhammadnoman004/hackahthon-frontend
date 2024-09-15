@@ -31,7 +31,7 @@ export default memo(function Navbars({ title }) {
                     ) : user.role === 'trainer' ? (
                         <Link to="/trainer/setting">  <HiUserCircle className="text-3xl" /></Link >
                     ) : (
-                        <Link to="/student/setting">  <HiUserCircle className="text-3xl" /></Link >
+                        <Link to="/student/profile">  <HiUserCircle className="text-3xl" /></Link >
                     ),
             })
 
@@ -110,7 +110,7 @@ export default memo(function Navbars({ title }) {
                     <Navbar.Brand href="#home" className='font-bold'><img width={110} src={SmitLogo} alt="#logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="ms-auto pl-5  sm:gap-4 md:gap-4 lg:gap-10">
+                        <Nav className="ms-auto pl-5  sm:gap-4 md:gap-4 lg:gap-10 text-white">
                             {/* {navlink.map((navText, index) => {
                                 return (
                                     <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>

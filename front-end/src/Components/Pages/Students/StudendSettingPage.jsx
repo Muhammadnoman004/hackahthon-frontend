@@ -5,8 +5,6 @@ import { MdOutlineLogout } from "react-icons/md";
 import { ImSearch } from "react-icons/im";
 import { Button, Menu } from 'antd';
 import { Container } from 'react-bootstrap';
-import Navbars from '../../Navbars/Navbars';
-import Footer from '../../Footer/Footer';
 
 const items = [
     {
@@ -129,7 +127,6 @@ const onClick = (e) => {
 export default function StudentSettingPage() {
     return (
         <div>
-            <Navbars />
             <Container>
                 <div className='flex m-4 text-2xl font-mono font-extrabold'>
                     <h1 className='flex-1'>Settings</h1>
@@ -150,7 +147,6 @@ export default function StudentSettingPage() {
                     <Button icon={<MdOutlineLogout />} className='text-lg mx-2'>Logout</Button>
                 </div>
             </Container>
-            <Footer />
         </div>
     )
 }

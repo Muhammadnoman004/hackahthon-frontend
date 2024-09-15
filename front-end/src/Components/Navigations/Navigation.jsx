@@ -21,6 +21,7 @@ import TeacherStudentPage from '../Pages/Teachers/TeacherStudentPage';
 import AccountVerification from '../Pages/AccountVerification/AccountVerification';
 import loader from '../../Context/LoaderContext';
 import User from '../../Context/Context';
+import StudentUpdateProfilePage from '../Pages/Students/StudentUpdateProfilePage';
 
 const router = createBrowserRouter([
     {
@@ -79,6 +80,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Student | Setting'} />
             <StudentSettingPage />
+        </>
+    },
+    {
+        path: "/student/profile",
+        element: <>
+            <Navbars title={'Student | Profile'} />
+            <StudentUpdateProfilePage />
         </>
     },
 

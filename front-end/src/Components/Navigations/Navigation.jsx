@@ -22,6 +22,7 @@ import AccountVerification from '../Pages/AccountVerification/AccountVerificatio
 import loader from '../../Context/LoaderContext';
 import User from '../../Context/Context';
 import StudentUpdateProfilePage from '../Pages/Students/StudentUpdateProfilePage';
+import AdminUpdateProfilePage from '../Pages/Admin/AdminUpdateProfilePage';
 
 const router = createBrowserRouter([
     {
@@ -149,6 +150,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Admin | Setting'} />
             < AdminSettingPage />
+        </>
+    },
+    {
+        path: "/admin/profile",
+        element: <>
+            <Navbars title={'Admin | Profile'} />
+            < AdminUpdateProfilePage />
         </>
     },
 

@@ -27,7 +27,7 @@ export default memo(function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/setting">  <HiUserCircle className="text-3xl" /></Link >
+                        <Link to="/admin/profile">  <HiUserCircle className="text-3xl" /></Link >
                     ) : user.role === 'trainer' ? (
                         <Link to="/trainer/setting">  <HiUserCircle className="text-3xl" /></Link >
                     ) : (

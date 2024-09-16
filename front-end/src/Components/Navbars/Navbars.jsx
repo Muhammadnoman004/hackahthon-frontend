@@ -14,7 +14,7 @@ export default memo(function Navbars({ title }) {
     const { user } = useFetchProfile();
     // const { user } = useProfile()
     const location = useLocation();
-    const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/setting"><HiUserCircle className="text-3xl" /></Link>) });
+    const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/profile"><HiUserCircle className="text-3xl" /></Link>) });
     const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
     const [settingkey, setSettingkey] = useState({ key: '2', label: (<Link to="/student/setting">Setting</Link>) });
 
@@ -27,11 +27,11 @@ export default memo(function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/profile">  <HiUserCircle className="text-3xl" /></Link >
+                        <Link to="/admin/profile">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/setting">  <HiUserCircle className="text-3xl" /></Link >
+                        <Link to="/trainer/setting">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
                     ) : (
-                        <Link to="/student/profile">  <HiUserCircle className="text-3xl" /></Link >
+                        <Link to="/student/profile">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
                     ),
             })
 
@@ -39,11 +39,11 @@ export default memo(function Navbars({ title }) {
                 key: '1',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/dashboard"> Home</Link >
+                        <Link to="/admin/dashboard" className="hover:underline underline-offset-8 decoration-2"> Home</Link >
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/dashboard"> Home</Link >
+                        <Link to="/trainer/dashboard" className="hover:underline underline-offset-8 decoration-2"> Home</Link >
                     ) : (
-                        <Link to="/student/dashboard"> Home</Link >
+                        <Link to="/student/dashboard" className="hover:underline underline-offset-8 decoration-2"> Home</Link >
                     ),
 
             })
@@ -52,11 +52,11 @@ export default memo(function Navbars({ title }) {
                 key: '2',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/setting"> Setting</Link >
+                        <Link to="/admin/setting" className="hover:underline underline-offset-8 decoration-2"> Setting</Link >
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/setting"> Setting</Link >
+                        <Link to="/trainer/setting" className="hover:underline underline-offset-8 decoration-2"> Setting</Link >
                     ) : (
-                        <Link to="/student/setting"> Setting</Link >
+                        <Link to="/student/setting" className="hover:underline underline-offset-8 decoration-2"> Setting</Link >
                     ),
             })
         }
@@ -65,8 +65,8 @@ export default memo(function Navbars({ title }) {
 
     const AdminNavItems = [
         homekey,
-        { key: '3', label: (<Link to="/admin/teacher">Teachers</Link>) },
-        { key: '4', label: (<Link to="/admin/student">Students</Link>) },
+        { key: '3', label: (<Link to="/admin/teacher" className="hover:underline underline-offset-8 decoration-2">Teachers</Link>) },
+        { key: '4', label: (<Link to="/admin/student" className="hover:underline underline-offset-8 decoration-2">Students</Link>) },
         settingkey,
         updatedkey,
     ]
@@ -110,7 +110,7 @@ export default memo(function Navbars({ title }) {
                     <Navbar.Brand href="#home" className='font-bold'><img width={110} src={SmitLogo} alt="#logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="ms-auto pl-5  sm:gap-4 md:gap-4 lg:gap-10 text-white">
+                        <Nav className="ms-auto pl-5 sm:gap-4 md:gap-4 lg:gap-10 text-white">
                             {/* {navlink.map((navText, index) => {
                                 return (
                                     <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>

@@ -23,11 +23,12 @@ import loader from '../../Context/LoaderContext';
 import User from '../../Context/Context';
 import StudentUpdateProfilePage from '../Pages/Students/StudentUpdateProfilePage';
 import AdminUpdateProfilePage from '../Pages/Admin/AdminUpdateProfilePage';
+import App from '../../App';
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <Home />
+        element: <App />
     },
     {
         path: "/signup",

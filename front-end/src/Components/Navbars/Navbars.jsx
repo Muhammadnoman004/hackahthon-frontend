@@ -8,6 +8,28 @@ import { Link, useLocation } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
 // import usefetchProfile from "../../utils/useFetchProfile";
 import useFetchProfile from "../../utils/useFetchProfile";
+import { Dropdown, Space } from 'antd';
+
+
+const items = [
+    {
+        key: '1',
+        label: (
+            <Link to="/student/profile">
+                Profile
+            </Link>
+        ),
+    },
+    {
+        key: '2',
+        label: (
+            <Link>
+                Logout
+            </Link>
+        ),
+    },
+];
+
 
 export default memo(function Navbars({ title }) {
 
@@ -27,11 +49,26 @@ export default memo(function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/profile">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
+                        <Link to="/admin/profile"> <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
                     ) : user.role === 'trainer' ? (
                         <Link to="/trainer/setting">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
                     ) : (
-                        <Link to="/student/profile">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
+                        <Space direction="vertical">
+                            <Space wrap>
+                                <Dropdown
+                                    menu={{
+                                        items,
+                                    }}
+                                    placement="bottom"
+                                    arrow={{
+                                        pointAtCenter: true,
+                                    }}
+                                    overlayClassName="w-28 text-center"
+                                >
+                                    <div> <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" /></div>
+                                </Dropdown>
+                            </Space>
+                        </Space>
                     ),
             })
 
@@ -110,7 +147,7 @@ export default memo(function Navbars({ title }) {
                     <Navbar.Brand href="#home" className='font-bold'><img width={110} src={SmitLogo} alt="#logo" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
-                        <Nav className="ms-auto pl-5 sm:gap-4 md:gap-4 lg:gap-10 text-white">
+                        <Nav className="ms-auto mt-2 pl-5 sm:gap-4 md:gap-4 lg:gap-10 text-white">
                             {/* {navlink.map((navText, index) => {
                                 return (
                                     <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>

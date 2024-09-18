@@ -1,4 +1,6 @@
 import { HiUserCircle } from "react-icons/hi2";
+import { FaUser } from "react-icons/fa6";
+import { MdLogout } from "react-icons/md";
 import React, { memo, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -11,6 +13,11 @@ import useFetchProfile from "../../utils/useFetchProfile";
 import { Dropdown, Space } from 'antd';
 
 
+const handleMenuClick = () => {
+    console.log('chal gaya');
+
+}
+
 const items = [
     {
         key: '1',
@@ -19,6 +26,8 @@ const items = [
                 Profile
             </Link>
         ),
+        icon: <FaUser />,
+
     },
     {
         key: '2',
@@ -27,6 +36,8 @@ const items = [
                 Logout
             </Link>
         ),
+        icon: <MdLogout />,
+        onClick: handleMenuClick,
     },
 ];
 
@@ -63,7 +74,7 @@ export default memo(function Navbars({ title }) {
                                     arrow={{
                                         pointAtCenter: true,
                                     }}
-                                    overlayClassName="w-28 text-center"
+                                    overlayClassName="text-center"
                                 >
                                     <div> <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" /></div>
                                 </Dropdown>

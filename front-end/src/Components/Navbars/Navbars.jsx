@@ -1,55 +1,114 @@
 import { HiUserCircle } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa6";
 import { MdLogout } from "react-icons/md";
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
 // import usefetchProfile from "../../utils/useFetchProfile";
 import useFetchProfile from "../../utils/useFetchProfile";
 import { Dropdown, Space } from 'antd';
+import api from "../../api/api";
+import { toast } from "react-toastify";
+import loader from "../../Context/LoaderContext";
+import Loader from "../Loader/Loader";
 
 
-const handleMenuClick = () => {
-    console.log('chal gaya');
+// const logOut = async () => {
+//     try {
+//         const res = await api.post("/api/users/logout")
+//         toast.success("Logged Out Successfully", {
+//             onClick: () => {
+//                 localStorage.removeItem("token");
+//             }
+//         })
+//         localStorage.removeItem('token');
+//     }
+//     catch (err) {
+//         console.log(err);
+//     }
 
-}
+// }
 
-const items = [
-    {
-        key: '1',
-        label: (
-            <Link to="/student/profile">
-                Profile
-            </Link>
-        ),
-        icon: <FaUser />,
+// const items = [
+//     {
+//         key: '1',
+//         label: (
+//             <Link to="/student/profile">
+//                 Profile
+//             </Link>
+//         ),
+//         icon: <FaUser />,
 
-    },
-    {
-        key: '2',
-        label: (
-            <Link>
-                Logout
-            </Link>
-        ),
-        icon: <MdLogout />,
-        onClick: handleMenuClick,
-    },
-];
+//     },
+//     {
+//         key: '2',
+//         label: (
+//             <Link>
+//                 Logout
+//             </Link>
+//         ),
+//         icon: <MdLogout />,
+//         onClick: logOut,
+//     },
+// ];
 
 
 export default memo(function Navbars({ title }) {
 
-    const { user } = useFetchProfile();
+    const { user, setUser } = useFetchProfile();
+    const [loading, setloading] = useContext(loader);
+    const navigate = useNavigate();
     // const { user } = useProfile()
     const location = useLocation();
     const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/profile"><HiUserCircle className="text-3xl" /></Link>) });
     const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
     const [settingkey, setSettingkey] = useState({ key: '2', label: (<Link to="/student/setting">Setting</Link>) });
+
+
+    const logOut = async () => {
+        try {
+            setloading(true);
+            const res = await api.post("/api/users/logout")
+            if (res) {
+                setloading(false);
+                toast.success(res.data, {
+                    onClose: () => {
+                        localStorage.removeItem("token");
+                        setUser(null);
+                        navigate('/login');
+                    }
+                });
+            }
+        }
+        catch (err) {
+            setloading(false);
+            toast.error(err.response?.data || err.message);
+        }
+
+    }
+
+    const items = [
+        {
+            key: '1',
+            label: (
+                <Link to="/student/profile">
+                    Profile
+                </Link>
+            ),
+            icon: <FaUser />,
+
+        },
+        {
+            key: '2',
+            label: "Logout",
+            icon: <MdLogout />,
+            onClick: logOut,
+        },
+    ];
 
 
     useEffect(() => {
@@ -177,6 +236,7 @@ export default memo(function Navbars({ title }) {
                         </Nav>
                         <div>
                             <PageTitle title={title} />
+                            {loading && <Loader />}
                         </div>
                     </Navbar.Collapse>
                 </Container>

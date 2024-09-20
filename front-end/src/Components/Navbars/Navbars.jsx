@@ -95,9 +95,9 @@ export default memo(function Navbars({ title }) {
         {
             key: '1',
             label: (
-                <Link to="/student/profile">
+                <Link to={location.pathname.includes("/admin/dashboard") ? "/admin/profile" : location.pathname.includes("/trainer/dashboard") ? "/trainer/profile" : "/student/profile"} >
                     Profile
-                </Link>
+                </Link >
             ),
             icon: <FaUser />,
 
@@ -119,9 +119,39 @@ export default memo(function Navbars({ title }) {
                 key: '0',
                 label:
                     user.role === 'admin' ? (
-                        <Link to="/admin/profile"> <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
+                        <Space direction="vertical">
+                            <Space wrap>
+                                <Dropdown
+                                    menu={{
+                                        items,
+                                    }}
+                                    placement="bottom"
+                                    arrow={{
+                                        pointAtCenter: true,
+                                    }}
+                                    overlayClassName="text-center"
+                                >
+                                    <div><HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></div>
+                                </Dropdown>
+                            </Space>
+                        </Space>
                     ) : user.role === 'trainer' ? (
-                        <Link to="/trainer/setting">  <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></Link >
+                        <Space direction="vertical">
+                            <Space wrap>
+                                <Dropdown
+                                    menu={{
+                                        items,
+                                    }}
+                                    placement="bottom"
+                                    arrow={{
+                                        pointAtCenter: true,
+                                    }}
+                                    overlayClassName="text-center"
+                                >
+                                    <div><HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></div>
+                                </Dropdown>
+                            </Space>
+                        </Space>
                     ) : (
                         <Space direction="vertical">
                             <Space wrap>

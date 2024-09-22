@@ -4,6 +4,8 @@ import { Container } from 'react-bootstrap'
 import { Space, Table } from 'antd';
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
+import api from '../../../api/api';
+import { toast } from 'react-toastify';
 
 const columns = [
     {
@@ -66,8 +68,25 @@ export default function AllTeacherPage() {
     const [form] = Form.useForm();
     const [formValues, setFormValues] = useState();
     const [open, setOpen] = useState(false);
-    const onCreate = (values) => {
-        console.log('Received values of form: ', values);
+
+    const handleAddTeacher = (values) => {
+
+        api.post("/api/users/trainer", {
+            username: values.name,
+            email: values.email,
+            password: values.password,
+            role: 'trainer'
+        })
+            .then((res) => {
+                toast.success("Teacher added successfully!", {
+                    onClose: () => {
+
+                        console.log(res.data);
+                    }
+                })
+            })
+            .catch(err => console.log(err))
+
         setFormValues(values);
         setOpen(false);
     };
@@ -108,7 +127,7 @@ export default function AllTeacherPage() {
                                 modifier: 'public',
                             }}
                             clearOnDestroy
-                            onFinish={(values) => onCreate(values)}
+                            onFinish={(values) => handleAddTeacher(values)}
                         >
                             {dom}
                         </Form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Form, Input, Modal, Radio } from 'antd';
 import { Container } from 'react-bootstrap'
 import { Space, Table } from 'antd';
@@ -65,9 +65,16 @@ const data = [
 
 export default function AllTeacherPage() {
 
+
     const [form] = Form.useForm();
     const [formValues, setFormValues] = useState();
     const [open, setOpen] = useState(false);
+    const [teachers, setTeachers] = useState([]);
+
+    useEffect(() => {
+        getAllTeachers()
+    }, [setTeachers])
+
 
     const handleAddTeacher = (values) => {
 
@@ -82,6 +89,7 @@ export default function AllTeacherPage() {
                     onClose: () => {
 
                         console.log(res.data);
+                        getAllTeachers();
                     }
                 })
             })
@@ -90,6 +98,18 @@ export default function AllTeacherPage() {
         setFormValues(values);
         setOpen(false);
     };
+
+    const getAllTeachers = async () => {
+        try {
+            const res = await api.get("/api/users/trainers")
+            console.log(res.data);
+            setTeachers(res.data);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
 
 
     return (

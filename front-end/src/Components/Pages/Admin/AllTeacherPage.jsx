@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Form, Input, Modal, Radio } from 'antd';
 import { Container } from 'react-bootstrap'
 import { Space, Table } from 'antd';
@@ -6,6 +6,7 @@ import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import api from '../../../api/api';
 import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
 
 // const data = [
 //     {
@@ -42,6 +43,7 @@ export default function AllTeacherPage() {
     const [formValues, setFormValues] = useState();
     const [open, setOpen] = useState(false);
     const [teachers, setTeachers] = useState([]);
+    const [loading, setloading] = useContext(loader);
 
     useEffect(() => {
         getAllTeachers()
@@ -49,7 +51,7 @@ export default function AllTeacherPage() {
 
 
     const handleAddTeacher = (values) => {
-
+        setloading(true);
         api.post("/api/users/trainer", {
             username: values.name,
             email: values.email,
@@ -57,15 +59,19 @@ export default function AllTeacherPage() {
             role: 'trainer'
         })
             .then((res) => {
+                setloading(false);
                 toast.success("Teacher added successfully!", {
                     onClose: () => {
 
-                        console.log(res.data);
                         getAllTeachers();
                     }
-                })
+                });
+
             })
-            .catch(err => console.log(err))
+            .catch((err) => {
+                setloading(false);
+                toast.error(err.response?.data || err.message);
+            });
 
         setFormValues(values);
         setOpen(false);
@@ -135,8 +141,8 @@ export default function AllTeacherPage() {
                     bordered
                     columns={columns}
                     dataSource={teachers}
+                    loading={loading}
                 />
-
 
                 <Modal
                     open={open}

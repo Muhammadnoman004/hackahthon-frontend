@@ -24,6 +24,7 @@ import User from '../../Context/Context';
 import StudentUpdateProfilePage from '../Pages/Students/StudentUpdateProfilePage';
 import AdminUpdateProfilePage from '../Pages/Admin/AdminUpdateProfilePage';
 import App from '../../App';
+import TeacherSettingPage from '../Pages/Teachers/TeacherSettingPage';
 
 const router = createBrowserRouter([
     {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
         element: <AccountVerification title={'Account Verification'} />
     },
     {
-        path: "/*",
+        path: "*",
         element: <NotFound />
     },
 
@@ -113,6 +114,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Teacher | Student'} />
             < TeacherStudentPage />
+        </>
+    },
+    {
+        path: "/trainer/setting",
+        element: <>
+            <Navbars title={'Teacher | Setting'} />
+            < TeacherSettingPage />
         </>
     },
 

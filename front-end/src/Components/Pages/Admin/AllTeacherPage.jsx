@@ -44,6 +44,7 @@ export default function AllTeacherPage() {
     const [open, setOpen] = useState(false);
     const [teachers, setTeachers] = useState([]);
     const [loading, setloading] = useContext(loader);
+    const [load, setload] = useState(false);
 
     useEffect(() => {
         getAllTeachers()
@@ -78,6 +79,7 @@ export default function AllTeacherPage() {
     };
 
     const getAllTeachers = async () => {
+        setload(true);
         try {
             const res = await api.get("/api/users/trainers")
             const teachersWithSerial = res.data.map((teacher, index) => ({
@@ -85,10 +87,12 @@ export default function AllTeacherPage() {
                 serialNo: index + 1,
                 key: teacher._id
             }))
+            setload(false);
             setTeachers(teachersWithSerial);
             console.log(teachersWithSerial);
 
         } catch (error) {
+            setload(false);
             console.log(error);
         }
     }
@@ -141,7 +145,7 @@ export default function AllTeacherPage() {
                     bordered
                     columns={columns}
                     dataSource={teachers}
-                    loading={loading}
+                    loading={load}
                 />
 
                 <Modal

@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import { Space, Table, Form, Input, Modal } from 'antd';
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
+import api from '../../../api/api';
 
 const columns = [
     {
@@ -89,6 +90,18 @@ export default function AllStudentPage() {
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
 
+
+    const handleAddStudent = (values) => {
+
+        api.post("/api/users/student", {
+            username: values.name,
+            email: values.email,
+            password: values.password,
+            role: "student"
+        })
+
+    }
+
     return (
         <div>
             <Container>
@@ -124,7 +137,7 @@ export default function AllStudentPage() {
                                 modifier: 'public',
                             }}
                             clearOnDestroy
-                            onFinish={(values) => handleAddTeacher(values)}
+                            onFinish={(values) => handleAddStudent(values)}
                         >
                             {dom}
                         </Form>

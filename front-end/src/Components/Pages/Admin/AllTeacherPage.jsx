@@ -7,6 +7,7 @@ import { FaDeleteLeft } from 'react-icons/fa6';
 import api from '../../../api/api';
 import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
 
 // const data = [
 //     {
@@ -61,6 +62,7 @@ export default function AllTeacherPage() {
         })
             .then((res) => {
                 setloading(false);
+                setOpen(false);
                 toast.success("Teacher added successfully!", {
                     onClose: () => {
 
@@ -75,7 +77,6 @@ export default function AllTeacherPage() {
             });
 
         setFormValues(values);
-        setOpen(false);
     };
 
     const getAllTeachers = async () => {
@@ -219,6 +220,7 @@ export default function AllTeacherPage() {
                     >
                         <Input.Password />
                     </Form.Item>
+                    {loading && <Loader />}
                 </Modal>
             </Container>
         </div>

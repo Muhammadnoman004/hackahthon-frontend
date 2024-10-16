@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { Space, Table, Form, Input, Modal } from 'antd';
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import api from '../../../api/api';
+import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
 
 const columns = [
     {
@@ -89,16 +92,28 @@ export default function AllStudentPage() {
 
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
+    const [loading, setloading] = useContext(loader)
 
 
     const handleAddStudent = (values) => {
-
+        setloading(true);
         api.post("/api/users/student", {
             username: values.name,
             email: values.email,
             password: values.password,
             role: "student"
         })
+            .then(res => {
+                setloading(false);
+                setOpen(false);
+                console.log(res.data);
+                toast.success('Student added successfully!');
+
+            })
+            .catch(err => {
+                setloading(false);
+                toast.error(err.response?.data || err.message);
+            });
 
     }
 
@@ -114,7 +129,11 @@ export default function AllStudentPage() {
                     </div>
                 </div>
 
-                <Table className='shadow-xl mb-5' bordered columns={columns} dataSource={data} />
+                <Table
+                    className='shadow-xl mb-5'
+                    bordered columns={columns}
+                    dataSource={data}
+                />
 
 
                 <Modal
@@ -188,8 +207,9 @@ export default function AllStudentPage() {
                     >
                         <Input.Password />
                     </Form.Item>
-                </Modal>
 
+                    {loading && <Loader />}
+                </Modal>
 
             </Container>
         </div>

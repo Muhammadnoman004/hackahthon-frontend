@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { Space, Table, Form, Input, Modal } from 'antd';
 import { FaEdit } from 'react-icons/fa';
@@ -8,92 +8,97 @@ import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 
-const columns = [
-    {
-        title: 'S/No',
-        dataIndex: 'serialNo',
-        key: 'serialNo',
-        width: '10%',
-        render: (number) => <a>{number}</a>,
-    },
-    {
-        title: 'Student Name',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-    },
-    {
-        title: 'No. of enrolled classes',
-        dataIndex: 'enrolled',
-        key: 'enrolled',
-        render: (number) => <a>{number}</a>,
-        sorter: (a, b) => a.enrolled - b.enrolled,
-    },
-    {
-        title: 'Action',
-        dataIndex: 'action',
-        render: (_, record) => (
-            <Space size="middle">
-                <a className='text-xl hover:text-green-500'><FaEdit /></a>
-                <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
-            </Space>
-        ),
-    },
-];
-const data = [
-    {
-        key: '1',
-        serialNo: '01',
-        name: 'Asad',
-        email: 'Asad@gmail.com',
-        enrolled: 0
-    },
-    {
-        key: '2',
-        serialNo: '02',
-        name: 'Talha',
-        email: 'Talha@gmail.com',
-        enrolled: 2
-    },
-    {
-        key: '3',
-        serialNo: '03',
-        name: 'Saad',
-        email: 'Saad@gmail.com',
-        enrolled: 1
-    },
-    {
-        key: '4',
-        serialNo: '04',
-        name: 'Khan',
-        email: 'Khan@gmail.com',
-        enrolled: 0
-    },
-    {
-        key: '5',
-        serialNo: '05',
-        name: 'Hamza',
-        email: 'Hamza@gmail.com',
-        enrolled: 2
-    },
-    {
-        key: '6',
-        serialNo: '06',
-        name: 'Aman',
-        email: 'Aman@gmail.com',
-        enrolled: 0
-    },
-];
+// const columns = [
+//     {
+//         title: 'S/No',
+//         dataIndex: 'serialNo',
+//         key: 'serialNo',
+//         width: '10%',
+//         render: (number) => <a>{number}</a>,
+//     },
+//     {
+//         title: 'Student Name',
+//         dataIndex: 'name',
+//     },
+//     {
+//         title: 'Email',
+//         dataIndex: 'email',
+//     },
+//     {
+//         title: 'No. of enrolled classes',
+//         dataIndex: 'enrolled',
+//         key: 'enrolled',
+//         render: (number) => <a>{number}</a>,
+//         sorter: (a, b) => a.enrolled - b.enrolled,
+//     },
+//     {
+//         title: 'Action',
+//         dataIndex: 'action',
+//         render: (_, record) => (
+//             <Space size="middle">
+//                 <a className='text-xl hover:text-green-500'><FaEdit /></a>
+//                 <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
+//             </Space>
+//         ),
+//     },
+// ];
+// const data = [
+//     {
+//         key: '1',
+//         serialNo: '01',
+//         name: 'Asad',
+//         email: 'Asad@gmail.com',
+//         enrolled: 0
+//     },
+//     {
+//         key: '2',
+//         serialNo: '02',
+//         name: 'Talha',
+//         email: 'Talha@gmail.com',
+//         enrolled: 2
+//     },
+//     {
+//         key: '3',
+//         serialNo: '03',
+//         name: 'Saad',
+//         email: 'Saad@gmail.com',
+//         enrolled: 1
+//     },
+//     {
+//         key: '4',
+//         serialNo: '04',
+//         name: 'Khan',
+//         email: 'Khan@gmail.com',
+//         enrolled: 0
+//     },
+//     {
+//         key: '5',
+//         serialNo: '05',
+//         name: 'Hamza',
+//         email: 'Hamza@gmail.com',
+//         enrolled: 2
+//     },
+//     {
+//         key: '6',
+//         serialNo: '06',
+//         name: 'Aman',
+//         email: 'Aman@gmail.com',
+//         enrolled: 0
+//     },
+// ];
 
 
 export default function AllStudentPage() {
 
     const [form] = Form.useForm();
     const [open, setOpen] = useState(false);
-    const [loading, setloading] = useContext(loader)
+    const [loading, setloading] = useContext(loader);
+    const [students, setStudents] = useState([]);
 
+
+    useEffect(() => {
+        getAllStudents()
+    }, []);
 
     const handleAddStudent = (values) => {
         setloading(true);
@@ -117,6 +122,64 @@ export default function AllStudentPage() {
 
     }
 
+
+    const getAllStudents = async () => {
+        try {
+            const res = await api.get("api/users/students")
+            const studentWithSerial = res.data.map((student, index) => ({
+                ...student,
+                serialNo: index + 1,
+                key: student._id
+
+            }))
+            console.log(res.data);
+            setStudents(studentWithSerial);
+        }
+        catch (error) {
+            console.log(error);
+
+        }
+    }
+
+
+    const columns = [
+        {
+            title: 'S/No',
+            dataIndex: 'serialNo',
+            key: 'serialNo',
+            width: '10%',
+            render: (number) => <a>{number}</a>,
+        },
+        {
+            title: 'Student Name',
+            dataIndex: 'username',
+            key: 'username'
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email'
+        },
+        {
+            title: 'No. of enrolled classes',
+            dataIndex: 'enrolled',
+            key: 'enrolled',
+            render: (number) => <a>{number}</a>,
+            sorter: (a, b) => a.enrolled - b.enrolled,
+        },
+        {
+            title: 'Action',
+            dataIndex: 'action',
+            render: (_, record) => (
+                <Space size="middle">
+                    <a className='text-xl hover:text-green-500'><FaEdit /></a>
+                    <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
+                </Space>
+            ),
+        },
+    ];
+
+
     return (
         <div>
             <Container>
@@ -131,8 +194,9 @@ export default function AllStudentPage() {
 
                 <Table
                     className='shadow-xl mb-5'
-                    bordered columns={columns}
-                    dataSource={data}
+                    bordered
+                    columns={columns}
+                    dataSource={students}
                 />
 
 

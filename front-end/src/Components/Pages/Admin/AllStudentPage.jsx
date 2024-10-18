@@ -8,40 +8,7 @@ import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 
-// const columns = [
-//     {
-//         title: 'S/No',
-//         dataIndex: 'serialNo',
-//         key: 'serialNo',
-//         width: '10%',
-//         render: (number) => <a>{number}</a>,
-//     },
-//     {
-//         title: 'Student Name',
-//         dataIndex: 'name',
-//     },
-//     {
-//         title: 'Email',
-//         dataIndex: 'email',
-//     },
-//     {
-//         title: 'No. of enrolled classes',
-//         dataIndex: 'enrolled',
-//         key: 'enrolled',
-//         render: (number) => <a>{number}</a>,
-//         sorter: (a, b) => a.enrolled - b.enrolled,
-//     },
-//     {
-//         title: 'Action',
-//         dataIndex: 'action',
-//         render: (_, record) => (
-//             <Space size="middle">
-//                 <a className='text-xl hover:text-green-500'><FaEdit /></a>
-//                 <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
-//             </Space>
-//         ),
-//     },
-// ];
+
 // const data = [
 //     {
 //         key: '1',
@@ -94,11 +61,14 @@ export default function AllStudentPage() {
     const [open, setOpen] = useState(false);
     const [loading, setloading] = useContext(loader);
     const [students, setStudents] = useState([]);
+    const [load, setload] = useState(false);
 
 
     useEffect(() => {
-        getAllStudents()
-    }, []);
+        if (students.length === 0) {
+            getAllStudents()
+        }
+    }, [students]);
 
     const handleAddStudent = (values) => {
         setloading(true);
@@ -111,8 +81,11 @@ export default function AllStudentPage() {
             .then(res => {
                 setloading(false);
                 setOpen(false);
-                console.log(res.data);
-                toast.success('Student added successfully!');
+                toast.success('Student added successfully!', {
+                    onClose: () => {
+                        getAllStudents()
+                    }
+                });
 
             })
             .catch(err => {
@@ -124,6 +97,7 @@ export default function AllStudentPage() {
 
 
     const getAllStudents = async () => {
+        setload(true);
         try {
             const res = await api.get("api/users/students")
             const studentWithSerial = res.data.map((student, index) => ({
@@ -132,12 +106,13 @@ export default function AllStudentPage() {
                 key: student._id
 
             }))
+            setload(false);
             console.log(res.data);
             setStudents(studentWithSerial);
         }
         catch (error) {
-            console.log(error);
-
+            setload(false)
+            toast.error(error.response?.data || error.message)
         }
     }
 
@@ -197,6 +172,7 @@ export default function AllStudentPage() {
                     bordered
                     columns={columns}
                     dataSource={students}
+                    loading={load}
                 />
 
 

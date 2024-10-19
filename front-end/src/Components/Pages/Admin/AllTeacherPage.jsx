@@ -79,16 +79,26 @@ export default function AllTeacherPage() {
         setFormValues(values);
     };
 
-    const handleDeleteTeacher = () => {
-        api.delete("/api/users/trainer/66efbd40c6fd8dbd0ba2ddeb")
+    const handleDeleteTeacher = (id) => {
+        setloading(true);
+        setload(true);
+        api.delete(`/api/users/trainer/${id}`)
             .then((res) => {
-                console.log(res);
+                setloading(false);
+                setload(false);
+                toast.success("Teacher deleted successfully!");
+                getAllTeachers();
 
             })
             .catch(err => {
-                console.log(err);
-
+                setloading(false);
+                toast.error(err.response?.data || err.message);
             })
+    }
+
+    const handleEditTeacher = () => {
+        console.log("Edit");
+
     }
 
     const getAllTeachers = async () => {
@@ -135,7 +145,7 @@ export default function AllTeacherPage() {
             render: (_, record) => (
                 <Space size="middle">
                     <a className='text-xl hover:text-green-500'><FaEdit /></a>
-                    <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher()} /></a>
+                    <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>
             ),
         },

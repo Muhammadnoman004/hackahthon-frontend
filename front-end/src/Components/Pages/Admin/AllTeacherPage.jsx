@@ -46,10 +46,20 @@ export default function AllTeacherPage() {
     const [teachers, setTeachers] = useState([]);
     const [loading, setloading] = useContext(loader);
     const [load, setload] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [EditedTeacher, setEditedTeacher] = useState(null);
+
 
     useEffect(() => {
         getAllTeachers()
     }, [setTeachers])
+
+
+    const showEditModal = (teacher) => {
+        setOpen(true);
+        setIsEditing(true);
+        setEditedTeacher(teacher);
+    };
 
 
     const handleAddTeacher = (values) => {
@@ -144,7 +154,7 @@ export default function AllTeacherPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-green-500'><FaEdit /></a>
+                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>
             ),
@@ -173,8 +183,8 @@ export default function AllTeacherPage() {
 
                 <Modal
                     open={open}
-                    title="Add Teacher"
-                    okText="Add"
+                    title={!isEditing ? 'Add Teacher' : 'Edit Teacher'}
+                    okText={!isEditing ? 'Add' : 'Edit'}
                     cancelText="Cancel"
                     okButtonProps={{
                         autoFocus: true,
@@ -226,22 +236,24 @@ export default function AllTeacherPage() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="password"
-                        label="Password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter teacher password!',
-                            },
-                            {
-                                min: 6,
-                                message: 'Password must be at least 6 characters!'
-                            }
-                        ]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
+                    {!isEditing && (
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please enter teacher password!',
+                                },
+                                {
+                                    min: 6,
+                                    message: 'Password must be at least 6 characters!'
+                                }
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                    )}
                     {loading && <Loader />}
                 </Modal>
             </Container>

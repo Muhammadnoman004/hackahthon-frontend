@@ -47,18 +47,40 @@ export default function AllTeacherPage() {
     const [loading, setloading] = useContext(loader);
     const [load, setload] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [EditedTeacher, setEditedTeacher] = useState(null);
+    const [editedTeacher, setEditedTeacher] = useState(null);
 
 
     useEffect(() => {
         getAllTeachers()
     }, [setTeachers])
 
+    useEffect(() => {
+        if (open) {
+            if (isEditing && editedTeacher) {
+                form.setFieldsValue({
+                    name: editedTeacher.username,
+                    email: editedTeacher.email,
+                    password: ''
+                })
+            } else {
+                form.resetFields();
+            }
+        }
+    }, [open, isEditing, editedTeacher, form])
+
+
+    const showModal = () => {
+        setOpen(true);
+        setIsEditing(false);
+        setEditedTeacher(null);
+    };
 
     const showEditModal = (teacher) => {
         setOpen(true);
         setIsEditing(true);
         setEditedTeacher(teacher);
+        console.log(editedTeacher);
+
     };
 
 
@@ -169,7 +191,7 @@ export default function AllTeacherPage() {
                         <h1 className='font-bold text-xl'>All Teachers</h1>
                     </div>
                     <div>
-                        <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={() => setOpen(true)}>Add Teacher</button>
+                        <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={showModal}>Add Teacher</button>
                     </div>
                 </div>
 
@@ -179,16 +201,18 @@ export default function AllTeacherPage() {
                     columns={columns}
                     dataSource={teachers}
                     loading={load}
+                    rowKey={(record) => record._id}
                 />
 
-                <Modal
+                {/* <Modal
                     open={open}
                     title={!isEditing ? 'Add Teacher' : 'Edit Teacher'}
-                    okText={!isEditing ? 'Add' : 'Edit'}
+                    okText={!isEditing ? 'Add' : 'update'}
                     cancelText="Cancel"
                     okButtonProps={{
                         autoFocus: true,
                         htmlType: 'submit',
+                        form: 'teacherForm'
                     }}
                     onCancel={() => setOpen(false)}
                     destroyOnClose
@@ -196,6 +220,7 @@ export default function AllTeacherPage() {
                         <Form
                             layout="vertical"
                             form={form}
+                            id='teacherForm'
                             name="form_in_modal"
                             initialValues={{
                                 modifier: 'public',
@@ -255,6 +280,75 @@ export default function AllTeacherPage() {
                         </Form.Item>
                     )}
                     {loading && <Loader />}
+                </Modal> */}
+
+                <Modal
+                    open={open}
+                    title={!isEditing ? 'Add Teacher' : 'Edit Teacher'}
+                    okText={!isEditing ? 'Add' : 'Update'}
+                    cancelText="Cancel"
+                    okButtonProps={{
+                        autoFocus: true,
+                        htmlType: 'submit',
+                        form: 'teacherForm'
+                    }}
+                    onCancel={() => setOpen(false)}
+                    destroyOnClose
+                >
+                    <Form
+                        layout="vertical"
+                        form={form}
+                        id='teacherForm'
+                        onFinish={isEditing ? handleEditTeacher : handleAddTeacher}  // Calls either handleAddTeacher or handleEditTeacher
+                    >
+                        <Form.Item
+                            name="name"
+                            label="Teacher Name"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please enter teacher name!',
+                                },
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="email"
+                            label="Email"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please enter teacher email!',
+                                },
+                                {
+                                    type: 'email',
+                                    message: 'Please enter a valid email!'
+                                }
+                            ]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        {!isEditing && (
+                            <Form.Item
+                                name="password"
+                                label="Password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: 'Please enter teacher password!',
+                                    },
+                                    {
+                                        min: 6,
+                                        message: 'Password must be at least 6 characters!',
+                                    }
+                                ]}
+                            >
+                                <Input.Password />
+                            </Form.Item>
+                        )}
+                        {loading && <Loader />}
+                    </Form>
                 </Modal>
             </Container>
         </div>

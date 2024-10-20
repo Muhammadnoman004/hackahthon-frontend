@@ -128,8 +128,25 @@ export default function AllTeacherPage() {
             })
     }
 
-    const handleEditTeacher = () => {
-        console.log("Edit");
+    const handleEditTeacher = (values) => {
+        setOpen(false);
+        setloading(true);
+        setload(true)
+        api.put(`/api/users/trainer/${editedTeacher._id}`, {
+            username: values.name,
+            email: values.email
+        })
+            .then((res) => {
+                setloading(false);
+                setload(false);
+                toast.success("Teacher updated successfully!");
+                getAllTeachers();
+            })
+            .catch(err => {
+                setloading(false);
+                setload(false);
+                toast.error(err.response?.data || err.message);
+            })
 
     }
 

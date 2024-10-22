@@ -63,7 +63,7 @@ export default function AllStudentPage() {
     const [students, setStudents] = useState([]);
     const [load, setload] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
-    const [editedTeacher, setEditedTeacher] = useState(null);
+    const [editedStudent, setEditedStudent] = useState(null);
 
 
     useEffect(() => {
@@ -74,29 +74,29 @@ export default function AllStudentPage() {
 
     useEffect(() => {
         if (open) {
-            if (isEditing && editedTeacher) {
+            if (isEditing && editedStudent) {
                 form.setFieldsValue({
-                    name: editedTeacher.username,
-                    email: editedTeacher.email,
+                    name: editedStudent.username,
+                    email: editedStudent.email,
                     password: ''
                 })
             } else {
                 form.resetFields();
             }
         }
-    }, [open, isEditing, editedTeacher, form])
+    }, [open, isEditing, editedStudent, form])
 
     const showModal = () => {
         setOpen(true);
         setIsEditing(false);
-        setEditedTeacher(null);
+        setEditedStudent(null);
     };
 
-    const showEditModal = (teacher) => {
+    const showEditModal = (student) => {
         setOpen(true);
         setIsEditing(true);
-        setEditedTeacher(teacher);
-        console.log(editedTeacher);
+        setEditedStudent(student);
+        console.log(editedStudent);
 
     };
 
@@ -177,7 +177,7 @@ export default function AllStudentPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record._id)} /></a>
+                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
                 </Space>
             ),
@@ -203,17 +203,19 @@ export default function AllStudentPage() {
                     columns={columns}
                     dataSource={students}
                     loading={load}
+                    rowKey={(record) => record._id}
                 />
 
 
                 <Modal
                     open={open}
-                    title="Add Student"
-                    okText="Add"
+                    title={isEditing ? 'Edit Student' : 'Add Student'}
+                    okText={isEditing ? 'Update' : 'Add'}
                     cancelText="Cancel"
                     okButtonProps={{
                         autoFocus: true,
                         htmlType: 'submit',
+                        form: 'studentForm'
                     }}
                     onCancel={() => setOpen(false)}
                     destroyOnClose
@@ -221,6 +223,7 @@ export default function AllStudentPage() {
                         <Form
                             layout="vertical"
                             form={form}
+                            id='studentForm'
                             name="form_in_modal"
                             initialValues={{
                                 modifier: 'public',
@@ -283,6 +286,6 @@ export default function AllStudentPage() {
                 </Modal>
 
             </Container>
-        </div>
+        </div >
     )
 }

@@ -62,6 +62,8 @@ export default function AllStudentPage() {
     const [loading, setloading] = useContext(loader);
     const [students, setStudents] = useState([]);
     const [load, setload] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedTeacher, setEditedTeacher] = useState(null);
 
 
     useEffect(() => {
@@ -69,6 +71,34 @@ export default function AllStudentPage() {
             getAllStudents()
         }
     }, [students]);
+
+    useEffect(() => {
+        if (open) {
+            if (isEditing && editedTeacher) {
+                form.setFieldsValue({
+                    name: editedTeacher.username,
+                    email: editedTeacher.email,
+                    password: ''
+                })
+            } else {
+                form.resetFields();
+            }
+        }
+    }, [open, isEditing, editedTeacher, form])
+
+    const showModal = () => {
+        setOpen(true);
+        setIsEditing(false);
+        setEditedTeacher(null);
+    };
+
+    const showEditModal = (teacher) => {
+        setOpen(true);
+        setIsEditing(true);
+        setEditedTeacher(teacher);
+        console.log(editedTeacher);
+
+    };
 
     const handleAddStudent = (values) => {
         setloading(true);
@@ -147,7 +177,7 @@ export default function AllStudentPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-green-500'><FaEdit /></a>
+                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record._id)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
                 </Space>
             ),
@@ -163,7 +193,7 @@ export default function AllStudentPage() {
                         <h1 className='font-bold text-xl'>All Students</h1>
                     </div>
                     <div>
-                        <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={() => setOpen(true)}>Add Student</button>
+                        <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={showModal}>Add Student</button>
                     </div>
                 </div>
 
@@ -178,7 +208,7 @@ export default function AllStudentPage() {
 
                 <Modal
                     open={open}
-                    title="Add Teacher"
+                    title="Add Student"
                     okText="Add"
                     cancelText="Cancel"
                     okButtonProps={{
@@ -231,23 +261,24 @@ export default function AllStudentPage() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="password"
-                        label="Password"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter teacher password!',
-                            },
-                            {
-                                min: 6,
-                                message: 'Password must be at least 6 characters!'
-                            }
-                        ]}
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
+                    {!isEditing && (
+                        <Form.Item
+                            name="password"
+                            label="Password"
+                            rules={[
+                                {
+                                    required: true,
+                                    message: 'Please enter teacher password!',
+                                },
+                                {
+                                    min: 6,
+                                    message: 'Password must be at least 6 characters!'
+                                }
+                            ]}
+                        >
+                            <Input.Password />
+                        </Form.Item>
+                    )}
                     {loading && <Loader />}
                 </Modal>
 

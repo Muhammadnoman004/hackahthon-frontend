@@ -125,6 +125,16 @@ export default function AllStudentPage() {
 
     }
 
+    const handleEditStudent = (e) => {
+        try {
+            console.log(e);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
 
     const getAllStudents = async () => {
         setload(true);

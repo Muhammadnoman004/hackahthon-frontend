@@ -216,7 +216,7 @@ export default function AllStudentPage() {
                     rowKey={(record) => record._id}
                 />
 
-
+                {/* 
                 <Modal
                     open={open}
                     title={isEditing ? 'Edit Student' : 'Add Student'}
@@ -293,6 +293,73 @@ export default function AllStudentPage() {
                         </Form.Item>
                     )}
                     {loading && <Loader />}
+                </Modal> */}
+
+                <Modal
+                    open={open}
+                    title={isEditing ? 'Edit Student' : 'Add Student'}
+                    okText={isEditing ? 'Update' : 'Add'}
+                    cancelText="Cancel"
+                    okButtonProps={{
+                        autoFocus: true,
+                        htmlType: 'submit',
+                        form: 'studentForm'
+                    }}
+                    onCancel={() => setOpen(false)}
+                    destroyOnClose
+                >
+                    <Form
+                        layout="vertical"
+                        form={form}
+                        id='studentForm'
+                        name="form_in_modal"
+                        initialValues={{
+                            modifier: 'public',
+                        }}
+                        onFinish={isEditing ? handleEditStudent : handleAddStudent}
+                    >
+                        <Form.Item
+                            name="name"
+                            label="Student Name"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter student name!',
+                            }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        <Form.Item
+                            name="email"
+                            label="Email"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter student email!',
+                            },
+                            {
+                                type: 'email',
+                                message: 'Please enter a valid email!'
+                            }]}
+                        >
+                            <Input />
+                        </Form.Item>
+                        {!isEditing && (
+                            <Form.Item
+                                name="password"
+                                label="Password"
+                                rules={[{
+                                    required: true,
+                                    message: 'Please enter student password!',
+                                },
+                                {
+                                    min: 6,
+                                    message: 'Password must be at least 6 characters!'
+                                }]}
+                            >
+                                <Input.Password />
+                            </Form.Item>
+                        )}
+                    </Form>
+                    {loading && <Loader />} {/* Show loader only if loading */}
                 </Modal>
 
             </Container>

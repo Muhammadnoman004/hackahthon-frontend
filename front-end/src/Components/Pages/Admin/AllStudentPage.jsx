@@ -125,14 +125,26 @@ export default function AllStudentPage() {
 
     }
 
-    const handleEditStudent = (e) => {
-        try {
-            console.log(e);
+    const handleEditStudent = (values) => {
+        setOpen(false);
+        setloading(true);
+        setload(true);
+        api.put(`/api/users/student/${editedStudent._id}`, {
+            username: values.name,
+            email: values.email,
+        })
+            .then((res) => {
+                setloading(false);
+                setload(false);
+                toast.success("Student updated successfully!");
+                getAllStudents();
 
-        } catch (error) {
-            console.log(error);
-
-        }
+            })
+            .catch(err => {
+                setloading(false);
+                setload(false);
+                toast.error(err.response?.data || err.message);
+            })
     }
 
 

@@ -147,6 +147,23 @@ export default function AllStudentPage() {
             })
     }
 
+    const handleDeleteTeacher = (values) => {
+        setloading(true);
+        setload(true);
+        api.delete(`/api/users/student/${values}`)
+            .then((res) => {
+                setloading(false);
+                setload(false);
+                toast.success("Student deleted successfully!");
+                getAllStudents();
+            })
+            .catch(err => {
+                setloading(false);
+                setload(false);
+                toast.error(err.response?.data || err.message);
+            })
+    }
+
 
     const getAllStudents = async () => {
         setload(true);
@@ -200,7 +217,7 @@ export default function AllStudentPage() {
             render: (_, record) => (
                 <Space size="middle">
                     <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
-                    <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
+                    <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>
             ),
         },

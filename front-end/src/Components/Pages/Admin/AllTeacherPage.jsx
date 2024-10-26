@@ -124,6 +124,7 @@ export default function AllTeacherPage() {
             })
             .catch(err => {
                 setloading(false);
+                setload(false);
                 toast.error(err.response?.data || err.message);
             })
     }

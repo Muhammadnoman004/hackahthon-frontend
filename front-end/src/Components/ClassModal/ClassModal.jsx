@@ -1,11 +1,49 @@
 import React, { useState } from 'react'
-import { Button, Form, Input, Modal } from 'antd';
+import { Form, Input, message, Modal, Upload } from 'antd';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
-export default function ClassModal() {
+const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        message.error('You can only upload JPG/PNG file!');
+        return Upload.LIST_IGNORE; // Prevent the upload
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        message.error('Image must be smaller than 2MB!');
+        return Upload.LIST_IGNORE; // Prevent the upload
+    }
+    return false; // Prevent automatic upload
+};
 
-    const [open, setOpen] = useState(false);
+
+
+export default function ClassModal({ open, closeModal }) {
+
     const [form] = Form.useForm();
+    const [fileList, setFileList] = useState([]);
+    const [loading, setLoading] = useState(false);
 
+    const handleChange = (info) => {
+        let newFileList = [...info.fileList].slice(-1);
+        setFileList(newFileList);
+
+        if (info.file.status === 'uploading') {
+            setLoading(true);
+            return;
+        }
+        if (info.file.originFileObj) {
+            const imageUrl = URL.createObjectURL(info.file.originFileObj);
+            setLoading(false);
+        }
+    };
+
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+    );
 
     const handleSubmit = (e) => {
         console.log(e);
@@ -15,7 +53,6 @@ export default function ClassModal() {
     return (
         <div>
 
-            <Button onClick={() => setOpen(true)}>Modal</Button>
             <Modal
                 open={open}
                 title={'Create Class'}
@@ -26,7 +63,7 @@ export default function ClassModal() {
                     htmlType: 'submit',
 
                 }}
-                onCancel={() => setOpen(false)}
+                onCancel={closeModal}
                 destroyOnClose
             >
                 <Form
@@ -40,41 +77,36 @@ export default function ClassModal() {
                 >
                     <Form.Item
                         name="name"
-                        label="Student Name"
+                        label="Class Name:"
                         rules={[{
                             required: true,
-                            message: 'Please enter student name!',
+                            message: 'Please enter class name!',
                         }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name="email"
-                        label="Email"
+                        name="description"
+                        label="Class Description:"
                         rules={[{
                             required: true,
-                            message: 'Please enter student email!',
+                            message: 'Please enter class description!',
                         },
-                        {
-                            type: 'email',
-                            message: 'Please enter a valid email!'
-                        }]}
+                        ]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item
-                        name="password"
-                        label="Password"
-                        rules={[{
-                            required: true,
-                            message: 'Please enter student password!',
-                        },
-                        {
-                            min: 6,
-                            message: 'Password must be at least 6 characters!'
-                        }]}
-                    >
-                        <Input.Password />
+                    <Form.Item label="Class Image:">
+                        <Upload
+                            action="" // Prevent automatic upload
+                            listType="picture-circle"
+                            className="avatar-uploader"
+                            fileList={fileList}
+                            beforeUpload={beforeUpload}
+                            onChange={handleChange}
+                        >
+                            {fileList.length > 0 ? null : uploadButton}
+                        </Upload>
                     </Form.Item>
                 </Form>
             </Modal>

@@ -46,8 +46,17 @@ export default function ClassModal({ open, closeModal }) {
     );
 
     const handleSubmit = (e) => {
-        console.log(e);
+        form.validateFields()
+            .then((values) => {
+                console.log(values);
+                const file = fileList[0].originFileObj
+                console.log(file);
 
+
+            }).catch(err => {
+                console.log(err);
+
+            })
     }
 
     return (
@@ -56,12 +65,13 @@ export default function ClassModal({ open, closeModal }) {
             <Modal
                 open={open}
                 title={'Create Class'}
-                okText={'Add'}
+                okText={'Create'}
                 cancelText="Cancel"
+                onOk={handleSubmit}
                 okButtonProps={{
                     autoFocus: true,
                     htmlType: 'submit',
-
+            
                 }}
                 onCancel={closeModal}
                 destroyOnClose
@@ -73,7 +83,7 @@ export default function ClassModal({ open, closeModal }) {
                     initialValues={{
                         modifier: 'public',
                     }}
-                    onFinish={handleSubmit}
+                onFinish={handleSubmit}
                 >
                     <Form.Item
                         name="name"

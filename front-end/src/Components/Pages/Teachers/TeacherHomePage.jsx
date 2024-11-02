@@ -22,7 +22,7 @@ export default function TeacherHomePage() {
                     <h1 className='flex-1'>Trainer Dashboard</h1>
                     <div className='flex gap-3'>
                         <div className='hover:rounded-full hover:bg-slate-200 cursor-pointer font-bold' onClick={showModal}>
-                            <AiOutlinePlus className='text-3xl p-0.5' />
+                            <AiOutlinePlus title='Add Trainer' className='text-3xl p-0.5' />
                         </div>
                         <div>
                             <BellFilled className='flex text-amber-400' />

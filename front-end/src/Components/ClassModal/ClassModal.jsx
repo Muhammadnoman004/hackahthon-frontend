@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { Form, Input, message, Modal, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import uploadFileToFirebase from '../../utils/uploadFileToFirebase';
+import useFetchProfile from '../../utils/useFetchProfile';
 
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -17,9 +19,9 @@ const beforeUpload = (file) => {
 };
 
 
-
 export default function ClassModal({ open, closeModal }) {
 
+    const { user } = useFetchProfile();
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -47,10 +49,18 @@ export default function ClassModal({ open, closeModal }) {
 
     const handleSubmit = (e) => {
         form.validateFields()
-            .then((values) => {
-                console.log(values);
-                const file = fileList[0].originFileObj
-                console.log(file);
+            .then(async (values) => {
+                const file = fileList[0]?.originFileObj
+                if (file) {
+                    try {
+                        const fileURL = await uploadFileToFirebase(file, `classes/${user._id}/${file.name}`);
+                        values.classImage = fileURL;
+                        console.log(values);
+                    } catch (error) {
+                        console.log(error);
+
+                    }
+                }
 
 
             }).catch(err => {
@@ -71,7 +81,7 @@ export default function ClassModal({ open, closeModal }) {
                 okButtonProps={{
                     autoFocus: true,
                     htmlType: 'submit',
-            
+
                 }}
                 onCancel={closeModal}
                 destroyOnClose
@@ -83,7 +93,7 @@ export default function ClassModal({ open, closeModal }) {
                     initialValues={{
                         modifier: 'public',
                     }}
-                onFinish={handleSubmit}
+                    onFinish={handleSubmit}
                 >
                     <Form.Item
                         name="name"

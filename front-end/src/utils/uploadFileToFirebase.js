@@ -1,12 +1,12 @@
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import app from '../config/FirebaseConfig';
+import app from '../config/FirebaseConfig.js';
 
 const storage = getStorage(app);
 
-const uploadFileToFirebase = () => {
+const uploadFileToFirebase = (file, path) => {
     return new Promise((resolve, reject) => {
-        const restaurantImageRef = ref(storage);
-        const uploadTask = uploadBytesResumable(restaurantImageRef);
+        const ImageRef = ref(storage, path);
+        const uploadTask = uploadBytesResumable(ImageRef, file);
 
         uploadTask.on(
             "state_changed",
@@ -39,3 +39,5 @@ const uploadFileToFirebase = () => {
         );
     });
 };
+
+export default uploadFileToFirebase;

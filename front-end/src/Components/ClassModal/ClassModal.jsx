@@ -1,8 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form, Input, message, Modal, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import uploadFileToFirebase from '../../utils/uploadFileToFirebase';
 import useFetchProfile from '../../utils/useFetchProfile';
+import api from '../../api/api';
+import loader from '../../Context/LoaderContext';
+import { toast } from 'react-toastify';
+import Loader from '../Loader/Loader';
 
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -22,21 +26,22 @@ const beforeUpload = (file) => {
 export default function ClassModal({ open, closeModal }) {
 
     const { user } = useFetchProfile();
+    const [loading, setloading] = useContext(loader);
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [load, setLoad] = useState(false);
 
     const handleChange = (info) => {
         let newFileList = [...info.fileList].slice(-1);
         setFileList(newFileList);
 
         if (info.file.status === 'uploading') {
-            setLoading(true);
+            setLoad(true);
             return;
         }
         if (info.file.originFileObj) {
             const imageUrl = URL.createObjectURL(info.file.originFileObj);
-            setLoading(false);
+            setLoad(false);
         }
     };
 
@@ -47,26 +52,39 @@ export default function ClassModal({ open, closeModal }) {
         </div>
     );
 
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         form.validateFields()
             .then(async (values) => {
+                setloading(true);
                 const file = fileList[0]?.originFileObj
                 if (file) {
                     try {
                         const fileURL = await uploadFileToFirebase(file, `classes/${user._id}/${file.name}`);
                         values.classImage = fileURL;
-                        console.log(values);
+                        // console.log(values);
                     } catch (error) {
-                        console.log(error);
-
+                        setloading(false);
+                        toast.error("Failed to upload image.");
+                        return;
                     }
                 }
+                api.post("/api/classes/create", values)
+                    .then(res => {
+                        closeModal();
+                        setloading(false);
+                        toast.success("Class created successfully!");
+                        form.resetFields();
+                        setFileList([]);
+                    })
+                    .catch(error => {
+                        setloading(false);
+                        toast.error("Failed to create class.");
+                    });
 
-
-            }).catch(err => {
-                console.log(err);
-
-            })
+            }).catch(info => {
+                setloading(false);
+                toast.error(info?.message);
+            });
     }
 
     return (
@@ -129,6 +147,7 @@ export default function ClassModal({ open, closeModal }) {
                         </Upload>
                     </Form.Item>
                 </Form>
+                {loading && <Loader />}
             </Modal>
 
 

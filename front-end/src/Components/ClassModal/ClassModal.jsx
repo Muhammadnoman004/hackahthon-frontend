@@ -87,6 +87,13 @@ export default function ClassModal({ open, closeModal }) {
             });
     }
 
+
+    const handleCancel = () => {
+        closeModal();
+        form.resetFields();
+        setFileList([]);
+    }
+
     return (
         <div>
 
@@ -101,7 +108,7 @@ export default function ClassModal({ open, closeModal }) {
                     htmlType: 'submit',
 
                 }}
-                onCancel={closeModal}
+                onCancel={handleCancel}
                 destroyOnClose
             >
                 <Form

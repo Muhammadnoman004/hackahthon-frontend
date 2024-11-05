@@ -9,34 +9,6 @@ import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 
-// const data = [
-//     {
-//         key: '1',
-//         serialNo: '01',
-//         name: 'Jamsheed',
-//         email: 'Jamsheed@gmail.com',
-//     },
-//     {
-//         key: '2',
-//         serialNo: '02',
-//         name: 'Huzaifa',
-//         email: 'Huzaifa@gmail.com',
-//     },
-//     {
-//         key: '3',
-//         serialNo: '03',
-//         name: 'Basit',
-//         email: 'Basit@gmail.com',
-//     },
-//     {
-//         key: '4',
-//         serialNo: '04',
-//         name: 'Tayyab',
-//         email: 'Tayyab@gmail.com',
-//     },
-// ];
-
-
 export default function AllTeacherPage() {
 
 
@@ -221,84 +193,6 @@ export default function AllTeacherPage() {
                     loading={load}
                     rowKey={(record) => record._id}
                 />
-
-                {/* <Modal
-                    open={open}
-                    title={!isEditing ? 'Add Teacher' : 'Edit Teacher'}
-                    okText={!isEditing ? 'Add' : 'update'}
-                    cancelText="Cancel"
-                    okButtonProps={{
-                        autoFocus: true,
-                        htmlType: 'submit',
-                        form: 'teacherForm'
-                    }}
-                    onCancel={() => setOpen(false)}
-                    destroyOnClose
-                    modalRender={(dom) => (
-                        <Form
-                            layout="vertical"
-                            form={form}
-                            id='teacherForm'
-                            name="form_in_modal"
-                            initialValues={{
-                                modifier: 'public',
-                            }}
-                            clearOnDestroy
-                            onFinish={(values) => handleAddTeacher(values)}
-                        >
-                            {dom}
-                        </Form>
-                    )}
-                >
-                    <Form.Item
-                        name="name"
-                        label="Teacher Name"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter teacher name!',
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="email"
-                        label="Email"
-                        rules={[
-                            {
-                                required: true,
-                                message: 'Please enter teacher email!',
-                            },
-                            {
-                                type: 'email',
-                                message: 'Please enter a valid email!'
-                            }
-
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    {!isEditing && (
-                        <Form.Item
-                            name="password"
-                            label="Password"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please enter teacher password!',
-                                },
-                                {
-                                    min: 6,
-                                    message: 'Password must be at least 6 characters!'
-                                }
-                            ]}
-                        >
-                            <Input.Password />
-                        </Form.Item>
-                    )}
-                    {loading && <Loader />}
-                </Modal> */}
 
                 <Modal
                     open={open}

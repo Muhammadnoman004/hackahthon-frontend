@@ -1,14 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { AiOutlinePlus } from "react-icons/ai";
 import { Row, Col, Container } from 'react-bootstrap';
 import { Card } from 'antd';
 import ClassModal from '../../ClassModal/ClassModal';
 import userProfileIcon from '../../../assets/user-profile-icon.png';
+import api from '../../../api/api';
 const { Meta } = Card;
 
 export default function TeacherHomePage() {
     const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        getAllClasses()
+    }, [])
+
+
+    const getAllClasses = () => {
+        api.get("/api/classes")
+            .then(res => {
+                console.log("response ---->", res.data);
+
+            })
+            .catch(err => {
+                console.log(err);
+
+            })
+    }
 
     const showModal = () => {
         setOpen(true);

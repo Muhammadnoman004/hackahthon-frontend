@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { AiOutlinePlus } from "react-icons/ai";
 import { Row, Col, Container } from 'react-bootstrap';
@@ -6,25 +6,42 @@ import { Card } from 'antd';
 import ClassModal from '../../ClassModal/ClassModal';
 import userProfileIcon from '../../../assets/user-profile-icon.png';
 import api from '../../../api/api';
+import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
+import { toast } from 'react-toastify';
 const { Meta } = Card;
 
 export default function TeacherHomePage() {
+
+    const [loading, setloading] = useContext(loader)
+    const [load, setload] = useState(true)
+    const [classes, setClasses] = useState([])
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        getAllClasses()
+        setloading(true);
+        if (classes.length === 0) {
+            getAllClasses()
+            setloading(false)
+        }
     }, [])
 
 
     const getAllClasses = () => {
+        setloading(true);
+        setload(true);
         api.get("/api/classes")
             .then(res => {
+                setClasses(res.data);
+                setloading(false);
+                setload(false);
                 console.log("response ---->", res.data);
 
             })
             .catch(err => {
-                console.log(err);
-
+                setloading(false);
+                setload(false);
+                toast.error("Something went wrong!");
             })
     }
 
@@ -126,7 +143,7 @@ export default function TeacherHomePage() {
                     </Row>
                 </div>
 
-
+                {loading && <Loader />}
             </Container>
         </div>
     )

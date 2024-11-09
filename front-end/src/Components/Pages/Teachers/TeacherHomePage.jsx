@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { AiOutlinePlus } from "react-icons/ai";
-import { Row, Col, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Card } from 'antd';
 import ClassModal from '../../ClassModal/ClassModal';
 import userProfileIcon from '../../../assets/user-profile-icon.png';
@@ -21,8 +21,8 @@ export default function TeacherHomePage() {
     useEffect(() => {
         setloading(true);
         if (classes.length === 0) {
-            getAllClasses()
             setloading(false)
+            getAllClasses()
         }
     }, [])
 
@@ -74,64 +74,40 @@ export default function TeacherHomePage() {
 
                 <div>
 
-                    <Row>
-                        <Col xs={12} md={6} lg={4}>
-                            {loading ?
-                                <Card loading={loading}></Card> : classes.length === 0 ? (
-                                    <div>You haven't created any class yet!</div>
-                                ) : classes.map((eachClass, index) => (
-                                    <div key={index}>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'>
+                        {loading ?
+                            <Card loading={loading}></Card> : classes.length === 0 ? (
+                                <div>You haven't created any class yet!</div>
+                            ) : classes.map((eachClass, index) => (
+                                <div key={index}>
 
-                                        <Card
-                                            hoverable
-                                            style={{
-                                                width: 300,
-                                                margin: 'auto',
-                                                marginBottom: 30
-                                            }}
-                                            cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={eachClass.classImage} />}
-                                        >
-                                            <div className='flex relative bottom-12'>
-                                                <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>
-                                                <img className='size-12 rounded-full bg-white' src={userProfileIcon} alt="" />
-                                            </div>
+                                    <Card
+                                        hoverable
+                                        style={{
+                                            width: 300,
+                                            margin: 'auto',
+                                            marginBottom: 30
+                                        }}
+                                        cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={eachClass.classImage} />}
+                                    >
+                                        <div className='flex relative bottom-12'>
+                                            <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>
+                                            <img className='size-12 rounded-full bg-white' src={userProfileIcon} alt="" />
+                                        </div>
 
-                                            <div className='flex'>
-                                                <Meta title={eachClass.name} className='flex-1 relative right-3' />
-                                                <Meta title="Sir Saad" className='relative left-3' />
-                                            </div>
-                                        </Card>
-                                    </div>
-                                )
-                                )}
-                        </Col>
-
-                        <Col xs={12} md={6} lg={4}>
-                            <Card
-                                hoverable
-                                style={{
-                                    width: 300,
-                                    margin: 'auto',
-                                    marginBottom: 30
-                                }}
-                                cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPIQRaKMkaQh1KFCfy8Xmz4H_Jy3waZw2mw&s" />}
-                            >
-                                <div className='flex relative bottom-12'>
-                                    <h1 className='flex-1 relative top-8 right-3 font-semibold'>Backend development</h1>
-                                    <img className='size-12 rounded-full bg-white' src={userProfileIcon} alt="" />
+                                        <div className='flex'>
+                                            <Meta title={eachClass.name} className='flex-1 relative right-3' />
+                                            <Meta title={eachClass.teacher?.username} className='relative left-3' />
+                                        </div>
+                                    </Card>
                                 </div>
-
-                                <div className='flex'>
-                                    <Meta title="Batch-9" className='flex-1 relative right-3' />
-                                    <Meta title="Sir Raja Ehsan" className='relative left-3' />
-                                </div>
-                            </Card>
-                        </Col>
-                    </Row>
+                            )
+                            )}
+                    </div>
                 </div>
 
                 {loading && <Loader />}
-            </Container>
-        </div>
+            </Container >
+        </div >
     )
 }

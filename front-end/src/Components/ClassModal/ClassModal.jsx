@@ -23,7 +23,7 @@ const beforeUpload = (file) => {
 };
 
 
-export default function ClassModal({ open, closeModal }) {
+export default function ClassModal({ open, closeModal, getAllClasses }) {
 
     const { user } = useFetchProfile();
     const [loading, setloading] = useContext(loader);
@@ -71,6 +71,7 @@ export default function ClassModal({ open, closeModal }) {
                 api.post("/api/classes/create", values)
                     .then(res => {
                         closeModal();
+                        getAllClasses();
                         setloading(false);
                         toast.success("Class created successfully!");
                         form.resetFields();

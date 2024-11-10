@@ -11,18 +11,7 @@ const uploadFileToFirebase = (file, path) => {
         uploadTask.on(
             "state_changed",
             (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
-
-                switch (snapshot.state) {
-                    case "paused":
-                        console.log('Upload is paused');
-                        break;
-                    case "running":
-                        console.log("running");
-                        break;
-                }
+                // optional : upload progress
             },
             (error) => {
                 reject(error);

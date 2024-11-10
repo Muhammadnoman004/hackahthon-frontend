@@ -5,6 +5,7 @@ import { Container } from 'react-bootstrap';
 import { Card } from 'antd';
 import ClassModal from '../../ClassModal/ClassModal';
 import userProfileIcon from '../../../assets/user-profile-icon.png';
+import NotImage from '../../../assets/noImage.jpg'
 import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
@@ -55,7 +56,7 @@ export default function TeacherHomePage() {
     return (
         <div>
             <Container>
-                <ClassModal open={open} closeModal={closeModal} />
+                <ClassModal open={open} closeModal={closeModal} getAllClasses={getAllClasses}/>
                 <div className='flex m-4 text-2xl font-mono font-extrabold'>
                     <h1 className='flex-1'>Trainer Dashboard</h1>
                     <div className='flex gap-3'>
@@ -88,7 +89,7 @@ export default function TeacherHomePage() {
                                             margin: 'auto',
                                             marginBottom: 30
                                         }}
-                                        cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={eachClass.classImage} />}
+                                        cover={<img alt="example" className='size-36 object-cover' style={{ borderRadius: "10px" }} src={!eachClass.classImage ? NotImage : eachClass.classImage} />}
                                     >
                                         <div className='flex relative bottom-12'>
                                             <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>

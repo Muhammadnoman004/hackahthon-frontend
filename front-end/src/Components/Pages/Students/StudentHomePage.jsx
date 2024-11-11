@@ -3,6 +3,7 @@ import userProfileIcon from '../../../assets/user-profile-icon.png'
 import { BellFilled } from '@ant-design/icons'
 import { Row, Col, Container } from 'react-bootstrap';
 import { Card } from 'antd';
+import { AiOutlinePlus } from 'react-icons/ai';
 const { Meta } = Card;
 
 export default function StudentHomePage() {
@@ -11,8 +12,14 @@ export default function StudentHomePage() {
             <div>
                 <div className='flex m-4 text-2xl font-mono font-extrabold'>
                     <h1 className='flex-1'>Student Dashboard</h1>
-                    <BellFilled className='flex-2 text-amber-400' />
-                </div>
+                    <div className='flex gap-3'>
+                        <div className='hover:rounded-full hover:bg-slate-200 cursor-pointer font-bold'>
+                            <AiOutlinePlus title='Add Trainer' className='text-3xl p-0.5' />
+                        </div>
+                        <div>
+                            <BellFilled className='flex text-amber-400' />
+                        </div>
+                    </div>                </div>
 
                 <div className='mx-6'>
                     <h1 className='my-4 text-xl font-sans font-bold text-sky-500'>My Courses</h1>

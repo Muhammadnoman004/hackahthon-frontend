@@ -1,25 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import userProfileIcon from '../../../assets/user-profile-icon.png'
 import { BellFilled } from '@ant-design/icons'
 import { Row, Col, Container } from 'react-bootstrap';
-import { Card } from 'antd';
+import { Button, Card, Modal } from 'antd';
 import { AiOutlinePlus } from 'react-icons/ai';
+import OTPInput from 'react-otp-input';
 const { Meta } = Card;
 
 export default function StudentHomePage() {
+
+    const [open, setOpen] = useState(false);
+    const [otp, setOtp] = useState('');
+
+    const isModalOpen = () => {
+        setOpen(true);
+    }
+
     return (
         <Container>
             <div>
+
+                <Modal
+                    open={open}
+                    title={'Join Class'}
+                    footer={null}
+                    okButtonProps={{
+                        autoFocus: true,
+                        htmlType: 'submit',
+                        form: 'studentForm'
+                    }}
+                    onCancel={() => setOpen(false)}
+                    destroyOnClose
+                >
+
+                    <div className='text-center'>
+                        <h2 className='text-4xl font-serif font-bold'>Class code</h2>
+                        <p className='text-lg pt-6 pb-10'>Ask your teacher for the class code, then enter it here.</p>
+                        <OTPInput
+                            value={otp}
+                            onChange={setOtp}
+                            numInputs={7}
+                            renderInput={(props) => <input {...props} />}
+                            inputStyle={{ border: "1px solid grey", fontSize: "20px", textAlign: "center", width: "72px", height: "72px", borderRadius: "10px", color: "black" }}
+                            placeholder='1a2b3cd'
+                            containerStyle={{ flexWrap: "wrap", gap: "10px", justifyContent: "center" }}
+                        />
+                        <Button>Join class</Button>
+                        <Button>Cancel</Button>
+                    </div>
+
+                </Modal>
+
                 <div className='flex m-4 text-2xl font-mono font-extrabold'>
                     <h1 className='flex-1'>Student Dashboard</h1>
                     <div className='flex gap-3'>
-                        <div className='hover:rounded-full hover:bg-slate-200 cursor-pointer font-bold'>
+                        <div className='hover:rounded-full hover:bg-slate-200 cursor-pointer font-bold' onClick={isModalOpen}>
                             <AiOutlinePlus title='Add Trainer' className='text-3xl p-0.5' />
                         </div>
                         <div>
                             <BellFilled className='flex text-amber-400' />
                         </div>
-                    </div>                </div>
+                    </div>
+                </div>
 
                 <div className='mx-6'>
                     <h1 className='my-4 text-xl font-sans font-bold text-sky-500'>My Courses</h1>

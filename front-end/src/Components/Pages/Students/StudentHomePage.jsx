@@ -15,6 +15,9 @@ export default function StudentHomePage() {
     const isModalOpen = () => {
         setOpen(true);
     }
+    const isModalOff = () => {
+        setOpen(false);
+    }
 
     return (
         <Container>
@@ -34,7 +37,7 @@ export default function StudentHomePage() {
                 >
 
                     <div className='text-center'>
-                        <h2 className='text-4xl font-serif font-bold'>Class code</h2>
+                        <h2 className='text-4xl font-sans font-bold'>Class code</h2>
                         <p className='text-lg pt-6 pb-10'>Ask your teacher for the class code, then enter it here.</p>
                         <OTPInput
                             value={otp}
@@ -45,8 +48,10 @@ export default function StudentHomePage() {
                             placeholder='1a2b3cd'
                             containerStyle={{ flexWrap: "wrap", gap: "10px", justifyContent: "center" }}
                         />
-                        <Button>Join class</Button>
-                        <Button>Cancel</Button>
+                        <div className='mt-4 mb-2 flex justify-center gap-3'>
+                            <Button type='text' className='p-[20px] bg-sky-blue font-semibold ' disabled={otp.length !== 7}>Join class</Button>
+                            <Button className='p-[20px]' onClick={isModalOff}>Cancel</Button>
+                        </div>
                     </div>
 
                 </Modal>

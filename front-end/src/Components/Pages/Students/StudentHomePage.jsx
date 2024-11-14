@@ -1,16 +1,19 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import userProfileIcon from '../../../assets/user-profile-icon.png'
 import { BellFilled } from '@ant-design/icons'
 import { Row, Col, Container } from 'react-bootstrap';
 import { Button, Card, Modal } from 'antd';
 import { AiOutlinePlus } from 'react-icons/ai';
 import OTPInput from 'react-otp-input';
+import api from '../../../api/api';
+import loader from '../../../Context/LoaderContext';
 const { Meta } = Card;
 
 export default function StudentHomePage() {
 
     const [open, setOpen] = useState(false);
     const [otp, setOtp] = useState('');
+    const [loading, setloading] = useContext(loader);
 
     const isModalOpen = () => {
         setOpen(true);
@@ -18,6 +21,23 @@ export default function StudentHomePage() {
     const isModalOff = () => {
         setOpen(false);
     }
+
+    const joinClass = () => {
+        setloading(true);
+        api.post("/api/classes/enroll", { join_code: otp })
+            .then(res => {
+                setloading(false);
+                console.log(res.data);
+
+            })
+            .catch(err => {
+                setloading(false);
+                console.log(err);
+
+            })
+
+    }
+
 
     return (
         <Container>
@@ -49,7 +69,7 @@ export default function StudentHomePage() {
                             containerStyle={{ flexWrap: "wrap", gap: "10px", justifyContent: "center" }}
                         />
                         <div className='mt-4 mb-2 flex justify-center gap-3'>
-                            <Button type='text' className='p-[20px] bg-sky-blue font-semibold ' disabled={otp.length !== 7}>Join class</Button>
+                            <Button type='text' className='p-[20px] bg-sky-blue font-semibold ' disabled={otp.length !== 7} onClick={joinClass}>Join class</Button>
                             <Button className='p-[20px]' onClick={isModalOff}>Cancel</Button>
                         </div>
                     </div>
@@ -69,7 +89,7 @@ export default function StudentHomePage() {
                 </div>
 
                 <div className='mx-6'>
-                    <h1 className='my-4 text-xl font-sans font-bold text-sky-500'>My Courses</h1>
+                    <h1 className='my-4 text-xl font-sans font-bold text-sky-500'>My Classes</h1>
 
                     <div>
 

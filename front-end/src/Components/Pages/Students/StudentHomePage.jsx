@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import userProfileIcon from '../../../assets/user-profile-icon.png'
 import { BellFilled } from '@ant-design/icons'
 import { Row, Col, Container } from 'react-bootstrap';
@@ -14,6 +14,11 @@ export default function StudentHomePage() {
     const [open, setOpen] = useState(false);
     const [otp, setOtp] = useState('');
     const [loading, setloading] = useContext(loader);
+
+
+    useEffect(() => {
+        getAllClasses()
+    }, [])
 
     const isModalOpen = () => {
         setOpen(true);
@@ -36,6 +41,18 @@ export default function StudentHomePage() {
 
             })
 
+    }
+
+    const getAllClasses = () => {
+        api.get("/api/classes/getClasses")
+            .then(res => {
+                console.log(res.data);
+
+            })
+            .catch(err => {
+                console.log(err);
+
+            })
     }
 
 

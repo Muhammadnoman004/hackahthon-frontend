@@ -14,6 +14,7 @@ export default function StudentHomePage() {
     const [open, setOpen] = useState(false);
     const [otp, setOtp] = useState('');
     const [loading, setloading] = useContext(loader);
+    const [classes, setClasses] = useState([]);
 
 
     useEffect(() => {
@@ -47,6 +48,7 @@ export default function StudentHomePage() {
         api.get("/api/classes/getClasses")
             .then(res => {
                 console.log(res.data);
+                setClasses(res.data);
 
             })
             .catch(err => {
@@ -109,30 +111,38 @@ export default function StudentHomePage() {
                     <h1 className='my-4 text-xl font-sans font-bold text-sky-500'>My Classes</h1>
 
                     <div>
+                        {loading ? <Card loading={loading}></Card> :
+                            classes.length === 0 ? (
+                                <div>You haven't enroll any class yet!</div>
+                            ) : classes.map((eachClass, index) => (
+                                <div key={index}>
+                                    <Row>
+                                        <Col xs={12} md={6} lg={4}>
+                                            <Card
+                                                hoverable
+                                                style={{
+                                                    width: 300,
+                                                    margin: 'auto',
+                                                    marginBottom: 30
+                                                }}
+                                                cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={eachClass.classImage} />}
+                                            >
+                                                <div className='flex relative bottom-12'>
+                                                    <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>
+                                                    <img className='size-12 rounded-full bg-white' src={userProfileIcon} alt="" />
+                                                </div>
 
-                        <Row>
-                            <Col xs={12} md={6} lg={4}>
-                                <Card
-                                    hoverable
-                                    style={{
-                                        width: 300,
-                                        margin: 'auto',
-                                        marginBottom: 30
-                                    }}
-                                    cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPIQRaKMkaQh1KFCfy8Xmz4H_Jy3waZw2mw&s" />}
-                                >
-                                    <div className='flex relative bottom-12'>
-                                        <h1 className='flex-1 relative top-8 right-3 font-semibold'>Web development</h1>
-                                        <img className='size-12 rounded-full bg-white' src={userProfileIcon} alt="" />
-                                    </div>
+                                                <div className='flex'>
+                                                    <Meta title={eachClass.name} className='flex-1 relative right-3' />
+                                                    <Meta title={eachClass.teacher.username} className='relative left-3' />
+                                                </div>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            ))
+                        }
 
-                                    <div className='flex'>
-                                        <Meta title="Batch-10" className='flex-1 relative right-3' />
-                                        <Meta title="Sir Saad" className='relative left-3' />
-                                    </div>
-                                </Card>
-                            </Col>
-                        </Row>
                     </div>
                 </div>
 

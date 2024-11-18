@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import userProfileIcon from '../../../assets/user-profile-icon.png'
 import { BellFilled } from '@ant-design/icons'
-import { Row, Col, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Button, Card, Modal } from 'antd';
 import { AiOutlinePlus } from 'react-icons/ai';
 import OTPInput from 'react-otp-input';

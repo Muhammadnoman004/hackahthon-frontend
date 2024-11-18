@@ -78,7 +78,7 @@ export default function TeacherHomePage() {
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'>
                         {loading ?
                             <Card loading={loading}></Card> : classes.length === 0 ? (
-                                <div>You haven't created any class yet!</div>
+                                <div className='text-2xl'>You haven't created any class yet!</div>
                             ) : classes.map((eachClass, index) => (
                                 <div key={index}>
 

@@ -9,52 +9,6 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 
 
-// const data = [
-//     {
-//         key: '1',
-//         serialNo: '01',
-//         name: 'Asad',
-//         email: 'Asad@gmail.com',
-//         enrolled: 0
-//     },
-//     {
-//         key: '2',
-//         serialNo: '02',
-//         name: 'Talha',
-//         email: 'Talha@gmail.com',
-//         enrolled: 2
-//     },
-//     {
-//         key: '3',
-//         serialNo: '03',
-//         name: 'Saad',
-//         email: 'Saad@gmail.com',
-//         enrolled: 1
-//     },
-//     {
-//         key: '4',
-//         serialNo: '04',
-//         name: 'Khan',
-//         email: 'Khan@gmail.com',
-//         enrolled: 0
-//     },
-//     {
-//         key: '5',
-//         serialNo: '05',
-//         name: 'Hamza',
-//         email: 'Hamza@gmail.com',
-//         enrolled: 2
-//     },
-//     {
-//         key: '6',
-//         serialNo: '06',
-//         name: 'Aman',
-//         email: 'Aman@gmail.com',
-//         enrolled: 0
-//     },
-// ];
-
-
 export default function AllStudentPage() {
 
     const [form] = Form.useForm();

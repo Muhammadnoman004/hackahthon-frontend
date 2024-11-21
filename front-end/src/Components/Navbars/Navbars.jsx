@@ -95,7 +95,7 @@ export default memo(function Navbars({ title }) {
         {
             key: '1',
             label: (
-                <Link to={location.pathname.includes("/admin/dashboard") ? "/admin/profile" : location.pathname.includes("/trainer/dashboard") ? "/trainer/profile" : "/student/profile"} >
+                <Link to={location.pathname.includes("/admin/dashboard") ? "/admin/profile" : location.pathname.includes("/trainer/dashboard") ? "/trainer/profile" : location.pathname.includes("/student/profile") ? "/student/profile" : null} >
                     Profile
                 </Link >
             ),

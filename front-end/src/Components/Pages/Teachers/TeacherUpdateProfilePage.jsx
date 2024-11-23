@@ -9,6 +9,7 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import useFetchProfile from '../../../utils/useFetchProfile';
 import { toast } from 'react-toastify';
+import uploadFileToFirebase from '../../../utils/uploadFileToFirebase';
 
 export default function TeacherUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
@@ -27,9 +28,13 @@ export default function TeacherUpdateProfilePage() {
         }
     }, [user])
 
-    const ProfileImgIcon = (e) => {
+    const ProfileImgIcon = async (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
         setImgFiles(e.target.files[0])
+        console.log(ImgFiles);
+        const fileURL = await uploadFileToFirebase(e.target.files[0], `TeacherProfileImg/${user._id}/${e.target.files[0].name}`)
+        console.log(fileURL);
+
     }
 
     const handleSubmit = async () => {

@@ -16,6 +16,7 @@ export default function TeacherUpdateProfilePage() {
     let [ImgFiles, setImgFiles] = useState([]);
     let [loading, setloading] = useContext(loader);
     const { user, setUser } = useFetchProfile();
+    const [ImageURL, setImageURL] = useState("");
     const [form] = Form.useForm();
 
 
@@ -23,17 +24,19 @@ export default function TeacherUpdateProfilePage() {
         if (user) {
             form.setFieldsValue({
                 name: user.username,
-                email: user.email
+                email: user.email,
             })
+            setProfileImg(user.profileImg);
         }
     }, [user])
 
     const ProfileImgIcon = async (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
         setImgFiles(e.target.files[0])
-        console.log(ImgFiles);
+        setloading(true);
         const fileURL = await uploadFileToFirebase(e.target.files[0], `TeacherProfileImg/${user._id}/${e.target.files[0].name}`)
-        console.log(fileURL);
+        setImageURL(fileURL);
+        setloading(false)
 
     }
 
@@ -43,8 +46,11 @@ export default function TeacherUpdateProfilePage() {
             const values = await form.validateFields();
             const response = await api.put('/api/users/profile', {
                 username: values.name,
-                email: values.email
+                email: values.email,
+                profileImg: ImageURL
             })
+            console.log(response);
+
             setloading(false);
             toast.success('Profile updated successfully!')
         }

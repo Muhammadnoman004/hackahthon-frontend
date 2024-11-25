@@ -26,7 +26,9 @@ export default function TeacherUpdateProfilePage() {
                 name: user.username,
                 email: user.email,
             })
-            setProfileImg(user.profileImg);
+            if (user) {
+                setProfileImg(user.profileImg);
+            }
         }
     }, [user])
 

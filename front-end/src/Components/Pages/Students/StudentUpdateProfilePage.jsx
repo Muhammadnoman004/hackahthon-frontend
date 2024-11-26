@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { BellFilled, UserOutlined } from '@ant-design/icons'
 import { MdOutlineMail, } from "react-icons/md";
-import { Button, Input } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { Container } from 'react-bootstrap';
 import UserProfile from '../../../assets/user-profile-icon.png';
 
 export default function StudentUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
     let [ImgFiles, setImgFiles] = useState([]);
+    const [form] = Form.useForm();
 
     const ProfileImgIcon = (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
@@ -30,11 +31,40 @@ export default function StudentUpdateProfilePage() {
                         <div className='flex justify-evenly flex-col-reverse sm:flex-row'>
                             <div className='my-5 text-base'>
 
-                                <label>Username</label>
-                                <Input size="large" placeholder="username" prefix={<UserOutlined />} className='mb-5' />
-
-                                <label>Email</label>
-                                <Input size="large" type='email' placeholder="email" prefix={<MdOutlineMail />} className='mb-4' />
+                                <Form
+                                    layout="vertical"
+                                    form={form}
+                                    name="form_in_modal"
+                                    initialValues={{
+                                        modifier: 'public',
+                                    }}
+                                // onFinish={handleSubmit}
+                                >
+                                    <Form.Item
+                                        name="name"
+                                        label="Username"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "Please enter your username!",
+                                            },
+                                        ]}
+                                    >
+                                        <Input size="large" placeholder="username" prefix={<UserOutlined />} />
+                                    </Form.Item>
+                                    <Form.Item
+                                        name="email"
+                                        label="Email"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: "Please enter your email!"
+                                            }
+                                        ]}
+                                    >
+                                        <Input size="large" type='email' placeholder="email" prefix={<MdOutlineMail />} className='mb-4' />
+                                    </Form.Item>
+                                </Form>
 
                             </div>
                             <div className='flex flex-col mt-6 sm:my-20 mx-10 items-center'>

@@ -15,6 +15,13 @@ export default function StudentUpdateProfilePage() {
         setImgFiles(e.target.files[0])
     }
 
+    const handleSubmit = async () => {
+        const values = await form.validateFields();
+        console.log(values.name);
+        console.log(values.email);
+
+    }
+
     return (
         <div>
             <Container>
@@ -38,7 +45,7 @@ export default function StudentUpdateProfilePage() {
                                     initialValues={{
                                         modifier: 'public',
                                     }}
-                                // onFinish={handleSubmit}
+                                    onFinish={handleSubmit}
                                 >
                                     <Form.Item
                                         name="name"
@@ -62,7 +69,7 @@ export default function StudentUpdateProfilePage() {
                                             }
                                         ]}
                                     >
-                                        <Input size="large" type='email' placeholder="email" prefix={<MdOutlineMail />} className='mb-4' />
+                                        <Input size="large" type='email' placeholder="email" prefix={<MdOutlineMail />} />
                                     </Form.Item>
                                 </Form>
 
@@ -79,7 +86,7 @@ export default function StudentUpdateProfilePage() {
                         </div>
 
                         <div className='mx-2 flex flex-col-reverse items-center gap-4 sm:flex-row'>
-                            <Button type='primary' className='w-fit'>Save Changes</Button>
+                            <Button type='primary' className='w-fit' onClick={handleSubmit}>Save Changes</Button>
                         </div>
 
                     </div>

@@ -43,8 +43,8 @@ export default function TeacherUpdateProfilePage() {
     }
 
     const handleSubmit = async () => {
+        setloading(true);
         try {
-            setloading(true);
             const values = await form.validateFields();
             const response = await api.put('/api/users/profile', {
                 username: values.name,

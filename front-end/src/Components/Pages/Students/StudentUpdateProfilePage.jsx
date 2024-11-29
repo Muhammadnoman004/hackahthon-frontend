@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BellFilled, UserOutlined } from '@ant-design/icons'
 import { MdOutlineMail, } from "react-icons/md";
 import { Button, Form, Input } from 'antd';
@@ -8,16 +8,32 @@ import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import { toast } from 'react-toastify';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 export default function StudentUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
     let [ImgFiles, setImgFiles] = useState([]);
     const [loading, setloading] = useContext(loader);
+    const [ImageURL, setImageURL] = useState("");
     const [form] = Form.useForm();
+    const { user, setUser } = useFetchProfile();
+
+
+
+    useEffect(() => {
+        if (user) {
+            form.setFieldsValue({
+                name: user.username,
+                email: user.email
+            })
+
+        }
+    }, [user])
 
     const ProfileImgIcon = (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
         setImgFiles(e.target.files[0])
+
     }
 
     const handleSubmit = async () => {

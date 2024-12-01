@@ -1,22 +1,42 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BellFilled, UserOutlined } from '@ant-design/icons'
 import { MdOutlineMail, } from "react-icons/md";
 import { Button, Form, Input } from 'antd';
 import { Container } from 'react-bootstrap';
 import UserProfile from '../../../assets/user-profile-icon.png';
+import api from '../../../api/api';
+import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
 
 export default function AdminUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
     let [ImgFiles, setImgFiles] = useState([]);
     const [form] = Form.useForm();
+    const [loading, setloading] = useContext(loader);
 
     const ProfileImgIcon = (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
         setImgFiles(e.target.files[0])
     }
 
-    const handleSubmit = () => {
-        form.validateFields();
+    const handleSubmit = async () => {
+        setloading(true);
+        try {
+            const values = await form.validateFields();
+            const response = await api.put("/api/users/profile", {
+                username: values.name,
+                email: values.email
+            })
+            setloading(false);
+            console.log(response);
+
+
+
+        } catch (error) {
+            setloading(false);
+            console.log(error);
+
+        }
     }
 
     return (
@@ -87,6 +107,7 @@ export default function AdminUpdateProfilePage() {
 
                     </div>
                 </div>
+                {loading && <Loader />}
             </Container >
         </div >
     )

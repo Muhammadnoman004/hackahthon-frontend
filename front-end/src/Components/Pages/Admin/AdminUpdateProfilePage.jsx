@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { BellFilled, UserOutlined } from '@ant-design/icons'
 import { MdOutlineMail, } from "react-icons/md";
 import { Button, Form, Input } from 'antd';
@@ -7,12 +7,24 @@ import UserProfile from '../../../assets/user-profile-icon.png';
 import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
+import { toast } from 'react-toastify';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 export default function AdminUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
     let [ImgFiles, setImgFiles] = useState([]);
     const [form] = Form.useForm();
     const [loading, setloading] = useContext(loader);
+    const { user } = useFetchProfile();
+
+    useEffect(() => {
+        if (user) {
+            form.setFieldsValue({
+                name: user.username,
+                email: user.email
+            })
+        }
+    }, [user])
 
     const ProfileImgIcon = (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
@@ -27,15 +39,14 @@ export default function AdminUpdateProfilePage() {
                 username: values.name,
                 email: values.email
             })
-            setloading(false);
             console.log(response);
-
+            setloading(false);
+            toast.success("Profile updated successfully!");
 
 
         } catch (error) {
             setloading(false);
-            console.log(error);
-
+            toast.error(error.message || "Error updated profile");
         }
     }
 

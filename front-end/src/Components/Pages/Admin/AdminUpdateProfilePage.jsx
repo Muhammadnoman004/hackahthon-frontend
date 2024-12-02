@@ -9,6 +9,7 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import { toast } from 'react-toastify';
 import useFetchProfile from '../../../utils/useFetchProfile';
+import uploadFileToFirebase from '../../../utils/uploadFileToFirebase';
 
 export default function AdminUpdateProfilePage() {
     let [ProfileImg, setProfileImg] = useState("");
@@ -16,6 +17,7 @@ export default function AdminUpdateProfilePage() {
     const [form] = Form.useForm();
     const [loading, setloading] = useContext(loader);
     const { user } = useFetchProfile();
+    const [ImageURL, setImageURL] = useState("");
 
     useEffect(() => {
         if (user) {
@@ -23,12 +25,20 @@ export default function AdminUpdateProfilePage() {
                 name: user.username,
                 email: user.email
             })
+            if (user) {
+                setProfileImg(user.profileImg);
+            }
         }
     }, [user])
 
-    const ProfileImgIcon = (e) => {
+    const ProfileImgIcon = async (e) => {
         setProfileImg(URL.createObjectURL(e.target.files[0]));
         setImgFiles(e.target.files[0])
+        setloading(true);
+        const fileURL = await uploadFileToFirebase(e.target.files[0], `AdminProfileImg/${user._id}/${e.target.files[0].name}`)
+        setImageURL(fileURL);
+        setloading(false);
+
     }
 
     const handleSubmit = async () => {
@@ -37,7 +47,8 @@ export default function AdminUpdateProfilePage() {
             const values = await form.validateFields();
             const response = await api.put("/api/users/profile", {
                 username: values.name,
-                email: values.email
+                email: values.email,
+                profileImg: ImageURL
             })
             console.log(response);
             setloading(false);

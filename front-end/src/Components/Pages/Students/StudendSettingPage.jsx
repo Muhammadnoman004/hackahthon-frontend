@@ -4,6 +4,8 @@ import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button, Menu } from 'antd';
 import { Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { FaUser } from 'react-icons/fa6';
 
 const items = [
     {
@@ -45,7 +47,7 @@ const items = [
     },
     {
         key: 'sub2',
-        icon: <FaUserLock color='#87CEEB' />,
+        icon: <Link to={'/student/profile'}><FaUser color='#87CEEB' /></Link>,
         label: 'Update profile',
     },
     {

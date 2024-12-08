@@ -10,7 +10,6 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import { toast } from 'react-toastify';
 import imageNotFound from '../../../assets/noImage.jpg';
-import StudentClassDetailDashboard from './StudentClassDetailDashboard';
 const { Meta } = Card;
 
 export default function StudentHomePage() {
@@ -152,7 +151,6 @@ export default function StudentHomePage() {
                 </div>
 
             </div>
-            {/* <StudentClassDetailDashboard /> */}
         </Container>
     )
 }

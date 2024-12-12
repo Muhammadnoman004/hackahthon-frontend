@@ -6,11 +6,13 @@ import './index.css'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import StudentClassDetailDashboard from './Components/Pages/Students/StudentClassDetailDashboard.jsx';
+import StudentClassDetailPage from './Components/Pages/Students/StudentClassDetailPage.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Navigation />
-    {/* <StudentClassDetailDashboard/> */}
+    {/* <Navigation /> */}
+    <StudentClassDetailDashboard />
+    <StudentClassDetailPage />
     <ToastContainer autoClose={1500} />
   </React.StrictMode>,
 )

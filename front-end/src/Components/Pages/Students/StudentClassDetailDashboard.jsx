@@ -1,9 +1,22 @@
 import { Button } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { BsThreeDotsVertical } from "react-icons/bs";
+import StudentClassDetailPage from './StudentClassDetailPage';
 
 export default function StudentClassDetailDashboard() {
+
+    const [selectedComponent, setSelectedComponent] = useState('Stream');
+
+    const renderComponent = () => {
+        switch (selectedComponent) {
+            case 'Stream':
+                return <StudentClassDetailPage />
+            default:
+                return null;
+        }
+    }
+
     return (
         <Container>
             <div className='p-4 '>
@@ -19,7 +32,7 @@ export default function StudentClassDetailDashboard() {
           }
         `}
                 </style>
-                <header className='bg-lime-500 text-white rounded-lg p-3 font-semibold mb-4'>
+                <header className='bg-teal-600 text-white rounded-lg p-3 font-semibold mb-4'>
                     <h1 className='text-2xl'>Class Details Name</h1>
                     <p>Details Description</p>
                 </header>
@@ -31,7 +44,9 @@ export default function StudentClassDetailDashboard() {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
                                 color: 'black', // Default text color
-                            }}> Stream</Button>
+                            }}
+                            onClick={() => setSelectedComponent('Stream')}
+                        > Stream</Button>
                         <Button
                             className="custom-button"
                             style={{
@@ -57,6 +72,9 @@ export default function StudentClassDetailDashboard() {
                     <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>
                         <BsThreeDotsVertical />
                     </div>
+                </div>
+                <div>
+                    {renderComponent()}
                 </div>
             </div>
         </Container >

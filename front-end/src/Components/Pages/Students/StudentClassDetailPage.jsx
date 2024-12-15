@@ -7,7 +7,7 @@ export default function StudentClassDetailPage() {
         <>
             <Container>
                 <div className="flex flex-col w-full min-h-screen bg-muted/40">
-                    <main className="flex-1 p-1">
+                    <main className="flex-1">
                         <div className="grid gap-6">
                             <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
                                 <header className="flex items-center justify-between px-2 border-b bg-background">

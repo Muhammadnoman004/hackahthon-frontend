@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
+import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
 
 export default function StudentClassDetailDashboard() {
 
@@ -12,6 +13,8 @@ export default function StudentClassDetailDashboard() {
         switch (selectedComponent) {
             case 'Stream':
                 return <StudentClassDetailPage />
+            case "Classwork":
+                return <StudentAllAssignmentListingPage />
             default:
                 return null;
         }
@@ -36,7 +39,7 @@ export default function StudentClassDetailDashboard() {
                     <h1 className='text-2xl'>Class Details Name</h1>
                     <p>Details Description</p>
                 </header>
-                <div className='flex justify-between items-center gap-3 px-1 mb-5'>
+                <div className='flex justify-between items-center gap-3 px-1 mb-0'>
                     <div className='flex gap-3 flex-wrap items-center justify-between'>
                         <Button
                             className="custom-button"
@@ -53,7 +56,9 @@ export default function StudentClassDetailDashboard() {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
                                 color: 'black', // Default text color
-                            }}>Classwork</Button>
+                            }}
+                            onClick={() => setSelectedComponent('Classwork')}
+                        >Classwork</Button>
                         <Button
                             className="custom-button"
                             style={{

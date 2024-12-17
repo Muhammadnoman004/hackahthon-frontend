@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
 import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
+import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting';
 
 export default function StudentClassDetailDashboard() {
 
@@ -15,8 +16,9 @@ export default function StudentClassDetailDashboard() {
                 return <StudentClassDetailPage />
             case "Classwork":
                 return <StudentAllAssignmentListingPage />
-            default:
-                return null;
+            case "People":
+                return <Classfellowslisting />
+            default: return null;
         }
     }
 
@@ -65,7 +67,9 @@ export default function StudentClassDetailDashboard() {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
                                 color: 'black', // Default text color
-                            }}>People</Button>
+                            }}
+                            onClick={() => setSelectedComponent("People")}
+                        >People</Button>
                         <Button
                             className="custom-button"
                             style={{

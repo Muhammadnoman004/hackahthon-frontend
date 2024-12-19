@@ -91,7 +91,7 @@ const { Header, Content, Sider } = Layout;
 const StudentReportGenerate = () => {
     // State to manage selected student index
     const [selectedStudentIndex, setSelectedStudentIndex] = useState(0);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // Function to calculate and set chart data
     const calculateChartData = (studentIndex) => {
@@ -127,24 +127,7 @@ const StudentReportGenerate = () => {
     // Function to handle student selection
     const handleStudentSelect = (studentIndex) => {
         setSelectedStudentIndex(studentIndex);
-    };
-
-    // Stock chart options
-    const stockChartOptions = {
-        rangeSelector: {
-            selected: 1,
-        },
-        title: {
-            text: 'Assignment Grades Over Time',
-        },
-        series: [{
-            name: 'Grades',
-            data: studentsData[selectedStudentIndex].assignments.map((assignment, index) => [index, assignment.points]),
-            tooltip: {
-                valueDecimals: 2,
-            },
-        }],
-    };
+    };   
 
     return (
         <>
@@ -278,15 +261,6 @@ const StudentReportGenerate = () => {
                                             <Tooltip />
                                         </RadarChart>
                                     </ResponsiveContainer>
-                                </Card>
-                            </Col>
-                            <Col xs={24}>
-                                <Card title="Assignment Grades Stock Chart">
-                                    <HighchartsReact
-                                        highcharts={Highcharts}
-                                        constructorType={"stockChart"}
-                                        options={stockChartOptions}
-                                    />
                                 </Card>
                             </Col>
                         </Row>

@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     {/* <Navigation /> */}
     <StudentClassDetailDashboard />
-    <StudentReportGenerate />
+    {/* <StudentReportGenerate /> */}
     <ToastContainer autoClose={1500} />
   </React.StrictMode>,
 )

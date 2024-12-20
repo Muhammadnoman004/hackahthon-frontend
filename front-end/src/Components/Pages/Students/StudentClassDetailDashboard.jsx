@@ -5,6 +5,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
 import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
 import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting';
+import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGenerate';
 
 export default function StudentClassDetailDashboard() {
 
@@ -18,6 +19,8 @@ export default function StudentClassDetailDashboard() {
                 return <StudentAllAssignmentListingPage />
             case "People":
                 return <Classfellowslisting />
+            case "View Report":
+                return <StudentReportGenerate />
             default: return null;
         }
     }
@@ -76,7 +79,9 @@ export default function StudentClassDetailDashboard() {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
                                 color: 'black', // Default text color
-                            }}>View Report</Button>
+                            }}
+                            onClick={() => setSelectedComponent('View Report')}
+                        >View Report</Button>
                     </div>
                     <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>
                         <BsThreeDotsVertical />

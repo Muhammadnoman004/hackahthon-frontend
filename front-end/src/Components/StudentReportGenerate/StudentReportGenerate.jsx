@@ -7,7 +7,6 @@ import {
     Avatar,
     Statistic,
     Descriptions,
-    Menu,
     Layout,
 } from "antd";
 import {
@@ -24,9 +23,6 @@ import {
     LineChart,
     Line,
 } from "recharts";
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
-import Highcharts from "highcharts/highstock";
-import HighchartsReact from "highcharts-react-official";
 import { ResponsiveContainer } from "recharts";
 // import smitlogo from './smitlogo.png'; // Assuming you have your logo image imported correctly
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -127,7 +123,7 @@ const StudentReportGenerate = () => {
     // Function to handle student selection
     const handleStudentSelect = (studentIndex) => {
         setSelectedStudentIndex(studentIndex);
-    };   
+    };
 
     return (
         <>
@@ -233,33 +229,6 @@ const StudentReportGenerate = () => {
                                             <Legend />
                                             <Line type="monotone" dataKey="points" stroke="#82ca9d" />
                                         </LineChart>
-                                    </ResponsiveContainer>
-                                </Card>
-                            </Col>
-                            <Col xs={24} sm={12}>
-                                <Card title="Assignment Performance Radar Chart">
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <RadarChart
-                                            outerRadius={90}
-                                            data={studentsData[selectedStudentIndex].assignments.map(
-                                                (assignment) => ({
-                                                    subject: assignment.title,
-                                                    points: assignment.points,
-                                                })
-                                            )}
-                                        >
-                                            <PolarGrid />
-                                            <PolarAngleAxis dataKey="subject" />
-                                            <PolarRadiusAxis />
-                                            <Radar
-                                                name="Assignment"
-                                                dataKey="points"
-                                                stroke="#8884d8"
-                                                fill="#8884d8"
-                                                fillOpacity={0.6}
-                                            />
-                                            <Tooltip />
-                                        </RadarChart>
                                     </ResponsiveContainer>
                                 </Card>
                             </Col>

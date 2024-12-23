@@ -26,6 +26,8 @@ import AdminUpdateProfilePage from '../Pages/Admin/AdminUpdateProfilePage';
 import App from '../../App';
 import TeacherSettingPage from '../Pages/Teachers/TeacherSettingPage';
 import TeacherUpdateProfilePage from '../Pages/Teachers/TeacherUpdateProfilePage';
+import StudentReportGenerate from '../StudentReportGenerate/StudentReportGenerate';
+import StudentClassDetailDashboard from '../Pages/Students/StudentClassDetailDashboard';
 
 const router = createBrowserRouter([
     {
@@ -91,6 +93,20 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Student | Profile'} />
             <StudentUpdateProfilePage />
+        </>
+    },
+    {
+        path: "/student/class/classId",
+        element: <>
+            <Navbars title={'Student | Class Detail'} />
+            <StudentClassDetailDashboard />
+        </>
+    },
+    {
+        path: "/student/report",
+        element: <>
+            <Navbars title={'Student | Report'} />
+            <StudentReportGenerate />
         </>
     },
 

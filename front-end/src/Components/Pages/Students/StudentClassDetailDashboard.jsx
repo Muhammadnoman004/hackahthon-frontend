@@ -5,10 +5,12 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
 import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
 import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting';
+import { useNavigate } from 'react-router-dom';
 
 export default function StudentClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
+    const navigate = useNavigate();
 
     const renderComponent = () => {
         switch (selectedComponent) {
@@ -81,6 +83,7 @@ export default function StudentClassDetailDashboard() {
                                 borderColor: 'skyblue', // Optional border color
                                 color: 'black',
                             }}
+                            onClick={() => navigate('/student/report')}
                         >View Report</Button>
                     </div>
                     <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>

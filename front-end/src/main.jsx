@@ -10,8 +10,8 @@ import StudentReportGenerate from './Components/StudentReportGenerate/StudentRep
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <Navigation /> */}
-    <StudentClassDetailDashboard />
+    <Navigation />
+    {/* <StudentClassDetailDashboard /> */}
     {/* <StudentReportGenerate /> */}
     <ToastContainer autoClose={1500} />
   </React.StrictMode>,

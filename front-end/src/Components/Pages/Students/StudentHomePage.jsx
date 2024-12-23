@@ -10,6 +10,7 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import { toast } from 'react-toastify';
 import imageNotFound from '../../../assets/noImage.jpg';
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 
 export default function StudentHomePage() {
@@ -18,6 +19,7 @@ export default function StudentHomePage() {
     const [otp, setOtp] = useState('');
     const [loading, setloading] = useContext(loader);
     const [classes, setClasses] = useState([]);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -131,6 +133,7 @@ export default function StudentHomePage() {
                                             marginBottom: 30
                                         }}
                                         cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={!eachClass.classImage ? imageNotFound : eachClass.classImage} />}
+                                        onClick={() => navigate('/student/class/classId')}
                                     >
                                         <div className='flex relative bottom-12'>
                                             <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>

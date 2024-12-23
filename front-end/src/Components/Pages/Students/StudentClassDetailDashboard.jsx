@@ -5,7 +5,6 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
 import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
 import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting';
-import StudentReportGenerate from '../../StudentReportGenerate/StudentReportGenerate';
 
 export default function StudentClassDetailDashboard() {
 
@@ -19,27 +18,14 @@ export default function StudentClassDetailDashboard() {
                 return <StudentAllAssignmentListingPage />
             case "People":
                 return <Classfellowslisting />
-            case "View Report":
-                return <StudentReportGenerate />
-            default: return null;
+            default:
+                return null;
         }
     }
 
     return (
         <Container>
             <div className='p-4 '>
-                <style>
-                    {`
-          .custom-button:hover {
-            background-color: skyblue !important; 
-            color: white !important;
-          }
-          .custom-button:focus {
-            background-color: skyblue !important; 
-            color: white !important;
-          }
-        `}
-                </style>
                 <header className='bg-teal-600 text-white rounded-lg p-3 font-semibold mb-4'>
                     <h1 className='text-2xl'>Class Details Name</h1>
                     <p>Details Description</p>
@@ -48,29 +34,44 @@ export default function StudentClassDetailDashboard() {
                     <div className='flex gap-3 flex-wrap items-center justify-between'>
                         <Button
                             className="custom-button"
-                            style={{
+                            style={selectedComponent === 'Stream' ? {
+                                backgroundColor: 'skyblue', // Default button background
+                                borderColor: 'skyblue', // Optional border color
+                                color: 'white', // Default text color
+                            } : {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
-                                color: 'black', // Default text color
-                            }}
+                                color: 'black',
+                            }
+                            }
                             onClick={() => setSelectedComponent('Stream')}
                         > Stream</Button>
                         <Button
                             className="custom-button"
-                            style={{
+                            style={selectedComponent === 'Classwork' ? {
+                                backgroundColor: 'skyblue', // Default button background
+                                borderColor: 'skyblue', // Optional border color
+                                color: 'white', // Default text color
+                            } : {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
-                                color: 'black', // Default text color
-                            }}
+                                color: 'black',
+                            }
+                            }
                             onClick={() => setSelectedComponent('Classwork')}
                         >Classwork</Button>
                         <Button
                             className="custom-button"
-                            style={{
+                            style={selectedComponent === 'People' ? {
+                                backgroundColor: 'skyblue', // Default button background
+                                borderColor: 'skyblue', // Optional border color
+                                color: 'white', // Default text color
+                            } : {
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
-                                color: 'black', // Default text color
-                            }}
+                                color: 'black',
+                            }
+                            }
                             onClick={() => setSelectedComponent("People")}
                         >People</Button>
                         <Button
@@ -78,9 +79,8 @@ export default function StudentClassDetailDashboard() {
                             style={{
                                 backgroundColor: 'white', // Default button background
                                 borderColor: 'skyblue', // Optional border color
-                                color: 'black', // Default text color
+                                color: 'black',
                             }}
-                            onClick={() => setSelectedComponent('View Report')}
                         >View Report</Button>
                     </div>
                     <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>

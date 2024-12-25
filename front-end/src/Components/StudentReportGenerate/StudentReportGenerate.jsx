@@ -8,6 +8,7 @@ import {
     Statistic,
     Descriptions,
     Layout,
+    Tag,
 } from "antd";
 import {
     PieChart,
@@ -87,7 +88,7 @@ const { Header, Content, Sider } = Layout;
 const StudentReportGenerate = () => {
     // State to manage selected student index
     const [selectedStudentIndex, setSelectedStudentIndex] = useState(0);
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     // Function to calculate and set chart data
     const calculateChartData = (studentIndex) => {
@@ -209,27 +210,56 @@ const StudentReportGenerate = () => {
                             <Col xs={24}>
                                 <Card title="Overall Grade">
                                     <Statistic
-                                        title="Average Grade"
-                                        value={`${calculateAverageGrade(selectedStudentIndex)}%`}
+                                        title="Grade"
+                                        value="F"
                                         precision={2}
                                     />
                                 </Card>
                             </Col>
-                            <Col xs={24} sm={12}>
-                                <Card title="Assignment Grades Over Time">
-                                    <ResponsiveContainer width="100%" height={300}>
-                                        <LineChart
-                                            data={studentsData[selectedStudentIndex].assignments}
-                                            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-                                        >
-                                            <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="title" />
-                                            <YAxis />
-                                            <Tooltip />
-                                            <Legend />
-                                            <Line type="monotone" dataKey="points" stroke="#82ca9d" />
-                                        </LineChart>
-                                    </ResponsiveContainer>
+                            <Col xs={24}>
+                                <Card title="Assignment Details">
+                                    <Card
+                                        type="inner"
+                                        title={
+                                            <div className="flex justify-between flex-wrap gap-3 py-3">
+                                                Assignment 1
+                                                <Tag color={'submitted' ? "green" : "red"}>
+                                                    {"submitted" ? "Submitted" : "Not Submitted"}
+                                                </Tag>
+                                            </div>
+                                        }
+                                        className="mb-4 break-words"
+                                    >
+                                        <p>Total Marks : 10</p>
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title={
+                                            <div className="flex justify-between flex-wrap gap-3 py-3">
+                                                Assignment 2
+                                                <Tag color={!'submitted' ? "green" : "red"}>
+                                                    {!"submitted" ? "Submitted" : "Not Submitted"}
+                                                </Tag>
+                                            </div>
+                                        }
+                                        className="mb-4 break-words"
+                                    >
+                                        <p>Total Marks : 10</p>
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title={
+                                            <div className="flex justify-between flex-wrap gap-3 py-3">
+                                                Assignment 3
+                                                <Tag color={'submitted' ? "green" : "red"}>
+                                                    {"submitted" ? "Submitted" : "Not Submitted"}
+                                                </Tag>
+                                            </div>
+                                        }
+                                        className="mb-4 break-words"
+                                    >
+                                        <p>Total Marks : 10</p>
+                                    </Card>
                                 </Card>
                             </Col>
                         </Row>

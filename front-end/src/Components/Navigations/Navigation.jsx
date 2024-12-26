@@ -96,7 +96,7 @@ const router = createBrowserRouter([
         </>
     },
     {
-        path: "/student/class/classId",
+        path: "/student/class/:classId",
         element: <>
             <Navbars title={'Student | Class Detail'} />
             <StudentClassDetailDashboard />

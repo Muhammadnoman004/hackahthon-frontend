@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import noImage from '../../../assets/noImage.jpg';
+import api from '../../../api/api';
+import { useParams } from 'react-router-dom';
 
 export default function StudentClassDetailPage() {
+
+    const [classDetails, setClassDetails] = useState(null);
+    const { classId } = useParams();
+
+    useEffect(() => {
+        console.log(classId);
+
+        const fetchClassDetails = async () => {
+            try {
+                const response = await api.get(`/api/classes/student/class/${classId}`)
+                setClassDetails(response.data)
+            } catch (error) {
+                console.log(error);
+
+            }
+            fetchClassDetails()
+        }
+    }, [classId])
+
     return (
         <>
             <Container>

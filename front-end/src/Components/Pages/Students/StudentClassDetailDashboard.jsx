@@ -1,16 +1,24 @@
 import { Button } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentClassDetailPage from './StudentClassDetailPage';
 import StudentAllAssignmentListingPage from './StudentAllAssignmentListingPage';
 import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function StudentClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
+    const { classId } = useParams();
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        console.log(classId);
+
+    }, [])
+    
 
     const renderComponent = () => {
         switch (selectedComponent) {

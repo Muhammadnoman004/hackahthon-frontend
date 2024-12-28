@@ -14,7 +14,6 @@ export default function StudentClassDetailPage() {
         const fetchClassDetails = async () => {
             try {
                 const response = await api.get(`/api/classes/student/class/${classId}`)
-                console.log(response.data);
                 setClassDetails(response.data);
                 setError('');
             } catch (error) {

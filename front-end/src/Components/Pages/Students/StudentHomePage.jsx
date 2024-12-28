@@ -133,7 +133,7 @@ export default function StudentHomePage() {
                                             marginBottom: 30
                                         }}
                                         cover={<img alt="example" className='size-36' style={{ borderRadius: "10px" }} src={!eachClass.classImage ? imageNotFound : eachClass.classImage} />}
-                                        onClick={() => navigate('/student/class/classId')}
+                                        onClick={() => navigate(`/student/class/${eachClass._id}`)}
                                     >
                                         <div className='flex relative bottom-12'>
                                             <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>

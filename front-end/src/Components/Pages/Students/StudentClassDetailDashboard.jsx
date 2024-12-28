@@ -14,10 +14,10 @@ export default function StudentClassDetailDashboard() {
     const navigate = useNavigate();
 
 
-    useEffect(() => {
-        console.log(classId);
+    // useEffect(() => {
+    //     console.log(classId);
 
-    }, [])
+    // }, [])
     
 
     const renderComponent = () => {

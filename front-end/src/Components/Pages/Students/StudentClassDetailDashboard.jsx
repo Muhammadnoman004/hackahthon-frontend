@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Popover, Button } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -16,6 +16,7 @@ export default function StudentClassDetailDashboard() {
     const [selectedComponent, setSelectedComponent] = useState('Stream');
     const [classDetails, setClassDetails] = useState(null);
     const [loading, setloading] = useContext(loader);
+    const [open, setOpen] = useState(false);
     const { classId } = useParams();
     const navigate = useNavigate();
 
@@ -36,6 +37,9 @@ export default function StudentClassDetailDashboard() {
                 toast.error(err.response.data);
             })
     }
+    const handleOpenChange = (newOpen) => {
+        setOpen(newOpen);
+    };
 
     const renderComponent = () => {
         switch (selectedComponent) {
@@ -111,9 +115,17 @@ export default function StudentClassDetailDashboard() {
                             onClick={() => navigate('/student/report')}
                         >View Report</Button>
                     </div>
-                    <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>
-                        <BsThreeDotsVertical />
-                    </div>
+                    <Popover
+                        content={<p className='cursor-pointer'>Unenroll</p>}
+                        trigger="click"
+                        placement='bottomRight'
+                        open={open}
+                        onOpenChange={handleOpenChange}
+                    >
+                        <div className='cursor-pointer hover:bg-gray-200 rounded-full p-2'>
+                            <BsThreeDotsVertical />
+                        </div>
+                    </Popover>
                 </div>
                 <div>
                     {loading && <Loader />}

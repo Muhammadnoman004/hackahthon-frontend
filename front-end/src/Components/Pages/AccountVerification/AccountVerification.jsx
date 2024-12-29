@@ -6,10 +6,12 @@ import api from '../../../api/api';
 import Loader from '../../Loader/Loader';
 import loader from '../../../Context/LoaderContext';
 import { useNavigate } from 'react-router-dom';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 export default function AccountVerification({ title }) {
 
   const [loading, setloading] = useContext(loader);
+  const { user } = useFetchProfile();
   const [Otp, setOtp] = useState('');
   const navigate = useNavigate()
 
@@ -60,7 +62,7 @@ export default function AccountVerification({ title }) {
             </div>
             <div className='my-3 text-gray-500'>
               <h1>Please enter the verification code</h1>
-              <h1 className='my-1'>sent to noman@gmail.com</h1>
+              <h1 className='my-1'>sent to {user?.email}</h1>
             </div>
           </div>
 

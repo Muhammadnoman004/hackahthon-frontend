@@ -41,6 +41,24 @@ export default function StudentClassDetailDashboard() {
         setOpen(newOpen);
     };
 
+
+    const unEnrollByClass = async () => {
+        setloading(true)
+        try {
+            const response = await api.delete(`/api/classes/student/class/${classId}`)
+            setloading(false);
+            toast.success(response.data.message, {
+                onClose: () => {
+                    navigate('/')
+                }
+            })
+        }
+        catch (error) {
+            toast.error(error.response.data);
+            setloading(false);
+        }
+    }
+
     const renderComponent = () => {
         switch (selectedComponent) {
             case 'Stream':
@@ -116,7 +134,7 @@ export default function StudentClassDetailDashboard() {
                         >View Report</Button>
                     </div>
                     <Popover
-                        content={<p className='cursor-pointer'>Unenroll</p>}
+                        content={<p className='cursor-pointer' onClick={() => unEnrollByClass()}>Unenroll</p>}
                         trigger="click"
                         placement='bottomRight'
                         open={open}

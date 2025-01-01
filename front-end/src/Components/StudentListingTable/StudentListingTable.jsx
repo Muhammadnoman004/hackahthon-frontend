@@ -84,5 +84,5 @@ const data = [
         tags: ['submitted'],
     },
 ];
-const StudentListingTable = () => <div><h1 className='text-2xl font-bold m-2 mb-3'>Class Assignment</h1> <Table className='m-2' columns={columns} dataSource={data} /> </div>;
+const StudentListingTable = () => <div><h1 className='text-2xl font-bold m-2 mb-3'>Class Assignment</h1> <Table className='min-w-full bg-white shadow-lg rounded-lg overflow-x-auto px-3 mb-5 hover:cursor-pointer' columns={columns} dataSource={data} /> </div>;
 export default StudentListingTable;

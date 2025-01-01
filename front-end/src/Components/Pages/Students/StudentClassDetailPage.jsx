@@ -27,7 +27,7 @@ export default function StudentClassDetailPage() {
     return (
         <>
             <Container>
-                <div className="flex flex-col w-full min-h-screen bg-muted/40 mt-4">
+                <div className="flex flex-col w-full bg-muted/40 mt-4">
                     <main className="flex-1">
                         <div className="grid gap-6">
                             <div className="rounded-lg border bg-card text-card-foreground shadow-sm">

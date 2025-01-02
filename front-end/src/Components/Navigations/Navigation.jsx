@@ -28,6 +28,7 @@ import TeacherSettingPage from '../Pages/Teachers/TeacherSettingPage';
 import TeacherUpdateProfilePage from '../Pages/Teachers/TeacherUpdateProfilePage';
 import StudentReportGenerate from '../StudentReportGenerate/StudentReportGenerate';
 import StudentClassDetailDashboard from '../Pages/Students/StudentClassDetailDashboard';
+import TeacherClassDetailDashboard from '../Pages/Teachers/TeacherClassDetailDashboard';
 
 const router = createBrowserRouter([
     {
@@ -145,6 +146,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Teacher | Profile'} />
             < TeacherUpdateProfilePage />
+        </>
+    },
+    {
+        path: "/trainer/class/:classId",
+        element: <>
+            <Navbars title={'Teacher | Class Detail'} />
+            < TeacherClassDetailDashboard />
         </>
     },
 

@@ -10,6 +10,7 @@ import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 const { Meta } = Card;
 
 export default function TeacherHomePage() {
@@ -18,6 +19,7 @@ export default function TeacherHomePage() {
     const [load, setload] = useState(true)
     const [classes, setClasses] = useState([])
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         setloading(true);
@@ -90,6 +92,7 @@ export default function TeacherHomePage() {
                                             marginBottom: 30
                                         }}
                                         cover={<img alt="example" className='size-36 object-cover' style={{ borderRadius: "10px" }} src={!eachClass.classImage ? NotImage : eachClass.classImage} />}
+                                        onClick={() => navigate(`/trainer/class/${eachClass._id}`)}
                                     >
                                         <div className='flex relative bottom-12'>
                                             <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import TeacherClassDetailPage from './TeacherClassDetailPage';
+import AllAssignmentListing from './AllAssignmentListing';
 
 export default function TeacherClassDetailDashboard() {
 
@@ -18,6 +19,8 @@ export default function TeacherClassDetailDashboard() {
         switch (selectedComponent) {
             case "Stream":
                 return <TeacherClassDetailPage />
+            case "Classwork":
+                return <AllAssignmentListing />
             default:
                 return null;
         }

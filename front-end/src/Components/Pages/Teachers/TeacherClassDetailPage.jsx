@@ -23,7 +23,7 @@ export default function TeacherClassDetailPage() {
 
                 <section className='ms-1 col-span-2'>
                     <div className='bg-gray-100 rounded-lg p-3 mb-3'>
-                        <h2 className='text-lg mb-4'>Stream</h2>
+                        <h2 className='text-xl mb-4'>Stream</h2>
                         <div className='bg-white p-4 rounded-lg shadow mb-4'>
                             <div className='flex items-center mb-2'>
                                 <div className='bg-gray-300 h-10 w-10 rounded-full flex items-center justify-center mr-2'>
@@ -45,6 +45,25 @@ export default function TeacherClassDetailPage() {
                             </div>
                         </div>
                     </div>
+
+                    <section>
+                        <div className='bg-gray-100 rounded-lg p-3 mb-3'>
+                            <h2 className='text-xl mb-4 ms-1'>Assignemnt</h2>
+                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
+                                <h3 className='text-lg font-bold'>Make a Restaurant Landing Page</h3>
+                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
+                            </div>
+                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
+                                <h3 className='text-lg font-bold'>Assignment 2</h3>
+                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
+                            </div>
+                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
+                                <h3 className='text-lg font-bold'>Hello DG</h3>
+                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                    </section>
+
                 </section>
             </div>
         </Container>

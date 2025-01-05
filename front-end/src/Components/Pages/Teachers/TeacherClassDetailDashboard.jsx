@@ -2,6 +2,7 @@ import { Button, Popover } from 'antd';
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { BsThreeDotsVertical } from 'react-icons/bs';
+import TeacherClassDetailPage from './TeacherClassDetailPage';
 
 export default function TeacherClassDetailDashboard() {
 
@@ -12,9 +13,19 @@ export default function TeacherClassDetailDashboard() {
         setOpen(newOpen);
     };
 
+
+    const renderComponent = () => {
+        switch (selectedComponent) {
+            case "Stream":
+                return <TeacherClassDetailPage />
+            default:
+                return null;
+        }
+    }
+
     return (
         <Container>
-            <div className='p-4 '>
+            <div className='p-4 ps-6'>
                 <header className='bg-teal-600 text-white rounded-lg p-3 font-semibold mb-4'>
                     <h1 className='text-2xl'>A10 6 to 8</h1>
                     <p>Saylani A10 6 to 8</p>
@@ -75,6 +86,9 @@ export default function TeacherClassDetailDashboard() {
                             <BsThreeDotsVertical />
                         </div>
                     </Popover>
+                </div>
+                <div>
+                    {renderComponent()}
                 </div>
             </div>
         </Container >

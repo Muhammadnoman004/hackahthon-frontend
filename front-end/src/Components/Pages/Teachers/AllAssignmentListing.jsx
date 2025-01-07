@@ -20,11 +20,6 @@ const columns = [
         render: (text) => <a>{text}</a>,
     },
     {
-        title: 'Topic',
-        dataIndex: 'topic',
-        key: 'address',
-    },
-    {
         title: 'Due date',
         dataIndex: 'date',
         key: 'date',
@@ -59,9 +54,11 @@ const columns = [
         title: 'Action',
         key: 'action',
         render: (_, record) => (
-            <Space size="middle">
-                <a className='text-xl hover:text-green-500'><FaEdit /></a>
-                <a className='text-xl hover:text-red-500'><FaDeleteLeft /></a>
+            <Space size="small">
+                <a className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600'>View Assignment</a>
+                <a className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</a>
+                <a className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700'>Edit</a>
+                <a className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700'>Delete</a>
             </Space>
         ),
     },
@@ -72,7 +69,6 @@ const data = [
         serialNo: 1,
         name: 'Assignment',
         date: '10-05-24',
-        topic: 'Html , Css',
         tags: ['submitted'],
     },
     {
@@ -80,7 +76,6 @@ const data = [
         serialNo: 2,
         name: 'Assignment',
         date: '12-05-24',
-        topic: 'JavaScript , React JS',
         tags: ['expired'],
     },
     {
@@ -88,7 +83,6 @@ const data = [
         serialNo: 3,
         name: 'Assignment',
         date: '14-05-24',
-        topic: 'Express JS , MongoDB',
         tags: ['pending'],
     },
     {
@@ -96,7 +90,6 @@ const data = [
         serialNo: 4,
         name: 'Assignment',
         date: '16-05-24',
-        topic: 'Node JS',
         tags: ['submitted'],
     },
 ];
@@ -105,9 +98,9 @@ export default function AllAssignmentListing() {
     return (
         <div>
             <Container>
-                <div className='mt-8'>
+                <div className='mt-4 border rounded-lg p-2'>
 
-                    <div className='flex justify-between m-4'>
+                    <div className='flex flex-col mb-4 sm:flex-row sm:m-4 justify-between space-y-3.5 border-b pb-3'>
                         <div>
                             <h1 className='font-bold text-lg'>All Assignments</h1>
                             <p className='text-xs'>View and manage all assignments</p>
@@ -117,7 +110,7 @@ export default function AllAssignmentListing() {
                         </div>
                     </div>
 
-                    <Table columns={columns} dataSource={data} />
+                    <Table columns={columns} dataSource={data} className='overflow-x-auto' />
                 </div>
 
             </Container>

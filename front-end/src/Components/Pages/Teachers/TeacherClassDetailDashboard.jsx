@@ -36,7 +36,7 @@ export default function TeacherClassDetailDashboard() {
                     <p>Saylani A10 6 to 8</p>
                 </header>
                 <div className='flex justify-between items-center gap-3 px-1 mb-0'>
-                    <div className='flex gap-3 flex-wrap items-center justify-between'>
+                    <div className='flex gap-3 flex-wrap items-center sm:justify-between'>
                         <Button
                             className="custom-button"
                             style={selectedComponent === 'Stream' ? {

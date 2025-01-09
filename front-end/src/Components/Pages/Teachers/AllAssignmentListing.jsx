@@ -97,7 +97,7 @@ export default function AllAssignmentListing() {
 
             </Container>
 
-            <CreateAssignmentModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
         </div>
     )
 }

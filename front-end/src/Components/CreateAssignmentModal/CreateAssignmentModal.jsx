@@ -2,25 +2,17 @@ import React, { useState } from 'react'
 import { Button, Input, Modal } from 'antd';
 import { MdAssignment, MdEditNote } from "react-icons/md";
 
-export default function CreateAssignmentModal() {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+export default function CreateAssignmentModal({ isModalOpen, closeModal }) {
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
-    const handleCancel = () => {
-        setIsModalOpen(false);
-    };
+
+    const handleSubmit = () => {
+        console.log("chal raha hai");
+
+    }
 
     return (
         <>
-            <Button type="primary" onClick={showModal}>
-                Create Assignment
-            </Button>
-            <Modal footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Modal footer={null} open={isModalOpen} onOk={closeModal} onCancel={closeModal}>
 
                 <div className='p-3'>
                     <div>
@@ -30,22 +22,29 @@ export default function CreateAssignmentModal() {
 
                     <div>
                         <div className='my-4 text-base'>
+                            <form onSubmit={handleSubmit}>
+                                <label className='font-semibold'>Title</label>
+                                <Input size="large" placeholder="Enter assignment title" prefix={<MdAssignment />} className='mb-4' required />
 
-                            <label className='font-semibold'>Name</label>
-                            <Input size="large" placeholder="Enter assignment name" prefix={<MdAssignment />} className='mb-4' />
+                                <label className='font-semibold'>Description</label>
+                                <Input.TextArea size="large" type='password' placeholder="Enter assignment description" prefix={<MdEditNote />} className='mb-4 ' required />
 
-                            <label className='font-semibold'>Description</label>
-                            <Input.TextArea size="large" type='password' placeholder="Enter assignment description" prefix={<MdEditNote />} className='mb-4 ' />
+                                <label className='font-semibold'>Total Marks</label>
+                                <Input size="large" placeholder="marks" type='number' min={1} className='mb-4' required />
 
-                            <label className='font-semibold'>Due Date</label>
-                            <Input size="large" type='date' placeholder="Confirm Password" className='mb-5' />
+                                <label className='font-semibold'>Due Date</label>
+                                <Input size="large" type='date' className='mb-4' />
 
+                                <label className='font-semibold'>File Link (Optional)</label>
+                                <Input size="large" type='' placeholder="file link" className='mb-5' />
+
+                            </form>
                         </div>
                     </div>
 
                     <div>
-                        <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
-                        <Button type='primary' className='mx-2' onClick={handleOk}>Submit</Button>
+                        <Button type='primary' danger onClick={closeModal}>Cancel</Button>
+                        <Button type='primary' htmlType='submit' className='mx-2' onClick={handleSubmit}>Submit</Button>
                     </div>
 
                 </div>

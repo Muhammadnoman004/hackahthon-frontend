@@ -77,6 +77,11 @@ export default function AllAssignmentListing() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleCreateAssignment = () => {
+        console.log('Create');
+
+    }
+
     return (
         <div>
             <Container>

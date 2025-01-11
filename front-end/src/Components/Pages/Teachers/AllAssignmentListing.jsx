@@ -1,7 +1,10 @@
 import { Space, Table } from 'antd'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentModal';
+import api from '../../../api/api'
+import { useParams } from 'react-router-dom';
+import loader from '../../../Context/LoaderContext';
 
 const columns = [
     {
@@ -75,15 +78,23 @@ const data = [
 
 export default function AllAssignmentListing() {
 
+    const { classId } = useParams();
+    const [loading, setloading] = useContext(loader);
+    const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCreateAssignment = async () => {
+    const handleCreateAssignment = async (formData) => {
+        setloading(true);
         try {
-            console.log("data received.");
+            let res = await api.post("/api/assignments/create", { ...formData, classId })
+            console.log(res.data);
+            setError('');
 
         } catch (error) {
-            console.log(error);
-
+            console.error('Error creating', error);
+            setError(error.response?.data?.error || 'An error occurred while creating/updating the assignment');
+        } finally {
+            setloading(false);
         }
 
     }

@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Input, Modal } from 'antd';
 import { MdAssignment } from "react-icons/md";
+import loader from '../../Context/LoaderContext';
 
 export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmit }) {
 
     const [error, setError] = useState('');
+    const [loading, setloading] = useContext(loader);
 
     const [formData, setFormdata] = useState({
         title: '',
@@ -39,9 +41,10 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
 
     const handleSubmit = async () => {
         if (validateForm()) {
+            setloading(true);
             try {
-                await onsubmit(formData)
-                closeModal()
+                await onsubmit(formData);
+                closeModal();
                 setFormdata({
                     title: '',
                     description: '',
@@ -49,16 +52,13 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
                     dueDate: '',
                     fileLink: ''
                 })
+                setloading(false);
             } catch (error) {
-                console.log(error);
-
+                setloading(false);
+                setError(error.message || 'An error occurred while creating');
             }
         }
-        else {
-            console.log(error);
-
-        }
-    }
+    };
 
     return (
         <>

@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Input, Modal } from 'antd';
-import { MdAssignment, MdEditNote } from "react-icons/md";
+import { MdAssignment } from "react-icons/md";
 
-export default function CreateAssignmentModal({ isModalOpen, closeModal }) {
+export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmit }) {
+
+    const [error, setError] = useState('');
 
     const [formData, setFormdata] = useState({
         title: '',
@@ -21,10 +23,41 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal }) {
         console.log(formData)
     };
 
-    const handleSubmit = () => {
-        console.log("chal raha hai");
-        handleChange()
 
+    const validateForm = () => {
+        if (!formData.title || !formData.description || !formData.totalMarks || !formData.dueDate) {
+            setError('Please enter all required fields');
+            return false;
+        }
+        if (typeof formData.totalMarks !== 'number' || formData.totalMarks <= 0) {
+            setError('Total marks must be a positive number');
+            return false;
+        }
+        setError('');
+        return true;
+    }
+
+    const handleSubmit = async () => {
+        if (validateForm()) {
+            try {
+                await onsubmit(formData)
+                closeModal()
+                setFormdata({
+                    title: '',
+                    description: '',
+                    totalMarks: '',
+                    dueDate: '',
+                    fileLink: ''
+                })
+            } catch (error) {
+                console.log(error);
+
+            }
+        }
+        else {
+            console.log(error);
+
+        }
     }
 
     return (

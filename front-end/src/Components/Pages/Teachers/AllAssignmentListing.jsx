@@ -77,8 +77,14 @@ export default function AllAssignmentListing() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleCreateAssignment = () => {
-        console.log('Create');
+    const handleCreateAssignment = async () => {
+        try {
+            console.log("data received.");
+
+        } catch (error) {
+            console.log(error);
+
+        }
 
     }
 
@@ -102,7 +108,7 @@ export default function AllAssignmentListing() {
 
             </Container>
 
-            <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} />
+            <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} onsubmit={handleCreateAssignment} />
         </div>
     )
 }

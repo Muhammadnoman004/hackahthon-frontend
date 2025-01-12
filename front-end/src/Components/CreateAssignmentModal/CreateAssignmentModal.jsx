@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import { Button, Input, Modal } from 'antd';
 import { MdAssignment } from "react-icons/md";
 import loader from '../../Context/LoaderContext';
+import Loader from '../Loader/Loader';
 
 export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmit }) {
 
@@ -29,6 +30,9 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
     const validateForm = () => {
         if (!formData.title || !formData.description || !formData.totalMarks || !formData.dueDate) {
             setError('Please enter all required fields');
+            setTimeout(() => {
+                setError('');
+            }, 3000)
             return false;
         }
         if (typeof formData.totalMarks !== 'number' || formData.totalMarks <= 0) {
@@ -69,9 +73,11 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
                         <h1 className='text-lg font-bold uppercase'>Create New Assignment</h1>
                         <p className='text-xs'>Fill out the form to create a new assignment.</p>
                     </div>
-
+                    <div className='mt-2 text-red-500'>
+                        <p>{error}</p>
+                    </div>
                     <div>
-                        <div className='my-4 text-base'>
+                        <div className='my-3 text-base'>
                             <form onSubmit={handleSubmit}>
                                 <label className='font-semibold'>Title</label>
                                 <Input size="large" placeholder="Enter assignment title" prefix={<MdAssignment />} className='mb-4' id='title' value={formData.title} required onChange={handleChange} />
@@ -98,6 +104,9 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
                     </div>
 
                 </div>
+                {
+                    loading && <Loader />
+                }
 
             </Modal>
         </>

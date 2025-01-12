@@ -1,10 +1,11 @@
 import { Space, Table } from 'antd'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentModal';
 import api from '../../../api/api'
 import { useParams } from 'react-router-dom';
 import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
 
 const columns = [
     {
@@ -83,11 +84,27 @@ export default function AllAssignmentListing() {
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+
+    const fetchAllAssignment = async () => {
+        try {
+            const response = await api.get(`/api/assignments/class/${classId}`)
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
+    useEffect(() => {
+        fetchAllAssignment()
+    }, [classId])
+
     const handleCreateAssignment = async (formData) => {
         setloading(true);
         try {
             let res = await api.post("/api/assignments/create", { ...formData, classId })
-            console.log(res.data);
+            console.log(res);
             setError('');
 
         } catch (error) {
@@ -118,7 +135,9 @@ export default function AllAssignmentListing() {
                 </div>
 
             </Container>
-
+            {
+                loading && <Loader />
+            }
             <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} onsubmit={handleCreateAssignment} />
         </div>
     )

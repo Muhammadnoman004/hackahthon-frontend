@@ -6,99 +6,77 @@ import api from '../../../api/api'
 import { useParams } from 'react-router-dom';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
-const columns = [
-    {
-        title: 'S/No',
-        dataIndex: 'serialNo',
-        key: 'serialNo',
-        width: 100,
-        render: (number) => <a>{number}</a>,
-    },
-    {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Due date',
-        dataIndex: 'date',
-        key: 'date',
-    },
-    {
-        title: 'Total Marks',
-        key: 'marks',
-        dataIndex: 'marks',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <Space size="small">
-                <div className='flex justify-between items-center gap-2'>
-                    <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button>
-                    <button className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</button>
-                    <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700'>Edit</button>
-                    <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700'>Delete</button>
-                </div>
-            </Space>
-        ),
-    },
-];
-const data = [
-    {
-        key: '1',
-        serialNo: 1,
-        name: 'Assignment',
-        date: '10-05-24',
-        marks: 100
-    },
-    {
-        key: '2',
-        serialNo: 2,
-        name: 'Assignment',
-        date: '12-05-24',
-        marks: 10
-    },
-    {
-        key: '3',
-        serialNo: 3,
-        name: 'Assignment',
-        date: '14-05-24',
-        marks: 50
-    },
-    {
-        key: '4',
-        serialNo: 4,
-        name: 'Assignment',
-        date: '16-05-24',
-        marks: 20
-    },
-];
+
+// const data = [
+//     {
+//         key: '1',
+//         serialNo: 1,
+//         name: 'Assignment',
+//         date: '10-05-24',
+//         marks: 100
+//     },
+//     {
+//         key: '2',
+//         serialNo: 2,
+//         name: 'Assignment',
+//         date: '12-05-24',
+//         marks: 10
+//     },
+//     {
+//         key: '3',
+//         serialNo: 3,
+//         name: 'Assignment',
+//         date: '14-05-24',
+//         marks: 50
+//     },
+//     {
+//         key: '4',
+//         serialNo: 4,
+//         name: 'Assignment',
+//         date: '16-05-24',
+//         marks: 20
+//     },
+// ];
 
 export default function AllAssignmentListing() {
 
     const { classId } = useParams();
+    const { user, setUser } = useFetchProfile();
     const [loading, setloading] = useContext(loader);
+    const [load, setload] = useState(false);
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [assignment, setAssignment] = useState([]);
 
 
     const fetchAllAssignment = async () => {
+        setload(true)
         try {
             const response = await api.get(`/api/assignments/class/${classId}`)
-            console.log(response);
+            const formattedAssignments = response.data.map((assignment, index) => ({
+                key: assignment._id,
+                serialNo: index + 1,
+                name: assignment.title,
+                date: new Date(assignment.dueDate).toLocaleDateString(),
+                marks: assignment.total_marks
+
+            }))
+            setAssignment(formattedAssignments)
+            console.log(formattedAssignments);
+            setError('');
+            setload(false);
 
         } catch (error) {
-            console.log(error);
-
+            console.log('Error fetching assignments:', error);
+            setError('Failed to fetch assignments. Please try again later.')
         }
     }
 
     useEffect(() => {
-        fetchAllAssignment()
-    }, [classId])
+        fetchAllAssignment();
+    }, [classId, user])
 
     const handleCreateAssignment = async (formData) => {
         setloading(true);
@@ -116,6 +94,46 @@ export default function AllAssignmentListing() {
 
     }
 
+    const columns = [
+        {
+            title: 'S/No',
+            dataIndex: 'serialNo',
+            key: 'serialNo',
+            width: 100,
+            render: (number) => <a>{number}</a>,
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            render: (text) => <a>{text}</a>,
+        },
+        {
+            title: 'Due date',
+            dataIndex: 'date',
+            key: 'date',
+        },
+        {
+            title: 'Total Marks',
+            key: 'marks',
+            dataIndex: 'marks',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Space size="small">
+                    <div className='flex justify-between items-center gap-2'>
+                        <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button>
+                        <button className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</button>
+                        <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700'>Edit</button>
+                        <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700'>Delete</button>
+                    </div>
+                </Space>
+            ),
+        },
+    ];
+
     return (
         <div>
             <Container>
@@ -130,8 +148,7 @@ export default function AllAssignmentListing() {
                             <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={() => setIsModalOpen(true)}>Create Assignment</button>
                         </div>
                     </div>
-
-                    <Table columns={columns} dataSource={data} className='overflow-x-auto' />
+                    <Table columns={columns} dataSource={assignment} className='overflow-x-auto' rowKey={(record) => record._id} loading={load} />
                 </div>
 
             </Container>

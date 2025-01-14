@@ -52,13 +52,15 @@ export default function AllAssignmentListing() {
 
 
     const fetchAllAssignment = async () => {
-        setload(true)
+        setload(true);
+        setloading(true);
         try {
             const response = await api.get(`/api/assignments/class/${classId}`)
             const formattedAssignments = response.data.map((assignment, index) => ({
                 key: assignment._id,
                 serialNo: index + 1,
                 name: assignment.title,
+                description: assignment.description || 'no description available',
                 date: new Date(assignment.dueDate).toLocaleDateString(),
                 marks: assignment.total_marks
 
@@ -67,10 +69,13 @@ export default function AllAssignmentListing() {
             console.log(formattedAssignments);
             setError('');
             setload(false);
+            setloading(false);
 
         } catch (error) {
             console.log('Error fetching assignments:', error);
             setError('Failed to fetch assignments. Please try again later.')
+            setloading(false);
+            setload(false);
         }
     }
 
@@ -82,7 +87,7 @@ export default function AllAssignmentListing() {
         setloading(true);
         try {
             let res = await api.post("/api/assignments/create", { ...formData, classId })
-            console.log(res);
+            fetchAllAssignment()
             setError('');
 
         } catch (error) {
@@ -99,14 +104,19 @@ export default function AllAssignmentListing() {
             title: 'S/No',
             dataIndex: 'serialNo',
             key: 'serialNo',
-            width: 100,
+            width: 50,
             render: (number) => <a>{number}</a>,
         },
         {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (text) => <a>{text}</a>,
+            render: (text, record) => (
+                <div>
+                    <p className="font-semibold">{record.name}</p>
+                    <p className="text-gray-700 text-sm">{record.description}</p>
+                </div>
+            )
         },
         {
             title: 'Due date',
@@ -148,14 +158,21 @@ export default function AllAssignmentListing() {
                             <button className='p-1 px-3 w-auto  bg-sky-blue text-white rounded-md border-none hover:bg-sky-400 focus:shadow-lg' onClick={() => setIsModalOpen(true)}>Create Assignment</button>
                         </div>
                     </div>
-                    <Table columns={columns} dataSource={assignment} className='overflow-x-auto' rowKey={(record) => record._id} loading={load} />
+                    <Table
+                        columns={columns}
+                        dataSource={assignment}
+                        className='overflow-x-auto'
+                        rowKey={(record) => record._id}
+                        loading={load}
+                        locale={{ emptyText: <p className="text-center text-gray-500">No assignments available</p> }}
+                    />
                 </div>
 
-            </Container>
+            </Container >
             {
                 loading && <Loader />
             }
             <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} onsubmit={handleCreateAssignment} />
-        </div>
+        </div >
     )
 }

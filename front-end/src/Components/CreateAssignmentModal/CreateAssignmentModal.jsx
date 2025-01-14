@@ -23,7 +23,6 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
             ...prevData,
             [id]: id === "totalMarks" ? Number(value) : value
         }))
-        console.log(formData)
     };
 
 

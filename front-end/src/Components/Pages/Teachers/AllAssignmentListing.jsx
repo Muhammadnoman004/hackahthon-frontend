@@ -96,7 +96,25 @@ export default function AllAssignmentListing() {
         } finally {
             setloading(false);
         }
+    }
 
+    const handleDeleteAssignment = async (assignmentId) => {
+        setloading(true);
+        try {
+            const res = await api.delete(`/api/assignments/${assignmentId}`);
+            setloading(false)
+            fetchAllAssignment();
+
+        } catch (error) {
+            setloading(false);
+            console.error('Error deleting assignment:', error);
+            setError('Failed to delete assignment. Please try again later.');
+        }
+    }
+
+
+    const handleEditAssignment = () => {
+        console.log("working");
     }
 
     const columns = [
@@ -136,8 +154,8 @@ export default function AllAssignmentListing() {
                     <div className='flex justify-between items-center gap-2'>
                         <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button>
                         <button className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</button>
-                        <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700'>Edit</button>
-                        <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700'>Delete</button>
+                        <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700' onClick={() => handleEditAssignment()}>Edit</button>
+                        <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700' onClick={() => handleDeleteAssignment(record.key)}>Delete</button>
                     </div>
                 </Space>
             ),
@@ -162,7 +180,7 @@ export default function AllAssignmentListing() {
                         columns={columns}
                         dataSource={assignment}
                         className='overflow-x-auto'
-                        rowKey={(record) => record._id}
+                        rowKey={(record) => record.key}
                         loading={load}
                         locale={{ emptyText: <p className="text-center text-gray-500">No assignments available</p> }}
                     />

@@ -100,7 +100,8 @@ export default function AllAssignmentListing() {
                 fetchAllAssignment()
             }
             setError('');
-            setAssignmentToEdit(null)
+            setIsModalOpen(false);
+            setAssignmentToEdit(null);
         } catch (error) {
             console.error('Error creating/updating assignment:', error);
             setError(error.response?.data?.error || 'An error occurred while creating/updating the assignment');
@@ -115,6 +116,7 @@ export default function AllAssignmentListing() {
             const res = await api.delete(`/api/assignments/${assignmentId}`);
             setloading(false)
             fetchAllAssignment();
+            setError('');
 
         } catch (error) {
             setloading(false);
@@ -125,7 +127,6 @@ export default function AllAssignmentListing() {
 
 
     const handleEditAssignment = (assignment) => {
-        console.log("working", assignment);
         setAssignmentToEdit(assignment);
         setIsModalOpen(true)
     }

@@ -39,6 +39,18 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
         }
     }, [assignmentToEdit])
 
+
+    const handleCloseModal = () => {
+        closeModal()
+        setFormdata({
+            title: '',
+            description: '',
+            totalMarks: '',
+            dueDate: '',
+            fileLink: ''
+        })
+    }
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setFormdata(prevData => ({
@@ -69,7 +81,7 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
             setloading(true);
             try {
                 await onsubmit(formData, assignmentToEdit?._id);
-                closeModal();
+                handleCloseModal()
                 setFormdata({
                     title: '',
                     description: '',
@@ -87,12 +99,12 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
 
     return (
         <>
-            <Modal footer={null} open={isModalOpen} onOk={closeModal} onCancel={closeModal}>
+            <Modal footer={null} open={isModalOpen} onOk={handleSubmit} onCancel={handleCloseModal}>
 
                 <div className='p-3'>
                     <div>
-                        <h1 className='text-lg font-bold uppercase'>Create New Assignment</h1>
-                        <p className='text-xs'>Fill out the form to create a new assignment.</p>
+                        <h1 className='text-lg font-bold uppercase'>{assignmentToEdit ? "Edit Assignment" : "Create New Assignment"}</h1>
+                        <p className='text-xs'>{assignmentToEdit ? "Update the form to edit the assignment." : "Fill out the form to create a new assignment."}</p>
                     </div>
                     <div className='mt-2 text-red-500'>
                         <p>{error}</p>
@@ -120,8 +132,8 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
                     </div>
 
                     <div>
-                        <Button type='primary' danger onClick={closeModal}>Cancel</Button>
-                        <Button type='primary' htmlType='submit' className='mx-2' onClick={handleSubmit}>Submit</Button>
+                        <Button type='primary' danger onClick={handleCloseModal}>Cancel</Button>
+                        <Button type='primary' htmlType='submit' className='mx-2' onClick={handleSubmit}>{assignmentToEdit ? "Update" : "Submit"}</Button>
                     </div>
 
                 </div>

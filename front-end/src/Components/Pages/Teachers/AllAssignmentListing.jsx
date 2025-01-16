@@ -49,6 +49,7 @@ export default function AllAssignmentListing() {
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [assignment, setAssignment] = useState([]);
+    const [assignmentToEdit, setAssignmentToEdit] = useState(null);
 
 
     const fetchAllAssignment = async () => {
@@ -61,8 +62,9 @@ export default function AllAssignmentListing() {
                 serialNo: index + 1,
                 name: assignment.title,
                 description: assignment.description || 'no description available',
-                date: new Date(assignment.dueDate).toLocaleDateString(),
-                marks: assignment.total_marks
+                date: new Date(assignment.dueDate).toISOString().split('T')[0],
+                marks: assignment.total_marks,
+                file_link: assignment.fileLink
 
             }))
             setAssignment(formattedAssignments)
@@ -83,15 +85,24 @@ export default function AllAssignmentListing() {
         fetchAllAssignment();
     }, [classId, user])
 
-    const handleCreateAssignment = async (formData) => {
+    const handleCreateAssignment = async (formData, id = null) => {
         setloading(true);
         try {
-            let res = await api.post("/api/assignments/create", { ...formData, classId })
-            fetchAllAssignment()
+            let response;
+            if (id) {
+                response = await api.put(`/api/assignments/${id}`, formData);
+                if (assignment.length > 0) {
+                    setAssignment(assignment.map(assignment => assignment._id === id ? response.data : assignment))
+                }
+            }
+            else {
+                response = await api.post("/api/assignments/create", { ...formData, classId })
+                fetchAllAssignment()
+            }
             setError('');
-
+            setAssignmentToEdit(null)
         } catch (error) {
-            console.error('Error creating', error);
+            console.error('Error creating/updating assignment:', error);
             setError(error.response?.data?.error || 'An error occurred while creating/updating the assignment');
         } finally {
             setloading(false);
@@ -113,8 +124,10 @@ export default function AllAssignmentListing() {
     }
 
 
-    const handleEditAssignment = () => {
-        console.log("working");
+    const handleEditAssignment = (assignment) => {
+        console.log("working", assignment);
+        setAssignmentToEdit(assignment);
+        setIsModalOpen(true)
     }
 
     const columns = [
@@ -154,7 +167,7 @@ export default function AllAssignmentListing() {
                     <div className='flex justify-between items-center gap-2'>
                         <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button>
                         <button className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</button>
-                        <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700' onClick={() => handleEditAssignment()}>Edit</button>
+                        <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700' onClick={() => handleEditAssignment(record)}>Edit</button>
                         <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700' onClick={() => handleDeleteAssignment(record.key)}>Delete</button>
                     </div>
                 </Space>
@@ -190,7 +203,7 @@ export default function AllAssignmentListing() {
             {
                 loading && <Loader />
             }
-            <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} onsubmit={handleCreateAssignment} />
+            <CreateAssignmentModal isModalOpen={isModalOpen} closeModal={() => setIsModalOpen(false)} onsubmit={handleCreateAssignment} assignmentToEdit={assignmentToEdit} />
         </div >
     )
 }

@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Button, Input, Modal } from 'antd';
 import { MdAssignment } from "react-icons/md";
 import loader from '../../Context/LoaderContext';
 import Loader from '../Loader/Loader';
 
-export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmit }) {
+export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmit, assignmentToEdit }) {
 
     const [error, setError] = useState('');
     const [loading, setloading] = useContext(loader);
@@ -16,6 +16,28 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
         dueDate: '',
         fileLink: ''
     })
+
+
+    useEffect(() => {
+        if (assignmentToEdit) {
+            setFormdata({
+                title: assignmentToEdit.name,
+                description: assignmentToEdit.description,
+                totalMarks: assignmentToEdit.marks,
+                dueDate: assignmentToEdit.date,
+                fileLink: assignmentToEdit.file_link || ''
+            })
+        }
+        else {
+            setFormdata({
+                title: '',
+                description: '',
+                totalMarks: '',
+                dueDate: '',
+                fileLink: ''
+            })
+        }
+    }, [assignmentToEdit])
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -46,7 +68,7 @@ export default function CreateAssignmentModal({ isModalOpen, closeModal, onsubmi
         if (validateForm()) {
             setloading(true);
             try {
-                await onsubmit(formData);
+                await onsubmit(formData, assignmentToEdit?._id);
                 closeModal();
                 setFormdata({
                     title: '',

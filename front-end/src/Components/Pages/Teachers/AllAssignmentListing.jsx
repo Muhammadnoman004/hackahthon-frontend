@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import CreateAssignmentModal from '../../CreateAssignmentModal/CreateAssignmentModal';
 import api from '../../../api/api'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import useFetchProfile from '../../../utils/useFetchProfile';
@@ -166,7 +166,7 @@ export default function AllAssignmentListing() {
             render: (_, record) => (
                 <Space size="small">
                     <div className='flex justify-between items-center gap-2'>
-                        <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button>
+                        <Link to={"/trainer/:classId/:assignmentId"}> <button className='text-sm text-black border-dashed border-2 border-teal-600 p-2 rounded-md hover:bg-teal-600 duration-500 transition-all'>View Assignment</button></Link>
                         <button className='text-sm text-white bg-teal-600 p-2 rounded-md hover:bg-teal-700'>View Submissions</button>
                         <button className='text-sm text-white bg-green-600 p-2 rounded-md hover:bg-green-700' onClick={() => handleEditAssignment(record)}>Edit</button>
                         <button className='text-sm text-white bg-red-600 p-2 rounded-md hover:bg-red-700' onClick={() => handleDeleteAssignment(record.key)}>Delete</button>

@@ -1,9 +1,65 @@
-import { Card, Progress, Tooltip } from 'antd'
+import { CheckCircleOutlined, CheckCircleTwoTone } from '@ant-design/icons'
+import { Button, Card, Progress, Tabs, Tooltip } from 'antd'
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa6'
 
 export default function AssignmentSubmissions() {
+
+    const renderStudentCard = () => {
+        <Card
+            key={1}
+            className='w-full mb-4 hover:shadow-lg transition-shadow duration-300 p-0 h-fit'
+            styles={{ body: { padding: "20px 10px", width: "100%", display: "flex", flexWrap: "wrap", gap: "10px" } }}
+            actions={
+                <Tooltip title="Evaluate">
+                    <Button type='primary' icon={<CheckCircleOutlined />}>
+                        Evaluate
+                    </Button>
+                </Tooltip>
+            }
+        >
+
+        </Card>
+    }
+
+    const tabItems = [
+        {
+            label: (
+                <span><CheckCircleTwoTone className='pe-1' />
+                    Submitted 2
+                </span>
+            ),
+            key: '1',
+            children:
+                // (
+                //     <p className='text-center text-gray-500 py-4'>No submissions yet.</p>
+                // )
+                (
+                    <div className='!block sm:!grid sm:gap-3 sm:grid-cols-2 md:grid-cols-3'>
+                        <renderStudentCard />
+                    </div>
+                )
+        },
+        {
+            label: (
+                <span><CheckCircleTwoTone className='pe-1' />
+                    Not Submitted 8
+                </span>
+            ),
+            key: '2',
+            children:
+                // (
+                //     <p className='text-center text-gray-500 py-4'>All students have submitted.</p>
+                // )
+                (
+                    <div className='!block sm:!grid sm:gap-3 sm:grid-cols-2 md:grid-cols-3'>
+                        <renderStudentCard />
+                    </div>
+                )
+        }
+    ]
+
     return (
         <Container>
             <div className='pt-3'>
@@ -36,6 +92,12 @@ export default function AssignmentSubmissions() {
                             </div>
                         </div>
                     </Card>
+
+
+                    <Tabs defaultActiveKey='1' type='card'
+                        className='bg-gray-100 p-4 rounded-lg shadow-md w-full'
+                        items={tabItems}
+                    />
 
                 </div>
 

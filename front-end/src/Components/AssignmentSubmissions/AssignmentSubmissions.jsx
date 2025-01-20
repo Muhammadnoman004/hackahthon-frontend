@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, CheckCircleTwoTone } from '@ant-design/icons'
+import { CheckCircleOutlined, CheckCircleTwoTone, FileOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Card, Progress, Tabs, Tooltip } from 'antd'
 import React from 'react'
 import { Container } from 'react-bootstrap'
@@ -19,6 +19,33 @@ export default function AssignmentSubmissions() {
                 </Tooltip>
             }
         >
+
+            <Card.Meta
+                avatar={<UserOutlined className='text-2xl' />}
+                title={"sheraz"}
+                description={"sheraz@gmail.com"}
+                className='flex items-center'
+            />
+
+            <div className='mt-4'>
+                <p className='text-sm text-gray-500'>Submitted: {new Date().toLocaleDateString()}</p>
+                <p className='mt-2'>description</p>
+                <a
+                    href="#"
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='text-blue-500 hover:underline mt-2 inline-flex items-center'
+                >
+                    <FileOutlined className='mr-1' /> View Submitted File
+                </a>
+
+                <div className='mt-4'>
+                    Obtained marks: 10
+                    <p className='text-sm mt-2'>rating</p>
+                    <p className='text-sm mt-1'>remarks</p>
+                </div>
+
+            </div>
 
         </Card>
     }

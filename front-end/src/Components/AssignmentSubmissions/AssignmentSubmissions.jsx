@@ -1,29 +1,64 @@
-import { CheckCircleOutlined, CheckCircleTwoTone, FileOutlined, UserOutlined } from '@ant-design/icons'
+import { CheckCircleOutlined, CheckCircleTwoTone, ClockCircleOutlined, FileOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Card, Progress, Tabs, Tooltip } from 'antd'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa6'
+import api from '../../api/api'
+import { useParams } from 'react-router-dom'
 
 export default function AssignmentSubmissions() {
 
-    const renderStudentCard = () => {
+
+    const { classId, assignmentId } = useParams();
+    const [submissions, setSubmissions] = useState([]);
+    const [students, setStudents] = useState([]);
+    const [error, setError] = useState('');
+
+
+    useEffect(() => {
+        fetchData()
+    }, [assignmentId, classId]);
+
+    const fetchData = async () => {
+        try {
+            const [submissionsResponse, studentsResponse] = await Promise.all([
+                api.get(`/api/assignments/${assignmentId}/submissions`),
+                api.get(`api/classes/students/${classId}`)
+            ]);
+            console.log(submissionsResponse);
+            console.log(studentsResponse);
+
+            setSubmissions(submissionsResponse.data);
+            setStudents(studentsResponse.data);
+            setError('');
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setError(error.response?.data?.error, 'Failed to fetch data')
+        }
+    };
+
+    const renderStudentCard = (student, isSubmission = false, submission = null) => {
         <Card
-            key={1}
+            key={student._id}
             className='w-full mb-4 hover:shadow-lg transition-shadow duration-300 p-0 h-fit'
             styles={{ body: { padding: "20px 10px", width: "100%", display: "flex", flexWrap: "wrap", gap: "10px" } }}
-            actions={
+            actions={isSubmission ? [
                 <Tooltip title="Evaluate">
                     <Button type='primary' icon={<CheckCircleOutlined />}>
                         Evaluate
                     </Button>
                 </Tooltip>
-            }
+            ] : [
+                <Tooltip title="Not submitted">
+                    <ClockCircleOutlined style={{ color: "#faad14" }} />
+                </Tooltip>
+            ]}
         >
 
             <Card.Meta
                 avatar={<UserOutlined className='text-2xl' />}
-                title={"sheraz"}
-                description={"sheraz@gmail.com"}
+                title={student.usrname}
+                description={<div className='break-all'>{student.email}</div>}
                 className='flex items-center'
             />
 
@@ -54,19 +89,19 @@ export default function AssignmentSubmissions() {
         {
             label: (
                 <span><CheckCircleTwoTone className='pe-1' />
-                    Submitted 2
+                    Submitted ({submissions.length})
                 </span>
             ),
             key: '1',
-            children:
-                // (
-                //     <p className='text-center text-gray-500 py-4'>No submissions yet.</p>
-                // )
-                (
+            children: (
+                submissions.length === 0 ? (
+                    < p className='text-center text-gray-500 py-4' > No submissions yet.</p>
+                ) : (
                     <div className='!block sm:!grid sm:gap-3 sm:grid-cols-2 md:grid-cols-3'>
-                        <renderStudentCard />
+                        {submissions.map((submission) => renderStudentCard(submission.student, true, submission))}
                     </div>
                 )
+            )
         },
         {
             label: (
@@ -81,7 +116,7 @@ export default function AssignmentSubmissions() {
                 // )
                 (
                     <div className='!block sm:!grid sm:gap-3 sm:grid-cols-2 md:grid-cols-3'>
-                        <renderStudentCard />
+                        {() => <renderStudentCard />}
                     </div>
                 )
         }

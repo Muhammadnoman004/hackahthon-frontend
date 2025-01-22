@@ -37,7 +37,11 @@ export default function AssignmentSubmissions() {
         }
     };
 
-    const renderStudentCard = (student, isSubmission = false, submission = null) => {
+
+    const submittedStudentIds = submissions.map(sub => sub.student_id);
+    const notSubmittedStudents = students.filter(student => !submittedStudentIds.includes(student._id));
+
+    const renderStudentCard = (student, isSubmission = false, submission = null) => (
         <Card
             key={student._id}
             className='w-full mb-4 hover:shadow-lg transition-shadow duration-300 p-0 h-fit'
@@ -61,29 +65,37 @@ export default function AssignmentSubmissions() {
                 description={<div className='break-all'>{student.email}</div>}
                 className='flex items-center'
             />
-
-            <div className='mt-4'>
-                <p className='text-sm text-gray-500'>Submitted: {new Date().toLocaleDateString()}</p>
-                <p className='mt-2'>description</p>
-                <a
-                    href="#"
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='text-blue-500 hover:underline mt-2 inline-flex items-center'
-                >
-                    <FileOutlined className='mr-1' /> View Submitted File
-                </a>
+            {isSubmission && (
 
                 <div className='mt-4'>
-                    Obtained marks: 10
-                    <p className='text-sm mt-2'>rating</p>
-                    <p className='text-sm mt-1'>remarks</p>
-                </div>
+                    <p className='text-sm text-gray-500'>
+                        Submitted: {new Date(submission.submissionDate).toLocaleString()}
+                    </p>
+                    <p className='mt-2'>{submission.description}</p>
+                    {submission.file_link && (
 
-            </div>
+                        <a
+                            href="#"
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            className='text-blue-500 hover:underline mt-2 inline-flex items-center'
+                        >
+                            <FileOutlined className='mr-1' /> View Submitted File
+                        </a>
+                    )}
+                    {submission.marks !== undefined && (
+                        <div className='mt-4'>
+                            Obtained marks: {submission.marks}
+                            <p className='text-sm mt-2'>Rating: {submission.rating || 'Not rated'}</p>
+                            <p className='text-sm mt-1'>Remark: {submission.remark || 'no remark'}</p>
+                        </div>
+                    )}
+
+                </div>
+            )}
 
         </Card>
-    }
+    )
 
     const tabItems = [
         {
@@ -106,21 +118,21 @@ export default function AssignmentSubmissions() {
         {
             label: (
                 <span><CheckCircleTwoTone className='pe-1' />
-                    Not Submitted 8
+                    Not Submitted ({notSubmittedStudents.length})
                 </span>
             ),
             key: '2',
-            children:
-                // (
-                //     <p className='text-center text-gray-500 py-4'>All students have submitted.</p>
-                // )
-                (
+            children: (
+                notSubmittedStudents.length === 0 ? (
+                    <p className='text-center text-gray-500 py-4'>All students have submitted.</p>
+                ) : (
                     <div className='!block sm:!grid sm:gap-3 sm:grid-cols-2 md:grid-cols-3'>
-                        {() => <renderStudentCard />}
+                        {notSubmittedStudents.map((student) => renderStudentCard(student))}
                     </div>
                 )
+            )
         }
-    ]
+    ];
 
     return (
         <Container>

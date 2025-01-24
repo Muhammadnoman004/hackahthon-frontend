@@ -1,5 +1,5 @@
 import { CheckCircleOutlined, CheckCircleTwoTone, ClockCircleOutlined, FileOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Card, Progress, Tabs, Tooltip } from 'antd'
+import { Button, Card, Form, Input, InputNumber, Modal, Progress, Select, Tabs, Tooltip } from 'antd'
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa6'
@@ -17,6 +17,8 @@ export default function AssignmentSubmissions() {
 
     useEffect(() => {
         fetchData()
+        console.log("Submissions Data:", submissions);
+
     }, [assignmentId, classId]);
 
     const fetchData = async () => {
@@ -147,13 +149,13 @@ export default function AssignmentSubmissions() {
                         Assignment Submissions
                     </h1>
 
-                    <Card className='mb-8 bg-gray-100 shadow-md'>
+                    <Card className='mb-8 bg-gray-50 shadow-md'>
                         <div className='flex justify-between items-center flex-wrap gap-3'>
                             <div>
                                 <h2 className='text-xl font-semibold mb-4 break-words'>Submission Overview</h2>
-                                <p>Total Students: 10</p>
-                                <p>Submissions: 1</p>
-                                <p>Remaining: 9</p>
+                                <p>Total Students: {students.length}</p>
+                                <p>Submissions: {submissions.length}</p>
+                                <p>Remaining: {notSubmittedStudents.length}</p>
                             </div>
                             <div className='w-full sm:w-auto flex justify-center'>
                                 <Tooltip title={'submitted'}>
@@ -169,9 +171,58 @@ export default function AssignmentSubmissions() {
 
 
                     <Tabs defaultActiveKey='1' type='card'
-                        className='bg-gray-100 p-4 rounded-lg shadow-md w-full'
+                        className='bg-gray-50 p-4 rounded-lg shadow-md w-full'
                         items={tabItems}
                     />
+
+
+                    <Modal
+
+                        title="Evaluate Submission"
+                        footer={null}
+                        className='max-w-full'
+                    >
+                        <Form layout='vertical'>
+                            <Form.Item
+                                name="marks"
+                                label="Marks"
+                                rules={[
+                                    { required: true, message: 'Please input marks' },
+                                    { type: 'number', min: 0, max: 100, message: 'Marks must be between 0 and 100' }
+                                ]}
+                            >
+                                <InputNumber min={0} max={100} className='w-full' />
+                            </Form.Item>
+                            <Form.Item
+                                name="rating"
+                                label="Rating"
+                                rules={[
+                                    { required: true, message: 'Please select a rating' }
+                                ]}
+                            >
+                                <Select>
+                                    <Select.Option value="Excellent">Excellent</Select.Option>
+                                    <Select.Option value="Good">Good</Select.Option>
+                                    <Select.Option value="Fair">Fair</Select.Option>
+                                    <Select.Option value="Poor">Poor</Select.Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item
+                                name='remark'
+                                label="Remark"
+                                rules={[
+                                    { required: false }
+                                ]}
+                            >
+                                <Input.TextArea placeholder='Enter any remarks (optional)' />
+                            </Form.Item>
+                            <Form.Item>
+                                <Button type='primary' htmlType='submit' className='w-full'>
+                                    Submit Evaluation
+                                </Button>
+                            </Form.Item>
+                        </Form>
+                    </Modal>
 
                 </div>
 

@@ -1,19 +1,38 @@
 import { Button, Popover } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import TeacherClassDetailPage from './TeacherClassDetailPage';
 import AllAssignmentListing from './AllAssignmentListing';
 import AllClassFellowsPage from './AllClassFellowsPage';
+import api from '../../../api/api';
+import { useParams } from 'react-router-dom';
 
 export default function TeacherClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
     const [open, setOpen] = useState(false);
+    const { classId } = useParams();
 
     const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
     };
+
+    useEffect(() => {
+        console.log(classId);
+        getClassDetail()
+    }, [])
+
+    const getClassDetail = async () => {
+        try {
+            const response = await api.get(`/api/classes/trainer/class/${classId}`);
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
 
 
     const renderComponent = () => {

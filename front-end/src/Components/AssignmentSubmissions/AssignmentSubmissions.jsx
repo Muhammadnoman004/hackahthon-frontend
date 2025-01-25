@@ -1,10 +1,11 @@
 import { CheckCircleOutlined, CheckCircleTwoTone, ClockCircleOutlined, FileOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Card, Form, Input, InputNumber, Modal, Progress, Select, Tabs, Tooltip } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa6'
 import api from '../../api/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import loader from '../../Context/LoaderContext'
 
 export default function AssignmentSubmissions() {
 
@@ -13,6 +14,8 @@ export default function AssignmentSubmissions() {
     const [submissions, setSubmissions] = useState([]);
     const [students, setStudents] = useState([]);
     const [error, setError] = useState('');
+    const [loading, setloading] = useContext(loader);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -22,6 +25,7 @@ export default function AssignmentSubmissions() {
     }, [assignmentId, classId]);
 
     const fetchData = async () => {
+        setloading(true);
         try {
             const [submissionsResponse, studentsResponse] = await Promise.all([
                 api.get(`/api/assignments/${assignmentId}/submissions`),
@@ -36,6 +40,8 @@ export default function AssignmentSubmissions() {
         } catch (error) {
             console.error('Error fetching data:', error);
             setError(error.response?.data?.error, 'Failed to fetch data')
+        } finally {
+            setloading(false);
         }
     };
 
@@ -143,6 +149,7 @@ export default function AssignmentSubmissions() {
                     <h1 className='text-3xl font-bold mb-8 flex items-center gap-4'>
                         <button className='p-2 hover:bg-gray-300 bg-gray-100 rounded-full transition-all '
                             title='Back to previous page'
+                            onClick={() => navigate(-1)}
                         >
                             <FaArrowLeft />
                         </button>

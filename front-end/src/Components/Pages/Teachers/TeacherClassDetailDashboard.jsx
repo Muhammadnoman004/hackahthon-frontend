@@ -1,36 +1,46 @@
 import { Button, Popover } from 'antd';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import TeacherClassDetailPage from './TeacherClassDetailPage';
 import AllAssignmentListing from './AllAssignmentListing';
 import AllClassFellowsPage from './AllClassFellowsPage';
 import api from '../../../api/api';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import loader from '../../../Context/LoaderContext';
+import { toast } from 'react-toastify';
 
 export default function TeacherClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
     const [open, setOpen] = useState(false);
     const { classId } = useParams();
+    const [detail, setDetail] = useState();
+    const [loading, setloading] = useContext(loader);
+    const navigate = useNavigate();
 
     const handleOpenChange = (newOpen) => {
         setOpen(newOpen);
     };
 
     useEffect(() => {
-        console.log(classId);
         getClassDetail()
     }, [])
 
     const getClassDetail = async () => {
+        setloading(true);
         try {
             const response = await api.get(`/api/classes/trainer/class/${classId}`);
-            console.log(response);
+            setDetail(response.data);
+            setloading(false);
 
         } catch (error) {
-            console.log(error);
-
+            toast.error(error.response.data, {
+                onClose: () => {
+                    navigate('/trainer/dashboard')
+                }
+            })
+            setloading(false);
         }
     }
 
@@ -51,8 +61,8 @@ export default function TeacherClassDetailDashboard() {
         <Container>
             <div className='p-4 ps-6'>
                 <header className='bg-teal-600 text-white rounded-lg p-3 font-semibold mb-4'>
-                    <h1 className='text-2xl'>A10 6 to 8</h1>
-                    <p>Saylani A10 6 to 8</p>
+                    <h1 className='text-2xl'>{detail?.name}</h1>
+                    <p>{detail?.description}</p>
                 </header>
                 <div className='flex justify-between items-center gap-3 px-1 mb-0'>
                     <div className='flex gap-3 flex-wrap items-center sm:justify-between'>

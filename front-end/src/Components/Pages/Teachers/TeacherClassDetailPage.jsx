@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
+import { useParams } from 'react-router-dom'
+import api from '../../../api/api'
 
 export default function TeacherClassDetailPage() {
+
+    const { classId } = useParams()
+
+    useEffect(() => {
+        getClassDetail()
+    }, [])
+
+    const getClassDetail = async () => {
+        try {
+            const response = await api.get(`/api/classes/trainer/class/${classId}`);
+            console.log(response);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
+
     return (
         <Container>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-2 mt-4'>

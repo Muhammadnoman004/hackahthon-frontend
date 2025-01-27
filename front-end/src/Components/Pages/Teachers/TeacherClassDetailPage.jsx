@@ -1,24 +1,39 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import api from '../../../api/api'
+import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
 
 export default function TeacherClassDetailPage() {
 
-    const { classId } = useParams()
+    const { classId } = useParams();
+    const [detail, setDetail] = useState();
+    const [assignments, setAssignments] = useState([]);
+    const [loading, setloading] = useContext(loader);
+    const navigate = useNavigate();
 
     useEffect(() => {
         getClassDetail()
     }, [])
 
     const getClassDetail = async () => {
+        setloading(true);
         try {
             const response = await api.get(`/api/classes/trainer/class/${classId}`);
-            console.log(response);
+            const res = await api.get(`/api/assignments/class/${classId}`);
+            setAssignments(res.data);
+            setDetail(response.data);
+            console.log(detail);
+            setloading(false);
 
         } catch (error) {
-            console.log(error);
-
+            toast.error(error.response.data, {
+                onClose: () => {
+                    navigate("/trainer/dashboard");
+                }
+            })
+            setloading(false);
         }
     }
 
@@ -29,7 +44,7 @@ export default function TeacherClassDetailPage() {
                     <div className='bg-gray-100 rounded-lg p-3 mb-3'>
                         <h2 className='text-xl mb-3'>Class code</h2>
                         <div className='bg-white p-3 rounded-lg shadow mb-3'>
-                            <p>U4vKeko</p>
+                            <p>{detail?.join_code}</p>
                         </div>
                     </div>
 

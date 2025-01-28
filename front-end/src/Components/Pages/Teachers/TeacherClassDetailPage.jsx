@@ -84,18 +84,20 @@ export default function TeacherClassDetailPage() {
                     <section>
                         <div className='bg-gray-100 rounded-lg p-3 mb-3'>
                             <h2 className='text-xl mb-4 ms-1'>Assignemnt</h2>
-                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
-                                <h3 className='text-lg font-bold'>Make a Restaurant Landing Page</h3>
-                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
-                            </div>
-                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
-                                <h3 className='text-lg font-bold'>Assignment 2</h3>
-                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
-                            </div>
-                            <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all'>
-                                <h3 className='text-lg font-bold'>Hello DG</h3>
-                                <p className='text-gray-600'>Due date: {new Date().toLocaleDateString()}</p>
-                            </div>
+                            {assignments.length > 0 ? assignments.map((assignment, index) => (
+
+                                <div className='bg-white shadow p-4 rounded-lg mb-4 hover:shadow-md hover:cursor-pointer hover:-translate-y-1 hover:transition-all' key={index}
+                                    onClick={() => navigate(`/trainer/${classId}/${assignment._id}`)}
+                                >
+                                    <h3 className='text-lg font-bold'>{assignment?.title}</h3>
+                                    <p className='text-gray-600'>Due date: {new Date(assignment.dueDate).toLocaleDateString()}</p>
+                                </div>
+
+                            )) : (
+                                <div>
+                                    <p>No assignments</p>
+                                </div>
+                            )}
                         </div>
                     </section>
 

@@ -1,13 +1,32 @@
 import { Alert, Button, Spin } from 'antd'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa6'
 import { LiaClipboardListSolid } from 'react-icons/lia'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import api from '../../../api/api'
 
 export default function AssignmentDetailPage() {
 
     const navigate = useNavigate();
+    const { classId, assignmentId } = useParams();
+
+
+    useEffect(() => {
+        fetchAssignment();
+    }, [])
+
+    const fetchAssignment = async () => {
+        try {
+            const userId = localStorage.getItem('userId')
+            const res = await api.get(`/api/assignments/${assignmentId}/report/${userId}`);
+            console.log(res.data);
+
+        } catch (error) {
+            console.log(error);
+
+        }
+    }
 
     return (
         <Container>

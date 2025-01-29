@@ -1,32 +1,43 @@
 import { Alert, Button, Spin } from 'antd'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft, FaDownload } from 'react-icons/fa6'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import api from '../../../api/api'
+import loader from '../../../Context/LoaderContext'
 
 export default function AssignmentDetailPage() {
 
     const navigate = useNavigate();
     const { classId, assignmentId } = useParams();
+    const [error, setError] = useState(null);
+    const [loading, setloading] = useContext(loader);
+    const [report, setReport] = useState(null);
 
 
     useEffect(() => {
         fetchAssignment();
-    }, [])
+    }, [assignmentId])
 
     const fetchAssignment = async () => {
+        setloading(true);
+        setError(null);
         try {
             const userId = localStorage.getItem('userId')
             const res = await api.get(`/api/assignments/${assignmentId}/report/${userId}`);
             console.log(res.data);
-
+            setloading(false);
+            setReport(res.data);
         } catch (error) {
-            console.log(error);
-
+            setloading(false);
+            if (error.res && error.res.status == 404) {
+                setReport(null);
+                return;
+            }
+            setError('Failed to load assignment details. Please try again later.');
         }
-    }
+    };
 
     return (
         <Container>

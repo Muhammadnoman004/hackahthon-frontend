@@ -13,9 +13,12 @@ export default function AssignmentSubmissions() {
     const { classId, assignmentId } = useParams();
     const [submissions, setSubmissions] = useState([]);
     const [students, setStudents] = useState([]);
+    const [currentSubmission, setCurrentSubmission] = useState(null);
+    const [evaluationModal, setEvaluationModal] = useState(false);
     const [error, setError] = useState('');
     const [loading, setloading] = useContext(loader);
     const navigate = useNavigate();
+    const [form] = Form.useForm();
 
 
     useEffect(() => {
@@ -45,6 +48,30 @@ export default function AssignmentSubmissions() {
         }
     };
 
+    const handleEvaluate = (submission) => {
+        setCurrentSubmission(submission);
+        form.setFieldValue({
+            marks: submission.marks,
+            rating: submission.rating,
+            remark: submission.remark,
+        })
+        setEvaluationModal(true);
+    }
+
+    const handleEvalutionSubmit = async (values) => {
+        console.log("value", values);
+        try {
+            await api.post(`/api/assignments/${assignmentId}/evaluate`, {
+                studentId: currentSubmission.student._id,
+                ...values
+            })
+        } catch (error) {
+            console.log(error);
+
+        }
+
+    }
+
 
     const submittedStudentIds = submissions.map(sub => sub.student_id);
     const notSubmittedStudents = students.filter(student => !submittedStudentIds.includes(student._id));
@@ -56,7 +83,7 @@ export default function AssignmentSubmissions() {
             styles={{ body: { padding: "20px 10px", width: "100%", display: "flex", flexWrap: "wrap", gap: "10px" } }}
             actions={isSubmission ? [
                 <Tooltip title="Evaluate">
-                    <Button type='primary' icon={<CheckCircleOutlined />}>
+                    <Button type='primary' onClick={() => handleEvaluate(submission)} icon={<CheckCircleOutlined />}>
                         Evaluate
                     </Button>
                 </Tooltip>
@@ -104,6 +131,8 @@ export default function AssignmentSubmissions() {
 
         </Card>
     )
+
+    const submissionRate = (submissions.length / students.length) * 100;
 
     const tabItems = [
         {
@@ -165,10 +194,11 @@ export default function AssignmentSubmissions() {
                                 <p>Remaining: {notSubmittedStudents.length}</p>
                             </div>
                             <div className='w-full sm:w-auto flex justify-center'>
-                                <Tooltip title={'submitted'}>
+                                <Tooltip title={`${submissionRate.toFixed(1)} % submitted`}>
                                     <Progress
                                         type='circle'
-                                        percent={20}
+                                        percent={Math.round(submissionRate)}
+                                        format={percent => `${percent}%`}
                                         size={120}
                                     />
                                 </Tooltip>
@@ -184,12 +214,13 @@ export default function AssignmentSubmissions() {
 
 
                     <Modal
-
+                        open={evaluationModal}
+                        onClose={() => setEvaluationModal(false)}
                         title="Evaluate Submission"
                         footer={null}
                         className='max-w-full'
                     >
-                        <Form layout='vertical'>
+                        <Form form={form} onFinish={handleEvalutionSubmit} layout='vertical'>
                             <Form.Item
                                 name="marks"
                                 label="Marks"

@@ -1,11 +1,10 @@
 import { CheckCircleOutlined, CheckCircleTwoTone, ClockCircleOutlined, FileOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Card, Form, Input, InputNumber, Modal, Progress, Select, Tabs, Tooltip } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
+import { Button, Card, Form, Input, InputNumber, message, Modal, Progress, Select, Tabs, Tooltip } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft } from 'react-icons/fa6'
 import api from '../../api/api'
 import { useNavigate, useParams } from 'react-router-dom'
-import loader from '../../Context/LoaderContext'
 
 export default function AssignmentSubmissions() {
 
@@ -16,7 +15,7 @@ export default function AssignmentSubmissions() {
     const [currentSubmission, setCurrentSubmission] = useState(null);
     const [evaluationModal, setEvaluationModal] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setloading] = useContext(loader);
+    const [loading, setloading] = useState(true);
     const navigate = useNavigate();
     const [form] = Form.useForm();
 
@@ -65,11 +64,26 @@ export default function AssignmentSubmissions() {
                 studentId: currentSubmission.student._id,
                 ...values
             })
+            message.success('Evaluation submitted successfully');
+            setEvaluationModal(false);
+            fetchData();
         } catch (error) {
-            console.log(error);
-
+            console.error('Error submitting evaluation:', error);
+            message.error(error.response?.data?.error || 'Failed to submit evaluation');
         }
 
+    }
+
+    if (loading) {
+        return (
+            <div className='flex justify-center items-center h-screen'>
+                <div className='animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-sky-blue'></div>
+            </div>
+        )
+    }
+
+    if (error) {
+        return <div className='text-red-500 text-center p-4 bg-red-100 rounded-lg m-4'>{error}</div>
     }
 
 

@@ -35,7 +35,7 @@ export default function AssignmentDetailPage() {
         } catch (error) {
             setloading(false);
             setload(false);
-            if (error.res && error.res.status == 404) {
+            if (error.response && error.response.status == 404) {
                 setReport(null);
                 return;
             }

@@ -1,6 +1,38 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import api from '../../../api/api';
+import { useParams } from 'react-router-dom';
+import useFetchProfile from '../../../utils/useFetchProfile';
+import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
 
 export default function AllClassFellowsPage() {
+
+    const { classId } = useParams();
+    const { user } = useFetchProfile();
+    const [trainerData, setTrainerData] = useState([]);
+    const [studentsData, setStudentsData] = useState([])
+    const [loading, setloading] = useContext(loader);
+
+    useEffect(() => {
+        getAllClassFellows()
+    }, [user])
+
+    const getAllClassFellows = () => {
+
+        setloading(true);
+        api.get(`/api/classes/classmates/${classId}`)
+            .then(res => {
+                console.log(res);
+                setTrainerData([...trainerData, res.data.teacher]);
+                setStudentsData([...studentsData, ...res.data.students]);
+                setloading(false);
+            })
+            .catch(err => {
+                toast.error(err?.response.data.error);
+                setloading(false);
+            })
+    }
+
     return (
         <div>
             <div className='flex text-2xl font-extrabold mb-4'>

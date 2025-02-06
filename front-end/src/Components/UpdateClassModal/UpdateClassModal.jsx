@@ -1,19 +1,33 @@
 import { Form, Input, Modal, Upload } from 'antd'
 import React from 'react'
 
-export default function UpdateClassModal() {
+export default function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
+
+    const [form] = Form.useForm();
+
+    const handleSubmit = () => {
+        form.validateFields();
+    }
+
+    const handleCancel = () => {
+        closeModal();
+        form.resetFields();
+    }
+
     return (
         <div>
             <Modal
                 open={open}
                 title={'Update Class'}
                 okText={'Update'}
+                onOk={handleSubmit}
                 cancelText="Cancel"
                 okButtonProps={{
                     autoFocus: true,
                     htmlType: 'submit',
 
                 }}
+                onCancel={handleCancel}
                 destroyOnClose
             >
                 <Form

@@ -9,11 +9,13 @@ import api from '../../../api/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import loader from '../../../Context/LoaderContext';
 import { toast } from 'react-toastify';
+import UpdateClassModal from '../../UpdateClassModal/UpdateClassModal';
 
 export default function TeacherClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
     const [open, setOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { classId } = useParams();
     const [detail, setDetail] = useState();
     const [loading, setloading] = useContext(loader);
@@ -44,6 +46,14 @@ export default function TeacherClassDetailDashboard() {
         }
     }
 
+
+    const handleOpen = () => {
+        setOpen(false)
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
 
     const renderComponent = () => {
         switch (selectedComponent) {
@@ -110,7 +120,7 @@ export default function TeacherClassDetailDashboard() {
                         >People</Button>
                     </div>
                     <Popover
-                        content={<p className='cursor-pointer'>Setting</p>}
+                        content={<p className='cursor-pointer' onClick={() => handleOpen()}>Setting</p>}
                         trigger="click"
                         placement='bottomRight'
                         open={open}
@@ -124,6 +134,7 @@ export default function TeacherClassDetailDashboard() {
                 <div>
                     {renderComponent()}
                 </div>
+                <UpdateClassModal open={isModalOpen} closeModal={handleCloseModal} getClassDetail={getClassDetail} detail={detail} />
             </div>
         </Container >
     )

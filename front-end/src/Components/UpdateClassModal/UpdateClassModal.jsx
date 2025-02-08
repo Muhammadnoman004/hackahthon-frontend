@@ -1,9 +1,61 @@
 import { Form, Input, Modal, Upload } from 'antd'
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import loader from '../../Context/LoaderContext';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+
+const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+        message.error('You can only upload JPG/PNG file!');
+        return Upload.LIST_IGNORE; // Prevent the upload
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+        message.error('Image must be smaller than 2MB!');
+        return Upload.LIST_IGNORE; // Prevent the upload
+    }
+    return false; // Prevent automatic upload
+};
 
 export default function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
 
     const [form] = Form.useForm();
+    const [fileList, setFileList] = useState([]);
+    const [loading, setloading] = useContext(loader);
+
+    useEffect(() => {
+        console.log(detail);
+        if (detail) {
+            form.setFieldsValue({
+                name: detail.name,
+                description: detail.description,
+                classImage: detail.classImage
+            })
+        }
+
+    }, [detail])
+
+
+    const handleChange = (info) => {
+        let newFileList = [...info.fileList].slice(-1);
+        setFileList(newFileList);
+
+        if (info.file.status === 'uploading') {
+            setloading(true);
+            return;
+        }
+        if (info.file.originFileObj) {
+            const imageUrl = URL.createObjectURL(info.file.originFileObj);
+            setloading(false);
+        }
+    };
+
+    const uploadButton = (
+        <div>
+            {loading ? <LoadingOutlined /> : <PlusOutlined />}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+    )
 
     const handleSubmit = () => {
         form.validateFields();
@@ -12,6 +64,7 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
     const handleCancel = () => {
         closeModal();
         form.resetFields();
+        setFileList([])
     }
 
     return (
@@ -32,10 +85,12 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
             >
                 <Form
                     layout="vertical"
-                    name="form_in_modal"
+                    form={form}
+                    name="update-class-form"
                     initialValues={{
                         modifier: 'public',
                     }}
+                    onFinish={handleSubmit}
                 >
                     <Form.Item
                         name="name"
@@ -58,12 +113,16 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Class Image:">
+                    <Form.Item label="Class Image:" name="classImage">
                         <Upload
                             action="" // Prevent automatic upload
                             listType="picture-circle"
                             className="avatar-uploader"
+                            fileList={fileList}
+                            beforeUpload={beforeUpload}
+                            onChange={handleChange}
                         >
+                            {fileList.length > 0 ? null : uploadButton}
                         </Upload>
                     </Form.Item>
                 </Form>

@@ -2,6 +2,10 @@ import { Form, Input, Modal, Upload } from 'antd'
 import React, { useContext, useEffect, useState } from 'react'
 import loader from '../../Context/LoaderContext';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import uploadFileToFirebase from "../../utils/uploadFileToFirebase";
+import useFetchProfile from "../../utils/useFetchProfile"
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -22,6 +26,8 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
     const [loading, setloading] = useContext(loader);
+    const { classId } = useParams();
+    const { user } = useFetchProfile();
 
     useEffect(() => {
         console.log(detail);
@@ -30,10 +36,13 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
                 name: detail.name,
                 description: detail.description,
                 classImage: detail.classImage
-            })
+            });
+            if (detail.classImage) {
+                setFileList([{ url: detail.classImage }])
+            }
         }
 
-    }, [detail])
+    }, [detail, form])
 
 
     const handleChange = (info) => {
@@ -58,13 +67,29 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
     )
 
     const handleSubmit = () => {
-        form.validateFields();
+        form.validateFields()
+            .then(async (values) => {
+                setloading(true);
+                const file = fileList[0]?.originFileObj;
+                if (file) {
+                    try {
+                        const fileUrl = await uploadFileToFirebase(file, `classes/${user._id}/${file.name}`);
+                        values.classImage = fileUrl
+                    }
+                    catch (err) {
+                        setloading(false)
+                        toast.error('Failed to upload image.')
+                        return;
+                    }
+                    setloading(false);
+                }
+                console.log("values", values);
+
+            })
     }
 
     const handleCancel = () => {
         closeModal();
-        form.resetFields();
-        setFileList([])
     }
 
     return (

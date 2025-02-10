@@ -1,11 +1,13 @@
 import { Form, Input, Modal, Upload } from 'antd'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import loader from '../../Context/LoaderContext';
+import Loader from '../../Components/Loader/Loader';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import uploadFileToFirebase from "../../utils/uploadFileToFirebase";
 import useFetchProfile from "../../utils/useFetchProfile"
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import api from '../../api/api';
 
 const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -21,11 +23,11 @@ const beforeUpload = (file) => {
     return false; // Prevent automatic upload
 };
 
-export default function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
+function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
 
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState([]);
-    const [loading, setloading] = useContext(loader);
+    const [loading, setLoading] = useContext(loader);
     const { classId } = useParams();
     const { user } = useFetchProfile();
 
@@ -50,12 +52,12 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
         setFileList(newFileList);
 
         if (info.file.status === 'uploading') {
-            setloading(true);
+            setLoading(true);
             return;
         }
         if (info.file.originFileObj) {
             const imageUrl = URL.createObjectURL(info.file.originFileObj);
-            setloading(false);
+            setLoading(false);
         }
     };
 
@@ -69,7 +71,7 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
     const handleSubmit = () => {
         form.validateFields()
             .then(async (values) => {
-                setloading(true);
+                setLoading(true);
                 const file = fileList[0]?.originFileObj;
                 if (file) {
                     try {
@@ -77,14 +79,25 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
                         values.classImage = fileUrl
                     }
                     catch (err) {
-                        setloading(false)
+                        setLoading(false)
                         toast.error('Failed to upload image.')
                         return;
                     }
-                    setloading(false);
                 }
                 console.log("values", values);
 
+                await api.put(`/api/classes/${classId}`, values);
+
+                closeModal();
+                getClassDetail();
+                setLoading(false);
+                toast.success('Class updated successfully!');
+                form.resetFields();
+                setFileList([]);
+            })
+            .catch(info => {
+                setLoading(false);
+                toast.error(info?.message);
             })
     }
 
@@ -151,7 +164,10 @@ export default function UpdateClassModal({ open, closeModal, getClassDetail, det
                         </Upload>
                     </Form.Item>
                 </Form>
+                {loading && <Loader />}
             </Modal>
         </div>
     )
 }
+
+export default memo(UpdateClassModal);

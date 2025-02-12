@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
-import { Button, Menu } from 'antd';
+import { Button, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 const items = [
     {
@@ -51,16 +52,32 @@ const items = [
         label: 'Update profile',
     },
     {
-        key: 'sub5',
+        key: 'changePassword',
         label: 'Change password',
         icon: <FaUserLock color='#87CEEB' />,
     },
 ];
-const onClick = (e) => {
-    console.log('click', e);
-};
+
 
 export default function TeacherSettingPage() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    const onClick = (e) => {
+        if (e.key === 'changePassword') {
+            setIsModalOpen(true)
+        }
+    };
+
     return (
         <div>
             <Container>
@@ -79,6 +96,39 @@ export default function TeacherSettingPage() {
                 <div className='mx-4'>
                     <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
                 </div>
+
+
+                <Modal footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+
+                    <div className='p-3 px-2'>
+                        <div>
+                            <h1 className='text-lg text-center font-bold uppercase'>User Inforamtion</h1>
+                        </div>
+
+                        <div>
+                            <div className='my-4 text-base'>
+
+                                <label>Current Password</label>
+                                <Input size="large" placeholder="Current Password" prefix={<FaUserLock />} className='mb-5' />
+
+                                <label>New Password</label>
+                                <Input size="large" type='password' placeholder="New Password" prefix={<RiLockPasswordFill />} className='mb-5' />
+
+                                <label>Confirm Password</label>
+                                <Input size="large" type='password' placeholder="Confirm Password" prefix={<RiLockPasswordFill />} className='mb-5' />
+
+                            </div>
+                        </div>
+
+                        <div>
+                            <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
+                            <Button type='primary' className='mx-2' onClick={handleOk}>Edit</Button>
+                        </div>
+
+                    </div>
+
+                </Modal>
+
             </Container>
         </div>
     )

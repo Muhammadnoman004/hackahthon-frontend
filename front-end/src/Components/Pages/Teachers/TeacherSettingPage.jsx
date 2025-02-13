@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
-import { Button, Input, Menu, Modal } from 'antd';
+import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
@@ -62,12 +62,11 @@ const items = [
 export default function TeacherSettingPage() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [form] = Form.useForm();
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
-    const handleOk = () => {
-        setIsModalOpen(false);
+    const handleSubmit = () => {
+        // setIsModalOpen(false);
+        form.validateFields();
     };
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -98,33 +97,71 @@ export default function TeacherSettingPage() {
                 </div>
 
 
-                <Modal footer={null} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <Modal
+                    footer={null}
+                    open={isModalOpen}
+                    onOk={handleSubmit}
+                    okButtonProps={{
+                        autoFocus: true,
+                        htmlType: 'submit',
 
-                    <div className='p-3 px-2'>
-                        <div>
-                            <h1 className='text-lg text-center font-bold uppercase'>User Inforamtion</h1>
-                        </div>
+                    }}
+                    onCancel={handleCancel}
+                    destroyOnClose
+                >
+                    <div>
+                        <h1 className='text-lg text-center font-bold uppercase pb-3'>Update Password</h1>
+                    </div>
 
-                        <div>
-                            <div className='my-4 text-base'>
+                    <Form
+                        layout="vertical"
+                        form={form}
+                        name="update-class-form"
+                        initialValues={{
+                            modifier: 'public',
+                        }}
+                        onFinish={handleSubmit}
+                    >
+                        <Form.Item
+                            name="changePass"
+                            label="Current Password"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter your old password!',
+                            }]}
+                        >
+                            <Input.Password placeholder='Current Password' size='large' prefix={<FaUserLock />} />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            label="New Password"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter your updated password!',
+                            },
+                            {
+                                min: 6,
+                                message: 'Please must be at least 6 characters long'
+                            }
+                            ]}
+                        >
+                            <Input.Password placeholder='New Password' size='large' prefix={<RiLockPasswordFill />} />
+                        </Form.Item>
+                        <Form.Item
+                            name="confirm"
+                            label="Confirm Password"
+                            rules={[{
+                                required: true,
+                                message: 'Please confirm your password!'
+                            }]}
+                        >
+                            <Input.Password placeholder='Confirm Password' size='large' prefix={<RiLockPasswordFill />} />
+                        </Form.Item>
+                    </Form>
 
-                                <label>Current Password</label>
-                                <Input size="large" placeholder="Current Password" prefix={<FaUserLock />} className='mb-5' />
-
-                                <label>New Password</label>
-                                <Input size="large" type='password' placeholder="New Password" prefix={<RiLockPasswordFill />} className='mb-5' />
-
-                                <label>Confirm Password</label>
-                                <Input size="large" type='password' placeholder="Confirm Password" prefix={<RiLockPasswordFill />} className='mb-5' />
-
-                            </div>
-                        </div>
-
-                        <div>
-                            <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
-                            <Button type='primary' className='mx-2' onClick={handleOk}>Edit</Button>
-                        </div>
-
+                    <div className='flex justify-end'>
+                        <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
+                        <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
                     </div>
 
                 </Modal>

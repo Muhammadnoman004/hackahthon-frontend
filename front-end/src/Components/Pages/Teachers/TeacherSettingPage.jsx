@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
@@ -7,6 +7,10 @@ import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import api from '../../../api/api';
+import loader from '../../../Context/LoaderContext';
+import { toast } from 'react-toastify';
+import Loader from '../../Loader/Loader';
 
 const items = [
     {
@@ -62,13 +66,30 @@ const items = [
 export default function TeacherSettingPage() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useContext(loader);
     const [form] = Form.useForm();
 
-    const handleSubmit = () => {
-        // setIsModalOpen(false);
-        form.validateFields();
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            const values = await form.validateFields();
+            const response = await api.put("/api/users/profile", {
+                password: values.password,
+                oldPassword: values.oldPassword
+            })
+            toast.success('Password updated successfully!')
+            setLoading(false);
+            setIsModalOpen(false);
+            form.resetFields();
+        }
+        catch (error) {
+            setLoading(false);
+            toast.error(error.response.data.message);
+        }
     };
+
     const handleCancel = () => {
+        form.resetFields();
         setIsModalOpen(false);
     };
     const onClick = (e) => {
@@ -78,96 +99,106 @@ export default function TeacherSettingPage() {
     };
 
     return (
-        <div>
-            <Container>
-                <div className='flex m-4 text-2xl font-mono font-extrabold'>
-                    <h1 className='flex-1'>Settings</h1>
-                    <BellFilled className='flex-2 text-amber-400 hover:cursor-pointer' />
+        <Container>
+            <div className='flex m-4 text-2xl font-mono font-extrabold'>
+                <h1 className='flex-1'>Settings</h1>
+                <BellFilled className='flex-2 text-amber-400 hover:cursor-pointer' />
+            </div>
+
+            <Menu
+                onClick={onClick}
+                className='my-7 mx-7 sm:w-2/3 rounded-lg bg-stone-100 md:3/4'
+                mode="vertical"
+                items={items}
+            />
+
+            <div className='mx-4'>
+                <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
+            </div>
+
+
+            <Modal
+                footer={null}
+                open={isModalOpen}
+                onOk={handleSubmit}
+                okButtonProps={{
+                    autoFocus: true,
+                    htmlType: 'submit',
+
+                }}
+                onCancel={handleCancel}
+                destroyOnClose
+            >
+                <div>
+                    <h1 className='text-lg text-center font-bold uppercase pb-3'>Update Password</h1>
                 </div>
 
-                <Menu
-                    onClick={onClick}
-                    className='my-7 mx-7 sm:w-2/3 rounded-lg bg-stone-100 md:3/4'
-                    mode="vertical"
-                    items={items}
-                />
-
-                <div className='mx-4'>
-                    <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
-                </div>
-
-
-                <Modal
-                    footer={null}
-                    open={isModalOpen}
-                    onOk={handleSubmit}
-                    okButtonProps={{
-                        autoFocus: true,
-                        htmlType: 'submit',
-
+                <Form
+                    layout="vertical"
+                    form={form}
+                    name="update-class-form"
+                    initialValues={{
+                        modifier: 'public',
                     }}
-                    onCancel={handleCancel}
-                    destroyOnClose
+                    onFinish={handleSubmit}
                 >
-                    <div>
-                        <h1 className='text-lg text-center font-bold uppercase pb-3'>Update Password</h1>
-                    </div>
-
-                    <Form
-                        layout="vertical"
-                        form={form}
-                        name="update-class-form"
-                        initialValues={{
-                            modifier: 'public',
-                        }}
-                        onFinish={handleSubmit}
+                    <Form.Item
+                        name="oldPassword"
+                        label="Current Password"
+                        rules={[{
+                            required: true,
+                            message: 'Please enter your old password!',
+                        }]}
                     >
-                        <Form.Item
-                            name="changePass"
-                            label="Current Password"
-                            rules={[{
-                                required: true,
-                                message: 'Please enter your old password!',
-                            }]}
-                        >
-                            <Input.Password placeholder='Current Password' size='large' prefix={<FaUserLock />} />
-                        </Form.Item>
-                        <Form.Item
-                            name="password"
-                            label="New Password"
-                            rules={[{
-                                required: true,
-                                message: 'Please enter your updated password!',
+                        <Input.Password placeholder='Current Password' size='large' prefix={<FaUserLock />} />
+                    </Form.Item>
+                    <Form.Item
+                        name="password"
+                        label="New Password"
+                        rules={[{
+                            required: true,
+                            message: 'Please enter your updated password!',
+                        },
+                        {
+                            min: 6,
+                            message: 'Please must be at least 6 characters long'
+                        }
+                        ]}
+                    >
+                        <Input.Password placeholder='New Password' size='large' prefix={<RiLockPasswordFill />} />
+                    </Form.Item>
+                    <Form.Item
+                        name="confirm"
+                        label="Confirm Password"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[{
+                            required: true,
+                            message: 'Please confirm your password!'
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject(new Error('The two passwords do not match!'));
                             },
-                            {
-                                min: 6,
-                                message: 'Please must be at least 6 characters long'
-                            }
-                            ]}
-                        >
-                            <Input.Password placeholder='New Password' size='large' prefix={<RiLockPasswordFill />} />
-                        </Form.Item>
-                        <Form.Item
-                            name="confirm"
-                            label="Confirm Password"
-                            rules={[{
-                                required: true,
-                                message: 'Please confirm your password!'
-                            }]}
-                        >
-                            <Input.Password placeholder='Confirm Password' size='large' prefix={<RiLockPasswordFill />} />
-                        </Form.Item>
-                    </Form>
+                        }),
+                        ]}
+                    >
+                        <Input.Password placeholder='Confirm Password' size='large' prefix={<RiLockPasswordFill />} />
+                    </Form.Item>
+                </Form>
 
-                    <div className='flex justify-end'>
-                        <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
-                        <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
-                    </div>
+                <div className='flex justify-end'>
+                    <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
+                    <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
+                </div>
 
-                </Modal>
+                {loading && <Loader />}
+            </Modal>
 
-            </Container>
-        </div>
+        </Container>
     )
 }
 

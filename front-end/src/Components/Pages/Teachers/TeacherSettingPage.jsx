@@ -14,43 +14,6 @@ import Loader from '../../Loader/Loader';
 
 const items = [
     {
-        key: 'sub1',
-        icon: <FaBell color='#87CEEB' />,
-        label: 'Notifications',
-        children: [
-            {
-                key: '1-1',
-                label: 'Item 1',
-                type: 'group',
-                children: [
-                    {
-                        key: '1',
-                        label: 'Option 1',
-                    },
-                    {
-                        key: '2',
-                        label: 'Option 2',
-                    },
-                ],
-            },
-            {
-                key: '1-2',
-                label: 'Item 2',
-                type: 'group',
-                children: [
-                    {
-                        key: '3',
-                        label: 'Option 3',
-                    },
-                    {
-                        key: '4',
-                        label: 'Option 4',
-                    },
-                ],
-            },
-        ],
-    },
-    {
         key: 'sub2',
         icon: <Link to={'/trainer/profile'}><FaUser color='#87CEEB' /></Link>,
         label: 'Update profile',

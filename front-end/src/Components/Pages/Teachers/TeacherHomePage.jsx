@@ -96,7 +96,7 @@ export default function TeacherHomePage() {
                                     >
                                         <div className='flex relative bottom-12'>
                                             <h1 className='flex-1 relative top-8 right-3 font-semibold'>{eachClass.description}</h1>
-                                            <img className='size-12 rounded-full bg-white' src={!eachClass.teacher?.profileImg ? userProfileIcon : eachClass.teacher?.profileImg} alt="" />
+                                            <img className='size-12 rounded-full bg-white object-cover' src={!eachClass.teacher?.profileImg ? userProfileIcon : eachClass.teacher?.profileImg} alt="" />
                                         </div>
 
                                         <div className='flex'>

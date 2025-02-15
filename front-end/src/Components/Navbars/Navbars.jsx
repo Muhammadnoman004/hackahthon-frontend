@@ -131,7 +131,7 @@ export default memo(function Navbars({ title }) {
                                     }}
                                     overlayClassName="text-center"
                                 >
-                                    <div><HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></div>
+                                    <div >{user.profileImg ? <img className="w-8 h-8 rounded-full object-cover border bg-slate-50  hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" src={user.profileImg} alt="#" /> : <HiUserCircle className="text-4xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" />}</div>
                                 </Dropdown>
                             </Space>
                         </Space>
@@ -148,7 +148,7 @@ export default memo(function Navbars({ title }) {
                                     }}
                                     overlayClassName="text-center"
                                 >
-                                    <div><HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl" /></div>
+                                    <div >{user.profileImg ? <img className="w-8 h-8 rounded-full object-cover border bg-slate-50  hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" src={user.profileImg} alt="#" /> : <HiUserCircle className="text-4xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" />}</div>
                                 </Dropdown>
                             </Space>
                         </Space>
@@ -165,7 +165,7 @@ export default memo(function Navbars({ title }) {
                                     }}
                                     overlayClassName="text-center"
                                 >
-                                    <div> <HiUserCircle className="text-3xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" /></div>
+                                    <div >{user.profileImg ? <img className="w-8 h-8 rounded-full object-cover border bg-slate-50  hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" src={user.profileImg} alt="#" /> : <HiUserCircle className="text-4xl hover:scale-125 duration-500 drop-shadow-xl cursor-pointer" />}</div>
                                 </Dropdown>
                             </Space>
                         </Space>

@@ -4,13 +4,14 @@ import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import { toast } from 'react-toastify';
 import Loader from '../../Loader/Loader';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 const items = [
     {
@@ -28,12 +29,14 @@ const items = [
 
 export default function TeacherSettingPage() {
 
+    const { user, setUser } = useFetchProfile()
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [loading, setLoading] = useContext(loader);
+    const [loading, setloading] = useContext(loader);
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        setLoading(true);
+        setloading(true);
         try {
             const values = await form.validateFields();
             const response = await api.put("/api/users/profile", {
@@ -41,12 +44,12 @@ export default function TeacherSettingPage() {
                 oldPassword: values.oldPassword
             })
             toast.success('Password updated successfully!')
-            setLoading(false);
+            setloading(false);
             setIsModalOpen(false);
             form.resetFields();
         }
         catch (error) {
-            setLoading(false);
+            setloading(false);
             toast.error(error.response.data.message);
         }
     };
@@ -61,8 +64,32 @@ export default function TeacherSettingPage() {
         }
     };
 
+    const logOut = async () => {
+        try {
+            setloading(true);
+            const res = await api.post("/api/users/logout")
+            if (res) {
+                setloading(false);
+                toast.success(res.data, {
+                    onClose: () => {
+                        localStorage.removeItem("token");
+                        setUser(null);
+                        navigate('/login');
+                    }
+                });
+            }
+        }
+        catch (err) {
+            setloading(false);
+            toast.error(err.response?.data || err.message);
+        }
+
+    }
+
     return (
         <Container>
+            {loading && <Loader />}
+
             <div className='flex m-4 text-2xl font-mono font-extrabold'>
                 <h1 className='flex-1'>Settings</h1>
                 <BellFilled className='flex-2 text-amber-400 hover:cursor-pointer' />
@@ -76,7 +103,7 @@ export default function TeacherSettingPage() {
             />
 
             <div className='mx-4'>
-                <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
+                <Button icon={<MdOutlineLogout />} className='text-lg' onClick={logOut}>Logout</Button>
             </div>
 
 
@@ -157,8 +184,8 @@ export default function TeacherSettingPage() {
                     <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
                     <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
                 </div>
-
                 {loading && <Loader />}
+
             </Modal>
 
         </Container>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
@@ -7,6 +7,10 @@ import { Container } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import api from '../../../api/api';
+import loader from '../../../Context/LoaderContext';
+import { toast } from 'react-toastify';
+import Loader from '../../Loader/Loader';
 
 const items = [
   {
@@ -62,13 +66,30 @@ const items = [
 export default function AdminSettingPage() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+  const [loading, setloading] = useContext(loader);
 
   const handleSubmit = async () => {
-    console.log("working!");
+    setloading(true);
+    try {
+      const values = await form.validateFields();
+      const response = await api.put("/api/users/profile", {
+        password: values.password,
+        oldPassword: values.oldPassword
+      })
+      toast.success('Password updated successfully!', { duration: 3000 });
+      setloading(false);
+      setIsModalOpen(false);
+      form.resetFields();
+    } catch (error) {
+      setloading(false);
+      toast.error(error.response.data.message, { duration: 3000 });
+    }
 
   }
 
   const handleCancel = () => {
+    form.resetFields();
     setIsModalOpen(false);
   };
 
@@ -82,6 +103,7 @@ export default function AdminSettingPage() {
   return (
     <div>
       <Container>
+        {loading && <Loader />}
         <div className='flex m-4 text-2xl font-mono font-extrabold'>
           <h1 className='flex-1'>Settings</h1>
           <BellFilled className='flex-2 text-amber-400 hover:cursor-pointer' />
@@ -117,6 +139,7 @@ export default function AdminSettingPage() {
 
           <Form
             layout="vertical"
+            form={form}
             name="update-class-form"
             initialValues={{
               modifier: 'public',
@@ -175,7 +198,7 @@ export default function AdminSettingPage() {
             <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
             <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
           </div>
-
+          {loading && <Loader />}
         </Modal>
       </Container>
     </div>

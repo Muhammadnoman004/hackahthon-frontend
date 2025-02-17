@@ -1,55 +1,19 @@
 import React, { useContext, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
-import { FaUserLock, FaBell } from "react-icons/fa";
+import { FaUserLock } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
 import { FaUser } from 'react-icons/fa6';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import api from '../../../api/api';
 import loader from '../../../Context/LoaderContext';
 import { toast } from 'react-toastify';
 import Loader from '../../Loader/Loader';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 const items = [
-  {
-    key: 'sub1',
-    icon: <FaBell color='#87CEEB' />,
-    label: 'Notifications',
-    children: [
-      {
-        key: '1-1',
-        label: 'Item 1',
-        type: 'group',
-        children: [
-          {
-            key: '1',
-            label: 'Option 1',
-          },
-          {
-            key: '2',
-            label: 'Option 2',
-          },
-        ],
-      },
-      {
-        key: '1-2',
-        label: 'Item 2',
-        type: 'group',
-        children: [
-          {
-            key: '3',
-            label: 'Option 3',
-          },
-          {
-            key: '4',
-            label: 'Option 4',
-          },
-        ],
-      },
-    ],
-  },
   {
     key: 'sub2',
     icon: <Link to={'/admin/profile'}><FaUser color='#87CEEB' /></Link>,
@@ -68,6 +32,8 @@ export default function AdminSettingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [loading, setloading] = useContext(loader);
+  const { user, setUser } = useFetchProfile();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     setloading(true);
@@ -99,6 +65,28 @@ export default function AdminSettingPage() {
     }
   };
 
+  const logOut = async () => {
+    try {
+      setloading(true);
+      const res = await api.post("/api/users/logout")
+      if (res) {
+        setloading(false);
+        toast.success(res.data, {
+          onClose: () => {
+            localStorage.removeItem("token");
+            setUser(null);
+            navigate('/login');
+          }
+        });
+      }
+    }
+    catch (err) {
+      setloading(false);
+      toast.error(err.response?.data || err.message);
+    }
+
+  }
+
 
   return (
     <div>
@@ -117,7 +105,7 @@ export default function AdminSettingPage() {
         />
 
         <div className='mx-4'>
-          <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
+          <Button icon={<MdOutlineLogout />} className='text-lg' onClick={logOut}>Logout</Button>
         </div>
 
 

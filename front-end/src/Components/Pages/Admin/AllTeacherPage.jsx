@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Form, Input, Modal } from 'antd';
 import { Container } from 'react-bootstrap'
 import { Space, Table } from 'antd';
+import { BiSolidUserDetail } from "react-icons/bi";
 import { FaEdit } from 'react-icons/fa';
 import { FaDeleteLeft } from 'react-icons/fa6';
 import api from '../../../api/api';
@@ -166,6 +167,7 @@ export default function AllTeacherPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
+                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail /></a>
                     <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>

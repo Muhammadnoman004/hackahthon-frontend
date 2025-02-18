@@ -22,7 +22,7 @@ export default function AdminHomePage() {
     return (
         <div>
             <Container>
-                <div className='my-4 mx-3 flex gap-3'>
+                <div className='my-4 mx-3 flex justify-between sm:justify-start gap-3 '>
                     <Button onClick={() => setSelectedPage('AllTeacher')}
                         style={{
                             backgroundColor: selectedPage === 'AllTeacher' ? '#87CEEB' : 'transparent',

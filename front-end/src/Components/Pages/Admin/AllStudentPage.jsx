@@ -171,9 +171,9 @@ export default function AllStudentPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail /></a>
-                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
-                    <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
+                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' /></a>
+                    <a className='text-xl hover:text-green-500'><FaEdit title='Edit Student' onClick={() => showEditModal(record)} /></a>
+                    <a className='text-xl hover:text-red-500'><FaDeleteLeft title='Delete Student' onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>
             ),
         },
@@ -183,7 +183,7 @@ export default function AllStudentPage() {
     return (
         <div>
             <Container>
-                <div className='flex justify-between m-4'>
+                <div className='flex justify-between mb-4 mx-1 my-4'>
                     <div>
                         <h1 className='font-bold text-xl'>All Students</h1>
                     </div>
@@ -193,8 +193,9 @@ export default function AllStudentPage() {
                 </div>
 
                 <Table
-                    className='shadow-xl mb-5'
+                    className='shadow-xl mb-5 overflow-x-auto'
                     bordered
+                    pagination={false}
                     columns={columns}
                     dataSource={students}
                     loading={load}

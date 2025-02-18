@@ -31,6 +31,7 @@ import StudentClassDetailDashboard from '../Pages/Students/StudentClassDetailDas
 import TeacherClassDetailDashboard from '../Pages/Teachers/TeacherClassDetailDashboard';
 import AssignmentDetailPage from '../Pages/Teachers/AssignmentDetailPage';
 import AssignmentSubmissions from '../AssignmentSubmissions/AssignmentSubmissions';
+import AdminTrainerDetailPage from '../Pages/Admin/AdminTrainerDetailPage';
 
 const router = createBrowserRouter([
     {
@@ -214,6 +215,13 @@ const router = createBrowserRouter([
         element: <>
             <Navbars title={'Admin | Profile'} />
             < AdminUpdateProfilePage />
+        </>
+    },
+    {
+        path: "/admin/teacher/:teacherId",
+        element: <>
+            <Navbars title={'Admin | Teacher'} />
+            < AdminTrainerDetailPage />
         </>
     },
 

@@ -9,6 +9,7 @@ import api from '../../../api/api';
 import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
+import { useNavigate } from 'react-router-dom';
 
 export default function AllTeacherPage() {
 
@@ -21,6 +22,7 @@ export default function AllTeacherPage() {
     const [load, setload] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedTeacher, setEditedTeacher] = useState(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -167,9 +169,9 @@ export default function AllTeacherPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail /></a>
-                    <a className='text-xl hover:text-green-500'><FaEdit onClick={() => showEditModal(record)} /></a>
-                    <a className='text-xl hover:text-red-500'><FaDeleteLeft onClick={() => handleDeleteTeacher(record._id)} /></a>
+                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' onClick={() => navigate(`/admin/teacher/${record._id}`)} /></a>
+                    <a className='text-xl hover:text-green-500'><FaEdit title='Edit Teacher' onClick={() => showEditModal(record)} /></a>
+                    <a className='text-xl hover:text-red-500'><FaDeleteLeft title='Delete Teacher' onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>
             ),
         },
@@ -178,7 +180,7 @@ export default function AllTeacherPage() {
     return (
         <div>
             <Container>
-                <div className='flex justify-between m-4'>
+                <div className='flex justify-between mb-4 mx-1 my-4'>
                     <div>
                         <h1 className='font-bold text-xl'>All Teachers</h1>
                     </div>
@@ -188,8 +190,9 @@ export default function AllTeacherPage() {
                 </div>
 
                 <Table
-                    className='shadow-xl mb-5'
+                    className='shadow-xl mb-5 overflow-x-auto'
                     bordered
+                    pagination={false}
                     columns={columns}
                     dataSource={teachers}
                     loading={load}

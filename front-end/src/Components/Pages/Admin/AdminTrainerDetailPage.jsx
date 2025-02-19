@@ -1,10 +1,13 @@
 import React from 'react'
 import TrainerDetail from '../../TrainerDetail/TrainerDetail'
+import { Container } from 'react-bootstrap'
 
 function AdminTrainerDetailPage() {
     return (
         <div>
-            <TrainerDetail />
+            <Container>
+                <TrainerDetail />
+            </Container>
         </div>
     )
 }

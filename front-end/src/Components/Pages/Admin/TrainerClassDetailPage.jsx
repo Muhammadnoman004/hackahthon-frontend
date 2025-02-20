@@ -2,6 +2,7 @@ import { BellOutlined, CalendarOutlined, FileTextOutlined, PlusOutlined, UserOut
 import { Avatar, Card, Col, Layout, List, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap';
+import { VscOpenPreview } from 'react-icons/vsc';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 const { Content } = Layout;
@@ -18,6 +19,37 @@ const trainerInfo = {
 function TrainerClassDetailPage() {
 
     const [activeTab, setActiveTab] = useState("1");
+
+
+    const studentColumns = [
+        {
+            title: "Name",
+            dataIndex: "username",
+            key: "username",
+            render: (text, record) => (
+                <span>
+                    <Avatar size='small' icon={<UserOutlined />} /> {text}
+                </span>
+            )
+        },
+        {
+            title: "Email",
+            dataIndex: "eamil",
+            key: "email",
+        },
+        {
+            title: "Actions",
+            key: "actions",
+            render: (text, record) => (
+                <div className='flex gap-4'>
+                    <button className='mybtn' title='View Details'>
+                        <VscOpenPreview />
+                    </button>
+                </div>
+            ),
+        },
+    ]
+
 
     const tabItems = [
         {
@@ -64,7 +96,7 @@ function TrainerClassDetailPage() {
                         <PlusOutlined className='hover:bg-gray-200 rounded-full p-2' />
                     </button>
                 </h1>}>
-                    <Table className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' rowKey={(record) => record._id} />
+                    <Table columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' rowKey={(record) => record._id} />
                     <Title level={4} style={{ marginTop: '24px' }}>Attendance Record</Title>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart >

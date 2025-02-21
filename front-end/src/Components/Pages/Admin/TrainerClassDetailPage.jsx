@@ -1,8 +1,9 @@
-import { BellOutlined, CalendarOutlined, FileTextOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Card, Col, Layout, List, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
+import { BellOutlined, BookOutlined, CalendarOutlined, FileTextOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
+import { Avatar, Badge, Card, Col, Layout, List, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
 import React, { useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { VscOpenPreview } from 'react-icons/vsc';
+import { useLocation } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 
 const { Content } = Layout;
@@ -15,10 +16,30 @@ const trainerInfo = {
     courses: ["JavaScript", "React JS", "Next JS"]
 }
 
+const performanceData = [
+    { assignment: 'A1', avgScore: 85 },
+    { assignment: 'B1', avgScore: 75 },
+    { assignment: 'C1', avgScore: 65 },
+    { assignment: 'B2', avgScore: 70 },
+]
+
+const assignmentInfo = [
+    { name: "Project 01", dueDate: "2025-05-16", submitted: 22, graded: 20 },
+    { name: "Quiz 02", dueDate: "2025-05-22", submitted: 25, graded: 18 },
+    { name: "GDB 01", dueDate: "2025-05-28", submitted: 12, graded: 8 },
+];
+
+const classResources = [
+    { name: "Day 1 Slides", type: "PDF" },
+    { name: "React Fundamental", type: "Video" },
+    { name: "Node js Tutorial", type: "Link" },
+]
 
 function TrainerClassDetailPage() {
 
+    const location = useLocation();
     const [activeTab, setActiveTab] = useState("1");
+    const { classData, teacherData } = location.state;
 
 
     const studentColumns = [
@@ -50,6 +71,9 @@ function TrainerClassDetailPage() {
         },
     ]
 
+    const studentInfo = {
+        totalStudents: classData.students.length
+    }
 
     const tabItems = [
         {
@@ -91,7 +115,7 @@ function TrainerClassDetailPage() {
             label: "Students",
             key: "2",
             children: (
-                <Card title={<h1 className='flex justify-between items-center'>Student Information (Total: 0)
+                <Card title={<h1 className='flex justify-between items-center'>Student Information (Total: {studentInfo.totalStudents})
                     <button title='Add Teacher'>
                         <PlusOutlined className='hover:bg-gray-200 rounded-full p-2' />
                     </button>
@@ -111,7 +135,7 @@ function TrainerClassDetailPage() {
 
                     <Title level={4} style={{ marginTop: '24px' }}>Performance Overview</Title>
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart>
+                        <BarChart data={performanceData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="assignment" />
                             <YAxis />
@@ -127,8 +151,9 @@ function TrainerClassDetailPage() {
             label: "Assignments",
             key: "3",
             children: (
-                <Card title={`Assignments Information (Total: 3)`}>
+                <Card title={`Assignments Information (Total: ${assignmentInfo.length})`}>
                     <List
+                        dataSource={assignmentInfo}
                         renderItem={(item) => (
                             <List.Item>
                                 <List.Item.Meta
@@ -152,6 +177,7 @@ function TrainerClassDetailPage() {
             children: (
                 <Card title="Class Resources">
                     <List
+                        dataSource={classResources}
                         renderItem={(item) => (
                             <List.Item>
                                 <List.Item.Meta
@@ -172,7 +198,7 @@ function TrainerClassDetailPage() {
                 <Card title="Class Progress & Reports">
                     <Title level={4}>Overall Class Performance</Title>
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart>
+                        <BarChart data={performanceData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="assignment" />
                             <YAxis />

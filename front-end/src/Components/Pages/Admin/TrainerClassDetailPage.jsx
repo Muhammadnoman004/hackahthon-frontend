@@ -12,9 +12,22 @@ const { Title, Text } = Typography;
 
 // Mock Data
 
+const classInfo = {
+    schedule: "Tue, Thur, Sat 4:00 PM - 6:00 PM",
+    endDate: "2026-2-15",
+};
+
 const trainerInfo = {
     courses: ["JavaScript", "React JS", "Next JS"]
 }
+
+const attendanceData = [
+    { date: '09/01', attendance: 92 },
+    { date: '09/08', attendance: 88 },
+    { date: '09/15', attendance: 95 },
+    { date: '09/22', attendance: 90 },
+    { date: '09/29', attendance: 93 },
+]
 
 const performanceData = [
     { assignment: 'A1', avgScore: 85 },
@@ -123,7 +136,7 @@ function TrainerClassDetailPage() {
                     <Table columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' rowKey={(record) => record._id} />
                     <Title level={4} style={{ marginTop: '24px' }}>Attendance Record</Title>
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart >
+                        <BarChart data={attendanceData}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <XAxis dataKey="date" />
                             <YAxis />
@@ -228,24 +241,24 @@ function TrainerClassDetailPage() {
 
     return (
         <Container>
-            <Layout>
-                <Content style={{ padding: "24px" }}>
+            <Layout className='my-3 border-1 rounded-md shadow-md'>
+                <Content className='p-4'>
                     <Title level={2}>Batch 10</Title>
                     <Row gutter={[16, 16]}>
                         <Col xs={24} md={16}>
                             <Card title={"Class Information"}>
                                 <Row gutter={[16, 16]}>
                                     <Col span={12}>
-                                        <Statistic title={"Class Code"} />
+                                        <Statistic title={"Class Code"} value={classData.join_code} />
                                     </Col>
                                     <Col span={12}>
-                                        <Statistic title={"Schedule"} />
+                                        <Statistic title={"Schedule"} value={classInfo.schedule} />
                                     </Col>
                                     <Col span={12}>
-                                        <Statistic title={"Start Date"} />
+                                        <Statistic title={"Start Date"} value={classData.createdAt.slice(0, 10)} />
                                     </Col>
                                     <Col span={12}>
-                                        <Statistic title={"End Date"} />
+                                        <Statistic title={"End Date"} value={classInfo.endDate} />
                                     </Col>
                                 </Row>
                             </Card>
@@ -255,8 +268,8 @@ function TrainerClassDetailPage() {
                                 <div className='flex items-center gap-3 mb-3'>
                                     <Avatar size={64} icon={<UserOutlined />} />
                                     <div>
-                                        <Text className='font-semibold'>zain Khan 25</Text><br />
-                                        <Text type='secondary'>zain@gmail.com</Text>
+                                        <Text className='font-semibold'>{teacherData.username}</Text><br />
+                                        <Text type='secondary'>{teacherData.email}</Text>
                                     </div>
                                 </div>
                                 <div>

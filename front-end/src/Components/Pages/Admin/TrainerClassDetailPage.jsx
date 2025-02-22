@@ -1,10 +1,11 @@
 import { BellOutlined, BookOutlined, CalendarOutlined, FileTextOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Card, Col, Layout, List, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
-import React, { useState } from 'react'
+import { Avatar, Badge, Card, Col, Layout, List, Modal, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { VscOpenPreview } from 'react-icons/vsc';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
+import api from '../../../api/api';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -51,9 +52,32 @@ const classResources = [
 function TrainerClassDetailPage() {
 
     const location = useLocation();
+    const { classId } = useParams();
+    const [load, setLoad] = useState(false);
     const [activeTab, setActiveTab] = useState("1");
     const { classData, teacherData } = location.state;
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+    const [studentsData, setStudentsData] = useState(null);
 
+
+    useEffect(() => {
+        getStudentOfClass()
+    }, [])
+
+
+    const getStudentOfClass = async () => {
+        setLoad(true);
+        try {
+            const res = await api.get(`/api/classes/admin/students/${classId}`)
+            setStudentsData(res.data);
+            setLoad(false);
+        }
+        catch (error) {
+            setLoad(false);
+            console.log("error ==>", error.response.data.error);
+        }
+    }
 
     const studentColumns = [
         {
@@ -68,7 +92,7 @@ function TrainerClassDetailPage() {
         },
         {
             title: "Email",
-            dataIndex: "eamil",
+            dataIndex: "email",
             key: "email",
         },
         {
@@ -76,7 +100,7 @@ function TrainerClassDetailPage() {
             key: "actions",
             render: (text, record) => (
                 <div className='flex gap-4'>
-                    <button className='mybtn' title='View Details'>
+                    <button className='bg-blue-500 text-white p-2 rounded-md' title='View Details'>
                         <VscOpenPreview />
                     </button>
                 </div>
@@ -86,6 +110,10 @@ function TrainerClassDetailPage() {
 
     const studentInfo = {
         totalStudents: classData.students.length
+    }
+
+    const pagination = {
+        pageSize: 10,
     }
 
     const tabItems = [
@@ -129,11 +157,11 @@ function TrainerClassDetailPage() {
             key: "2",
             children: (
                 <Card title={<h1 className='flex justify-between items-center'>Student Information (Total: {studentInfo.totalStudents})
-                    <button title='Add Teacher'>
+                    <button title='Add Teacher' onClick={() => setIsModalVisible(true)}>
                         <PlusOutlined className='hover:bg-gray-200 rounded-full p-2' />
                     </button>
                 </h1>}>
-                    <Table columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' rowKey={(record) => record._id} />
+                    <Table dataSource={studentsData} columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' pagination={pagination} rowKey={(record) => record._id} loading={load} />
                     <Title level={4} style={{ marginTop: '24px' }}>Attendance Record</Title>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart data={attendanceData}>
@@ -239,6 +267,21 @@ function TrainerClassDetailPage() {
         }
     ]
 
+    const onSelectChange = (newSelectRowKeys) => {
+        setSelectedRowKeys(newSelectRowKeys);
+    }
+
+    const rowSelection = {
+        selectedRowKeys,
+        onChange: onSelectChange,
+    }
+    const hasSelected = selectedRowKeys.length > 0
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+        setSelectedRowKeys([]);
+    }
+
     return (
         <Container>
             <Layout className='my-3 border-1 rounded-md shadow-md'>
@@ -287,6 +330,28 @@ function TrainerClassDetailPage() {
                     <Tabs activeKey={activeTab} onChange={setActiveTab} className='mt-3' defaultActiveKey='1' items={tabItems} />
 
                 </Content>
+
+                <Modal
+                    title="Add Students"
+                    open={isModalVisible}
+                    onCancel={handleCancel}
+                    footer={<div>
+                        <button className='bg-blue-500 text-white p-2 px-4 rounded-md hover:bg-blue-600 transition duration-300'>
+                            Add Students
+                        </button>
+                    </div>}
+                    className='max-w-md'
+                >
+                    <div>
+                        <Tag color='red'></Tag>
+                        <div>
+                            <Table columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' pagination={pagination} rowKey={(record) => record._id} rowSelection={rowSelection} />
+                        </div>
+
+                    </div>
+
+                </Modal>
+
             </Layout>
         </Container>
     )

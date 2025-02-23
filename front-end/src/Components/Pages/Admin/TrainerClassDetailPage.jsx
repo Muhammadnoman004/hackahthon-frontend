@@ -1,11 +1,14 @@
 import { BellOutlined, BookOutlined, CalendarOutlined, FileTextOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Card, Col, Layout, List, Modal, Progress, Row, Statistic, Table, Tabs, Tag, Tooltip, Typography } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { VscOpenPreview } from 'react-icons/vsc';
 import { useLocation, useParams } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import api from '../../../api/api';
+import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
 
 const { Content } = Layout;
 const { Title, Text } = Typography;
@@ -53,16 +56,30 @@ function TrainerClassDetailPage() {
 
     const location = useLocation();
     const { classId } = useParams();
+    const [loading, setLoading] = useContext(loader);
     const [load, setLoad] = useState(false);
     const [activeTab, setActiveTab] = useState("1");
     const { classData, teacherData } = location.state;
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [selectedRowKeys, setSelectedRowKeys] = useState([]);
     const [studentsData, setStudentsData] = useState(null);
+    const [unEnrolledStudents, setUnEnrolledStudents] = useState(null);
+    const [unEnrolledStudentsError, setUnEnrolledStudentsError] = useState(null);
 
 
     useEffect(() => {
+        const getUnEnrolledStudents = async () => {
+            try {
+                const res = await api.get("/api/users/students/unenrolled");
+                setUnEnrolledStudents(res.data);
+                console.log(res.data);
+            }
+            catch (error) {
+                setUnEnrolledStudentsError(error.response.data.message);
+            }
+        }
         getStudentOfClass()
+        getUnEnrolledStudents()
     }, [])
 
 
@@ -277,6 +294,26 @@ function TrainerClassDetailPage() {
     }
     const hasSelected = selectedRowKeys.length > 0
 
+    const addUnEnrolledStudents = async () => {
+        setLoading(true);
+        handleCancel();
+        try {
+            const data = {
+                studentIds: selectedRowKeys,
+                classId: classId
+            }
+            const res = await api.post(`/api/users/students`, data);
+            console.log("res ==>", res);
+            setLoading(false);
+            getStudentOfClass();
+            toast.success(res.data.message);
+        }
+        catch (error) {
+            setLoading(false);
+            toast.error(error.message, "Something went wrong!")
+        }
+    }
+
     const handleCancel = () => {
         setIsModalVisible(false);
         setSelectedRowKeys([]);
@@ -284,6 +321,7 @@ function TrainerClassDetailPage() {
 
     return (
         <Container>
+            {loading && <Loader />}
             <Layout className='my-3 border-1 rounded-md shadow-md'>
                 <Content className='p-4'>
                     <Title level={2}>Batch 10</Title>
@@ -336,17 +374,22 @@ function TrainerClassDetailPage() {
                     open={isModalVisible}
                     onCancel={handleCancel}
                     footer={<div>
-                        <button className='bg-blue-500 text-white p-2 px-4 rounded-md hover:bg-blue-600 transition duration-300'>
+                        <button className='bg-blue-500 text-white p-2 px-4 rounded-md hover:bg-blue-600 transition duration-300' onClick={addUnEnrolledStudents} disabled={unEnrolledStudentsError ? true : false}>
                             Add Students
                         </button>
                     </div>}
                     className='max-w-md'
                 >
-                    <div>
-                        <Tag color='red'></Tag>
-                        <div>
-                            <Table columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' pagination={pagination} rowKey={(record) => record._id} rowSelection={rowSelection} />
-                        </div>
+                    <div className='border-t-2 pt-3'>
+                        {hasSelected ? `Selected ${selectedRowKeys.length} items` : null}
+                        {
+                            unEnrolledStudentsError ?
+                                <Tag color='red'>{unEnrolledStudentsError}</Tag>
+                                :
+                                <div>
+                                    <Table dataSource={unEnrolledStudents} columns={studentColumns} className='min-w-full bg-white shadow-md rounded-lg overflow-x-auto' pagination={pagination} rowKey={(record) => record._id} rowSelection={rowSelection} />
+                                </div>
+                        }
 
                     </div>
 

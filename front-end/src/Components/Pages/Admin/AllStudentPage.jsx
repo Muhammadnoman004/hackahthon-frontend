@@ -8,6 +8,7 @@ import api from '../../../api/api';
 import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function AllStudentPage() {
@@ -19,6 +20,7 @@ export default function AllStudentPage() {
     const [load, setload] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedStudent, setEditedStudent] = useState(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -171,7 +173,7 @@ export default function AllStudentPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' /></a>
+                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' onClick={() => navigate("/admin/student/:studentId")} /></a>
                     <a className='text-xl hover:text-green-500'><FaEdit title='Edit Student' onClick={() => showEditModal(record)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft title='Delete Student' onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>

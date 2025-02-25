@@ -173,7 +173,7 @@ export default function AllStudentPage() {
             dataIndex: 'action',
             render: (_, record) => (
                 <Space size="middle">
-                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' onClick={() => navigate("/admin/student/:studentId")} /></a>
+                    <a className='text-xl hover:text-sky-blue'><BiSolidUserDetail title='View Details' onClick={() => navigate(`/admin/student/${record._id}`)} /></a>
                     <a className='text-xl hover:text-green-500'><FaEdit title='Edit Student' onClick={() => showEditModal(record)} /></a>
                     <a className='text-xl hover:text-red-500'><FaDeleteLeft title='Delete Student' onClick={() => handleDeleteTeacher(record._id)} /></a>
                 </Space>

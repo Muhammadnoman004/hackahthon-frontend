@@ -43,7 +43,7 @@ function TrainerDetail() {
             <div className='max-w-3xl mx-auto px-3 mt-3 mb-3 '>
                 <div className='rounded-lg shadow-md overflow-hidden border-2'>
                     <div className='px-3 py-4'>
-                        <h1 className='text-2xl font-bold break-words'><ArrowLeftOutlined className='hover:bg-gray-300 p-2 rounded-full cursor-pointer' title='Back to Previous' onClick={() => navigate(-1)} /> Trainer Detail</h1>
+                        <h1 className='text-2xl font-bold break-words'><ArrowLeftOutlined className='hover:bg-gray-300 p-2 rounded-full cursor-pointer' title='Back to Previous' onClick={() => navigate(-1)} /> Trainer Details</h1>
                     </div>
                     <div className='px-3 py-5 pt-0'>
                         <div className='flex justify-between gap-4 px-3 flex-wrap'>

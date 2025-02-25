@@ -239,6 +239,13 @@ const router = createBrowserRouter([
             <Navbars title={"Admin | Student"} />
             <StudentDetail />
         </>
+    },
+    {
+        path: "/admin/student/:studentId/:classId",
+        element: <>
+            <Navbars title={"Admin | Student Report"} />
+            <StudentReportGenerate />
+        </>
     }
 
 ])

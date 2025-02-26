@@ -162,11 +162,29 @@ export default function AllStudentPage() {
             key: 'email'
         },
         {
+            title: 'Is Verified',
+            dataIndex: 'isVerified',
+            key: 'isVerified',
+            render: (text) => <span className={`w-full flex justify-center items-center p-1 rounded-lg text-white bg-${text ? 'green' : 'red'}-500 text-sm`}>{text ? 'Yes' : 'No'}</span>,
+        },
+        {
             title: 'No. of enrolled classes',
-            dataIndex: 'enrolled',
-            key: 'enrolled',
-            render: (number) => <a>{number}</a>,
-            sorter: (a, b) => a.enrolled - b.enrolled,
+            dataIndex: 'classes',
+            key: 'classes',
+            filter: [
+                { text: '0 classes', value: 0 },
+                { text: '1-3 classes', value: [1, 2, 3] },
+                { text: '4+ classes', value: 4 },
+            ],
+            onFilter: (value, record) => {
+                const classCount = record.classes ? record.classes.length : 0;
+                if (Array.isArray(value)) {
+                    return value.includes(classCount);
+                }
+                return value === 4 ? classCount >= 4 : classCount === value;
+            },
+            sorter: (a, b) => (a.classes ? a.classes.length : 0) - (b.classes ? b.classes.length : 0),
+            render: (classes) => <span style={{ display: "block", width: "100%", textAlign: "center" }}>{classes ? classes.length : 0}</span>,
         },
         {
             title: 'Action',

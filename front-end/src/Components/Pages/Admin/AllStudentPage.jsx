@@ -165,7 +165,7 @@ export default function AllStudentPage() {
             title: 'Is Verified',
             dataIndex: 'isVerified',
             key: 'isVerified',
-            render: (text) => <span className={`w-full flex justify-center items-center p-1 rounded-lg text-white bg-${text ? 'green' : 'red'}-500 text-sm`}>{text ? 'Yes' : 'No'}</span>,
+            render: (text) => <span className={`w-full flex justify-center items-center p-1 rounded-lg text-white ${text ? 'bg-green-500' : 'bg-red-500'} text-sm`}>{text ? 'Yes' : 'No'}</span>,
         },
         {
             title: 'No. of enrolled classes',

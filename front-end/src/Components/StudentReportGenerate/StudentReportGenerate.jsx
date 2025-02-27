@@ -85,11 +85,8 @@ const studentsData = [
 ];
 
 const { Title } = Typography;
-const { Header, Content, Sider } = Layout;
 
 const StudentReportGenerate = () => {
-    // State to manage selected student index
-    const [selectedStudentIndex, setSelectedStudentIndex] = useState(0);
     const { studentId, classId } = useParams();
     const [load, setLoad] = useState(true);
     const [studentData, setStudentData] = useState(null);
@@ -147,6 +144,58 @@ const StudentReportGenerate = () => {
         );
     }
 
+    const rollNumber = studentId.substring(0, 6);
+
+    if (!studentData || studentData.length === 0) {
+        return (
+            <div className="p-6">
+                <Title level={2} className="mb-6">
+                    <ArrowLeftOutlined
+                        className='mr-4 cursor-pointer hover:text-sky-blue' title='Back to Previous'
+                        onClick={() => navigate(-1)} />
+                    Student Report
+                </Title>
+                <Row gutter={[16, 16]}>
+                    <Col span={24}>
+                        <Card>
+                            <Row gutter={[16, 16]} align={"middle"}>
+                                <Col xs={24} sm={6} className="flex justify-center">
+                                    <Avatar
+                                        size={96}
+                                        src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"
+                                    />
+                                </Col>
+                                <Col xs={24} sm={18}>
+                                    <h3 className="text-lg font-bold">Student Information</h3>
+                                    <div className="flex flex-col gap-3 mt-2 pt-3 border-t-2">
+                                        <div className="flex gap-3 flex-col xsm:flex-row">
+                                            <p className="text-gray-400">Name:</p>
+                                            <p className="capitalize">{studentInfo.username || "N/A"}</p>
+                                        </div>
+                                        <div className="flex gap-3 flex-col xsm:flex-row">
+                                            <p className="text-gray-400">Roll Number:</p>
+                                            <p className="capitalize">{rollNumber}</p>
+                                        </div>
+                                        <div className="flex gap-3 flex-col xsm:flex-row">
+                                            <p className="text-gray-400">Class ID:</p>
+                                            <p className="capitalize">{classId.substring(0, 6)}</p>
+                                        </div>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                </Row>
+                <Alert
+                    message="No Submissions"
+                    description="No student report data available."
+                    type="info"
+                    showIcon
+                    className="mt-6"
+                />
+            </div>
+        );
+    }
 
     // Function to calculate and set chart data
     const calculateChartData = () => {
@@ -188,14 +237,10 @@ const StudentReportGenerate = () => {
         }
     };
 
-    // Function to handle student selection
-    const handleStudentSelect = (studentIndex) => {
-        setSelectedStudentIndex(studentIndex);
-    };
 
     return (
         <>
-            <Container>
+            <Container fluid>
                 <div className="p-6 pe-2">
                     <Title level={2} className="mb-6">
                         <ArrowLeftOutlined
@@ -210,7 +255,7 @@ const StudentReportGenerate = () => {
                                     <Col xs={24} sm={6} className="flex justify-center">
                                         <Avatar
                                             size={96}
-                                            src="https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"
+                                            src={studentInfo?.profileImg ? studentInfo.profileImg : "https://static.vecteezy.com/system/resources/previews/019/879/186/non_2x/user-icon-on-transparent-background-free-png.png"}
                                         />
                                     </Col>
                                     <Col xs={24} sm={18}>
@@ -218,114 +263,101 @@ const StudentReportGenerate = () => {
                                         <div className="flex flex-col gap-3 mt-2 pt-3 border-t-2">
                                             <div className="flex gap-3 flex-col xsm:flex-row">
                                                 <p className="text-gray-400">Name:</p>
-                                                <p className="capitalize">sheraz</p>
+                                                <p className="capitalize">{studentInfo.username || "N/A"}</p>
                                             </div>
                                             <div className="flex gap-3 flex-col xsm:flex-row">
                                                 <p className="text-gray-400">Roll Number:</p>
-                                                <p className="capitalize">669173</p>
+                                                <p className="capitalize">{rollNumber}</p>
                                             </div>
                                             <div className="flex gap-3 flex-col xsm:flex-row">
                                                 <p className="text-gray-400">Class ID:</p>
-                                                <p className="capitalize">66a7ca</p>
+                                                <p className="capitalize">{classId.substring(0, 6)}</p>
                                             </div>
                                         </div>
                                     </Col>
                                 </Row>
                             </Card>
                         </Col>
-                        <Col xs={24} sm={12}>
-                            <Card title="Assignment Status">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <PieChart>
-                                        <Pie
-                                            data={calculateChartData()}
-                                            dataKey="value"
-                                            nameKey="name"
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={80}
-                                            fill="#8884d8"
-                                            label
-                                        >
+                        {studentData.length > 0 && (
+                            <>
+                                <Col xs={24} sm={12}>
+                                    <Card title="Assignment Status">
+                                        <ResponsiveContainer width="100%" height={300}>
+                                            <PieChart>
+                                                <Pie
+                                                    data={calculateChartData()}
+                                                    dataKey="value"
+                                                    nameKey="name"
+                                                    cx="50%"
+                                                    cy="50%"
+                                                    outerRadius={80}
+                                                    fill="#8884d8"
+                                                    label
+                                                >
 
-                                            <Cell key="cell-0" fill="#82ca9d" />
-                                            <Cell key="cell-1" fill="#ff7300" />
-                                        </Pie>
-                                        <Tooltip />
-                                        <Legend />
-                                    </PieChart>
-                                </ResponsiveContainer>
-                            </Card>
-                        </Col>
-                        <Col xs={24} sm={12}>
-                            <Card title="Assignment Grades">
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <BarChart data={studentsData[selectedStudentIndex].assignments}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="assignmentTitle" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Bar dataKey="marks" fill="#8884d8" name="Marks" />
-                                        <Bar dataKey="totalMarks" fill="#82ca9d" name="Total Marks" />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </Card>
-                        </Col>
-                        <Col xs={24}>
-                            <Card title="Overall Grade">
-                                <Statistic
-                                    title="Grade"
-                                    value="F"
-                                />
-                            </Card>
-                        </Col>
-                        <Col span={24}>
-                            <Card title="Assignment Details">
-                                <Card
-                                    type="inner"
-                                    title={
-                                        <div className="flex justify-between flex-wrap gap-3 py-3">
-                                            Assignment 1
-                                            <Tag color={'submitted' ? "green" : "red"}>
-                                                {"submitted" ? "Submitted" : "Not Submitted"}
-                                            </Tag>
-                                        </div>
-                                    }
-                                    className="mb-4 break-words"
-                                >
-                                    <p>Total Marks : 10</p>
-                                </Card>
-                                <Card
-                                    type="inner"
-                                    title={
-                                        <div className="flex justify-between flex-wrap gap-3 py-3">
-                                            Assignment 2
-                                            <Tag color={!'submitted' ? "green" : "red"}>
-                                                {!"submitted" ? "Submitted" : "Not Submitted"}
-                                            </Tag>
-                                        </div>
-                                    }
-                                    className="mb-4 break-words"
-                                >
-                                    <p>Total Marks : 10</p>
-                                </Card>
-                                <Card
-                                    type="inner"
-                                    title={
-                                        <div className="flex justify-between flex-wrap gap-3 py-3">
-                                            Assignment 3
-                                            <Tag color={'submitted' ? "green" : "red"}>
-                                                {"submitted" ? "Submitted" : "Not Submitted"}
-                                            </Tag>
-                                        </div>
-                                    }
-                                    className="mb-4 break-words"
-                                >
-                                    <p>Total Marks : 10</p>
-                                </Card>
-                            </Card>
-                        </Col>
+                                                    <Cell key="cell-0" fill="#82ca9d" />
+                                                    <Cell key="cell-1" fill="#ff7300" />
+                                                </Pie>
+                                                <Tooltip />
+                                                <Legend />
+                                            </PieChart>
+                                        </ResponsiveContainer>
+                                    </Card>
+                                </Col>
+                                <Col xs={24} sm={12}>
+                                    <Card title="Assignment Grades">
+                                        <ResponsiveContainer width="100%" height={300}>
+                                            <BarChart data={studentData}>
+                                                <CartesianGrid strokeDasharray="3 3" />
+                                                <XAxis dataKey="assignmentTitle" />
+                                                <YAxis />
+                                                <Tooltip />
+                                                <Legend />
+                                                <Bar dataKey="marks" fill="#8884d8" name="Marks" />
+                                                <Bar dataKey="totalMarks" fill="#82ca9d" name="Total Marks" />
+                                            </BarChart>
+                                        </ResponsiveContainer>
+                                    </Card>
+                                </Col>
+                                <Col xs={24}>
+                                    <Card title="Overall Grade">
+                                        <Statistic
+                                            title="Grade"
+                                            value={calculateAverageGrade()}
+                                        />
+                                    </Card>
+                                </Col>
+                                <Col span={24}>
+                                    <Card title="Assignment Details">
+                                        {studentData.map((assignment) => (
+                                            <Card
+                                                key={assignment.assignmentId}
+                                                type="inner"
+                                                title={
+                                                    <div className="flex justify-between flex-wrap gap-3 py-3">
+                                                        {assignment.assignmentTitle}
+                                                        <Tag color={assignment.submitted ? "green" : "red"}>
+                                                            {assignment.submitted ? "Submitted" : "Not Submitted"}
+                                                        </Tag>
+                                                    </div>
+                                                }
+                                                className="mb-4 break-words"
+                                            >
+                                                <p>Total Marks : {assignment.totalMarks}</p>
+                                                {assignment.submitted && (
+                                                    <>
+                                                        <p>Submission Data: {new Date(assignment.submissionDate).toLocaleDateString()}</p>
+                                                        <p>Marks: {assignment.marks}</p>
+                                                        <p>Rating: {assignment.rating}</p>
+                                                        <p>Remark: {assignment.remark}</p>
+                                                    </>
+                                                )}
+                                            </Card>
+                                        ))}
+                                    </Card>
+                                </Col>
+                            </>
+                        )}
                     </Row>
                 </div>
             </Container >

@@ -9,6 +9,8 @@ import {
     Descriptions,
     Layout,
     Tag,
+    Alert,
+    Spin,
 } from "antd";
 import {
     PieChart,
@@ -25,10 +27,10 @@ import {
     Line,
 } from "recharts";
 import { ResponsiveContainer } from "recharts";
-// import smitlogo from './smitlogo.png'; // Assuming you have your logo image imported correctly
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { Container } from "react-bootstrap";
+import api from "../../api/api";
 
 // Mock student data
 const studentsData = [
@@ -88,37 +90,102 @@ const { Header, Content, Sider } = Layout;
 const StudentReportGenerate = () => {
     // State to manage selected student index
     const [selectedStudentIndex, setSelectedStudentIndex] = useState(0);
+    const { studentId, classId } = useParams();
+    const [load, setLoad] = useState(true);
+    const [studentData, setStudentData] = useState(null);
+    const [studentInfo, setStudentInfo] = useState(null);
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
 
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const reportResponse = await api(`/api/assignments/class/${classId}/student/${studentId}/reports`);
+                const infoResponse = await api.get(`/api/users/student/${studentId}`);
+                setStudentData(reportResponse.data);
+                setStudentInfo(infoResponse.data);
+                console.log("studentData --->", reportResponse.data);
+                console.log("studentInfo --->", infoResponse.data);
+            }
+            catch (error) {
+                setError("Failed to fetch student data. Please try again later.");
+            } finally {
+                setLoad(false)
+            }
+        }
+        fetchData();
+    }, [studentId, classId]);
+
+
+    if (load) {
+        return (
+            <div
+                style={{
+                    position: "fixed",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50% , -50%)",
+                    zIndex: 9999
+                }}
+            >
+                <Spin size="large" />
+            </div>
+        );
+    }
+
+    if (error) {
+        return <Alert message="Error" description={error} type="error" showIcon className="m-5 me-3 p-3" />
+    }
+
+    if (studentData?.length == 0) {
+        return (
+            <div className="p-4">
+                <Alert message="No Report" description="No student report data available" type="info" showIcon />
+            </div>
+        );
+    }
+
+
     // Function to calculate and set chart data
-    const calculateChartData = (studentIndex) => {
-        const student = studentsData[studentIndex];
-        const submitted = student.assignments.filter((a) => a.status === "submitted").length;
-        const pending = student.assignments.filter((a) => a.status === "pending").length;
-        const notSubmitted = student.assignments.filter((a) => a.status === "not_submitted").length;
+    const calculateChartData = () => {
+        const submitted = studentData.filter((a) => a.submitted).length;
+        const notSubmitted = studentData.filter((a) => !a.submitted).length;
 
         return [
             { name: "Submitted", value: submitted },
-            { name: "Pending", value: pending },
             { name: "Not Submitted", value: notSubmitted },
         ];
     };
 
-    // Calculate chart data on component mount or student change
-    useEffect(() => {
-        calculateChartData(selectedStudentIndex);
-    }, [selectedStudentIndex]);
-
     // Function to calculate average grade
-    const calculateAverageGrade = (studentIndex) => {
-        const student = studentsData[selectedStudentIndex];
-        const totalPoints = student.assignments.reduce((total, a) => total + a.points, 0);
-        const earnedPoints = student.assignments.reduce(
-            (total, a) =>
-                a.status === "submitted" || a.status === "pending" ? total + a.points : total,
-            0
-        );
-        return ((earnedPoints / totalPoints) * 100 || 0).toFixed(2);
+    const calculateAverageGrade = () => {
+        const totalMarks = studentData.reduce((total, a) => total + (a.marks || 0), 0);
+        const totalPossibleMarks = studentData.reduce((total, a) => total + a.totalMarks, 0);
+        const average = ((totalMarks / totalPossibleMarks) * 100 || 0);
+
+        if (average >= 90) {
+            return "A+";
+        } else if (average >= 85) {
+            return "A";
+        } else if (average >= 80) {
+            return "A-";
+        } else if (average >= 75) {
+            return "B+";
+        } else if (average >= 70) {
+            return "B";
+        } else if (average >= 65) {
+            return "B-";
+        } else if (average >= 60) {
+            return "C+";
+        } else if (average >= 55) {
+            return "C-";
+        } else if (average >= 50) {
+            return "C-";
+        } else {
+            return "F";
+        }
     };
 
     // Function to handle student selection
@@ -129,7 +196,6 @@ const StudentReportGenerate = () => {
     return (
         <>
             <Container>
-                {/* <Content style={{ margin: "24px 16px 0", overflow: "initial" }}> */}
                 <div className="p-6 pe-2">
                     <Title level={2} className="mb-6">
                         <ArrowLeftOutlined
@@ -172,7 +238,7 @@ const StudentReportGenerate = () => {
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
                                         <Pie
-                                            data={calculateChartData(selectedStudentIndex)}
+                                            data={calculateChartData()}
                                             dataKey="value"
                                             nameKey="name"
                                             cx="50%"
@@ -181,20 +247,9 @@ const StudentReportGenerate = () => {
                                             fill="#8884d8"
                                             label
                                         >
-                                            {calculateChartData(selectedStudentIndex).map(
-                                                (entry, index) => (
-                                                    <Cell
-                                                        key={`cell-${index}`}
-                                                        fill={
-                                                            index === 0
-                                                                ? "#82ca9d"
-                                                                : index === 1
-                                                                    ? "#ffc658"
-                                                                    : "#ff7300"
-                                                        }
-                                                    />
-                                                )
-                                            )}
+
+                                            <Cell key="cell-0" fill="#82ca9d" />
+                                            <Cell key="cell-1" fill="#ff7300" />
                                         </Pie>
                                         <Tooltip />
                                         <Legend />
@@ -207,11 +262,12 @@ const StudentReportGenerate = () => {
                                 <ResponsiveContainer width="100%" height={300}>
                                     <BarChart data={studentsData[selectedStudentIndex].assignments}>
                                         <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="title" />
+                                        <XAxis dataKey="assignmentTitle" />
                                         <YAxis />
                                         <Tooltip />
                                         <Legend />
-                                        <Bar dataKey="points" fill="#8884d8" />
+                                        <Bar dataKey="marks" fill="#8884d8" name="Marks" />
+                                        <Bar dataKey="totalMarks" fill="#82ca9d" name="Total Marks" />
                                     </BarChart>
                                 </ResponsiveContainer>
                             </Card>
@@ -221,11 +277,10 @@ const StudentReportGenerate = () => {
                                 <Statistic
                                     title="Grade"
                                     value="F"
-                                    precision={2}
                                 />
                             </Card>
                         </Col>
-                        <Col xs={24}>
+                        <Col span={24}>
                             <Card title="Assignment Details">
                                 <Card
                                     type="inner"
@@ -273,7 +328,6 @@ const StudentReportGenerate = () => {
                         </Col>
                     </Row>
                 </div>
-                {/* </Content> */}
             </Container >
         </>
     );

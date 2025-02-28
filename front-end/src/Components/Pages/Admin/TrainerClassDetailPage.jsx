@@ -3,7 +3,7 @@ import { Avatar, Badge, Card, Col, Layout, List, Modal, Progress, Row, Statistic
 import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import { VscOpenPreview } from 'react-icons/vsc';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import api from '../../../api/api';
 import { toast } from 'react-toastify';
@@ -65,6 +65,7 @@ function TrainerClassDetailPage() {
     const [studentsData, setStudentsData] = useState(null);
     const [unEnrolledStudents, setUnEnrolledStudents] = useState(null);
     const [unEnrolledStudentsError, setUnEnrolledStudentsError] = useState(null);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -117,7 +118,7 @@ function TrainerClassDetailPage() {
             key: "actions",
             render: (text, record) => (
                 <div className='flex gap-4'>
-                    <button className='bg-blue-500 text-white p-2 rounded-md' title='View Details'>
+                    <button className='bg-blue-500 text-white p-2 rounded-md' title='View Details' onClick={() => navigate(`/admin/student/${record._id}`)}>
                         <VscOpenPreview />
                     </button>
                 </div>

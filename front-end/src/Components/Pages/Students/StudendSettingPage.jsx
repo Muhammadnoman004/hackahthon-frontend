@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
-import { Button, Menu } from 'antd';
+import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
+import { RiLockPasswordFill } from 'react-icons/ri';
 
 const items = [
     {
@@ -51,16 +52,30 @@ const items = [
         label: 'Update profile',
     },
     {
-        key: 'sub5',
+        key: 'changePassword',
         label: 'Change password',
         icon: <FaUserLock color='#87CEEB' />,
     },
 ];
-const onClick = (e) => {
-    console.log('click', e);
-};
+
 
 export default function AdminSettingPage() {
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { form } = Form.useForm();
+
+
+    const handleCancel = () => {
+        form.resetFields();
+        setIsModalOpen(false);
+    };
+
+    const onClick = (e) => {
+        if (e.key === 'changePassword') {
+            setIsModalOpen(true)
+        }
+    };
+
     return (
         <div>
             <Container>
@@ -79,6 +94,90 @@ export default function AdminSettingPage() {
                 <div className='mx-4'>
                     <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
                 </div>
+
+
+                <Modal
+                    footer={null}
+                    open={isModalOpen}
+                    // onOk={handleSubmit}
+                    okButtonProps={{
+                        autoFocus: true,
+                        htmlType: 'submit',
+
+                    }}
+                    onCancel={handleCancel}
+                    destroyOnClose
+                >
+                    <div>
+                        <h1 className='text-lg text-center font-bold uppercase pb-3'>Update Password</h1>
+                    </div>
+
+                    <Form
+                        layout="vertical"
+                        form={form}
+                        name="update-class-form"
+                        initialValues={{
+                            modifier: 'public',
+                        }}
+                    // onFinish={handleSubmit}
+                    >
+                        <Form.Item
+                            name="oldPassword"
+                            label="Current Password"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter your old password!',
+                            }]}
+                        >
+                            <Input.Password placeholder='Current Password' size='large' prefix={<FaUserLock />} />
+                        </Form.Item>
+                        <Form.Item
+                            name="password"
+                            label="New Password"
+                            rules={[{
+                                required: true,
+                                message: 'Please enter your updated password!',
+                            },
+                            {
+                                min: 6,
+                                message: 'Please must be at least 6 characters long'
+                            }
+                            ]}
+                        >
+                            <Input.Password placeholder='New Password' size='large' prefix={<RiLockPasswordFill />} />
+                        </Form.Item>
+                        <Form.Item
+                            name="confirm"
+                            label="Confirm Password"
+                            dependencies={['password']}
+                            hasFeedback
+                            rules={[{
+                                required: true,
+                                message: 'Please confirm your password!'
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('The two passwords do not match!'));
+                                },
+                            }),
+                            ]}
+                        >
+                            <Input.Password placeholder='Confirm Password' size='large' prefix={<RiLockPasswordFill />} />
+                        </Form.Item>
+                    </Form>
+
+                    <div className='flex justify-end'>
+                        <Button type='primary' danger>Cancel</Button>
+                        <Button type='primary' className='mx-2' >Update</Button>
+                    </div>
+                    {/* {loading && <Loader />} */}
+
+                </Modal>
+
+
             </Container>
         </div>
     )

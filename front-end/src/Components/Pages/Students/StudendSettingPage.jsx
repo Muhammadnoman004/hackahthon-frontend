@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
 import { FaUserLock, FaBell } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaUser } from 'react-icons/fa6';
 import { RiLockPasswordFill } from 'react-icons/ri';
+import api from '../../../api/api';
+import { toast } from 'react-toastify';
+import loader from '../../../Context/LoaderContext';
+import Loader from '../../Loader/Loader';
+import useFetchProfile from '../../../utils/useFetchProfile';
 
 const items = [
     {
@@ -61,9 +66,31 @@ const items = [
 
 export default function AdminSettingPage() {
 
+    const { setUser } = useFetchProfile();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { form } = Form.useForm();
+    const [loading, setLoading] = useContext(loader);
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
 
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+            const values = await form.validateFields();
+            const response = await api.put("/api/users/profile", {
+                password: values.password,
+                oldPassword: values.oldPassword
+            });
+            toast.success("Password updated successfully!");
+            setLoading(false);
+            setIsModalOpen(false);
+            form.resetFields();
+        } catch (error) {
+            setLoading(false);
+            toast.error(error.response.data.message);
+        }
+
+    }
 
     const handleCancel = () => {
         form.resetFields();
@@ -75,6 +102,29 @@ export default function AdminSettingPage() {
             setIsModalOpen(true)
         }
     };
+
+
+    const logOut = async () => {
+        try {
+            setLoading(true);
+            const res = await api.post("/api/users/logout")
+            if (res) {
+                setLoading(false);
+                toast.success(res.data, {
+                    onClose: () => {
+                        localStorage.removeItem("token");
+                        setUser(null);
+                        navigate('/login');
+                    }
+                });
+            }
+        }
+        catch (err) {
+            setLoading(false);
+            toast.error(err.response?.data || err.message);
+        }
+
+    }
 
     return (
         <div>
@@ -92,14 +142,14 @@ export default function AdminSettingPage() {
                 />
 
                 <div className='mx-4'>
-                    <Button icon={<MdOutlineLogout />} className='text-lg'>Logout</Button>
+                    <Button icon={<MdOutlineLogout />} className='text-lg' onClick={logOut}>Logout</Button>
                 </div>
 
 
                 <Modal
                     footer={null}
                     open={isModalOpen}
-                    // onOk={handleSubmit}
+                    onOk={handleSubmit}
                     okButtonProps={{
                         autoFocus: true,
                         htmlType: 'submit',
@@ -119,7 +169,7 @@ export default function AdminSettingPage() {
                         initialValues={{
                             modifier: 'public',
                         }}
-                    // onFinish={handleSubmit}
+                        onFinish={handleSubmit}
                     >
                         <Form.Item
                             name="oldPassword"
@@ -170,13 +220,12 @@ export default function AdminSettingPage() {
                     </Form>
 
                     <div className='flex justify-end'>
-                        <Button type='primary' danger>Cancel</Button>
-                        <Button type='primary' className='mx-2' >Update</Button>
+                        <Button type='primary' danger onClick={handleCancel}>Cancel</Button>
+                        <Button type='primary' className='mx-2' onClick={handleSubmit}>Update</Button>
                     </div>
-                    {/* {loading && <Loader />} */}
+                    {loading && <Loader />}
 
                 </Modal>
-
 
             </Container>
         </div>

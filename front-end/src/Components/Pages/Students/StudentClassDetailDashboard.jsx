@@ -73,8 +73,8 @@ export default function StudentClassDetailDashboard() {
     }
 
     return (
-        <Container>
-            <div className='p-4 '>
+        <Container className='p-0'>
+            <div className='mt-4 mb-4'>
                 <header className='bg-teal-600 text-white rounded-lg p-3 font-semibold mb-4'>
                     <h1 className='text-2xl'>{classDetails?.name}</h1>
                     <p>{classDetails?.description}</p>

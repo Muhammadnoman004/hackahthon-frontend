@@ -1,6 +1,9 @@
-import React from 'react';
-import { Button, Space, Table, Tag, Tooltip } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Button, message, Space, Table, Tag, Tooltip } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined, FileOutlined, PlusOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons';
+import api from '../../api/api';
+import { useParams } from 'react-router-dom';
+import useFetchProfile from '../../utils/useFetchProfile';
 
 const columns = [
     {
@@ -34,7 +37,7 @@ const columns = [
             { text: 'Evaluated', value: 'evaluated' },
             { text: 'Expired', value: 'expired' },
         ],
-        filteredValue: filteredInfo.status || null,
+        // filteredValue: filteredInfo.status || null,
         onFilter: (value, record) => record.status.includes(value),
         render: (status) => {
             let color = 'green';
@@ -51,7 +54,7 @@ const columns = [
             }
             return (
                 <Tag color={color} icon={icon}>
-                    {status.toUpperCase()}
+                    {/* {status.toUpperCase()} */}
                 </Tag>
             );
         },
@@ -135,6 +138,40 @@ const data = [
     },
 ];
 const StudentListingTable = () => {
+
+    const { classId } = useParams();
+    const { user } = useFetchProfile();
+    const [assignments, setAssignments] = useState([]);
+
+    useEffect(() => {
+        fetchAssignment();
+    }, [classId, user])
+
+    const fetchAssignment = async () => {
+        try {
+            const response = await api.get(`/api/assignments/student/class/${classId}`);
+            const formattedData = response.data?.map((assignment, idx) => ({
+                key: assignment._id,
+                number: `Assignment ${idx + 1}`,
+                title: assignment.title,
+                description: assignment.description,
+                dueDate: new Date(assignment.dueDate).toLocaleDateString(),
+                status: '',
+                totalMarks: assignment.totalMarks,
+                fileLink: assignment.fileLink,
+                submitted: assignment.submissions.some(sub => sub.student.toString() === user._id.toString()),
+                evaluated: assignment.submissions.some(sub => sub.student.toString() === user._id.toString() && sub.marks !== undefined),
+            }));
+            setAssignments(formattedData.reverse());
+            console.log(formattedData);
+
+        }
+        catch (error) {
+            console.error('Error fetching assignments:', error);
+            message.error('Failed to fetch assignments');
+        }
+    }
+
     return (
         <div className='px-2'>
             <div className='flex justify-between items-center mb-3 flex-wrap gap-3'>

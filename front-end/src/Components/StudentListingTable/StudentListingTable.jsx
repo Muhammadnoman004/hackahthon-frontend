@@ -156,8 +156,8 @@ const StudentListingTable = () => {
                 title: assignment.title,
                 description: assignment.description,
                 dueDate: new Date(assignment.dueDate).toLocaleDateString(),
-                status: '',
-                totalMarks: assignment.totalMarks,
+                status: getAssignmentStatus(assignment, user?._id),
+                totalMarks: assignment.total_marks,
                 fileLink: assignment.fileLink,
                 submitted: assignment.submissions.some(sub => sub.student.toString() === user._id.toString()),
                 evaluated: assignment.submissions.some(sub => sub.student.toString() === user._id.toString() && sub.marks !== undefined),
@@ -171,6 +171,19 @@ const StudentListingTable = () => {
             message.error('Failed to fetch assignments');
         }
     }
+
+    const getAssignmentStatus = (assignment, userId) => {
+        const now = new Date();
+        const dueDate = new Date(assignment.dueDate);
+        if (assignment.submissions.some(sub => sub.student.toString() === userId.toString())) {
+            if (assignment.submissions.some(sub => sub.student.toString() === userId.toString() && sub.marks !== undefined)) {
+                return 'evaluated';
+            }
+            return 'submitted';
+        }
+        if (now > dueDate) return 'expired';
+        return 'todo';
+    };
 
     return (
         <div className='px-2'>

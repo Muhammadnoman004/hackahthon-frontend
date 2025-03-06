@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, message, Space, Table, Tag, Tooltip } from 'antd';
+import { Button, message, Modal, Progress, Space, Table, Tag, Tooltip, Upload } from 'antd';
 import { CheckCircleOutlined, ClockCircleOutlined, FileOutlined, PlusOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons';
 import api from '../../api/api';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -44,6 +44,10 @@ const StudentListingTable = () => {
     const [assignments, setAssignments] = useState([]);
     const [filteredInfo, setFilteredInfo] = useState({});
     const [sortedInfo, setSortedInfo] = useState({});
+    const [submitModalVisible, setSubmitModalVisible] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [submitting, setSubmitting] = useState(false);
+
 
     useEffect(() => {
         fetchAssignment();
@@ -94,6 +98,10 @@ const StudentListingTable = () => {
         })
     }
 
+    const handleSubmitOk = (file) => {
+        console.log("File --->", file);
+    }
+
     const handleRowClick = (record) => {
         navigate(`/student/class/${classId}/${record.key}`);
     }
@@ -118,6 +126,7 @@ const StudentListingTable = () => {
             dataIndex: 'title',
             key: 'title',
             sorter: (a, b) => a.title.localeCompare(b.title),
+            sortOrder: sortedInfo.columnKey === "title" && sortedInfo.order,
             width: 130,
         },
         {
@@ -132,6 +141,7 @@ const StudentListingTable = () => {
             key: 'dueDate',
             width: 130,
             sorter: (a, b) => new Date(a.dueDate) - new Date(b.dueDate),
+            sortOrder: sortedInfo.columnKey === "dueDate" && sortedInfo.order,
         },
         {
             title: 'Status',
@@ -172,6 +182,7 @@ const StudentListingTable = () => {
             key: 'totalMarks',
             width: 100,
             sorter: (a, b) => a.totalMarks - b.totalMarks,
+            sortOrder: sortedInfo.columnKey === "totalMarks" && sortedInfo.order,
             render: (marks) => <span>{marks} points</span>,
         },
         {
@@ -237,7 +248,34 @@ const StudentListingTable = () => {
                     onClick: () => handleRowClick(record),
                 })}
             />
+
+            <Modal
+                title="Submit Assignment"
+                open={submitModalVisible}
+                onCancel={() => {
+                    setSubmitModalVisible(false);
+                    setUploadProgress(0);
+                }}
+                footer={null}
+            >
+                <Upload
+                    beforeUpload={(file) => {
+                        handleSubmitOk(file);
+                        return false;
+                    }}
+                    disabled={submitting}
+                >
+
+                    <Button icon={<UploadOutlined />} loading={submitting} disabled={submitting}>
+                        {submitting ? 'Uploading...' : 'Select File to Submit'}
+                    </Button>
+                </Upload>
+                {uploadProgress > 0 && (
+                    <Progress percent={Math.round(uploadProgress)} status='active' />
+                )}
+            </Modal>
+
         </div>
-    )
-}
+    );
+};
 export default StudentListingTable;

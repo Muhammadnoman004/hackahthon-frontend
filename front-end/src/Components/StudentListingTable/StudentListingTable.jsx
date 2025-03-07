@@ -4,7 +4,10 @@ import { CheckCircleOutlined, ClockCircleOutlined, FileOutlined, PlusOutlined, U
 import api from '../../api/api';
 import { useNavigate, useParams } from 'react-router-dom';
 import useFetchProfile from '../../utils/useFetchProfile';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import app from '../../config/Config';
 
+const storage = getStorage(app);
 
 const data = [
     {
@@ -47,6 +50,8 @@ const StudentListingTable = () => {
     const [submitModalVisible, setSubmitModalVisible] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [submitting, setSubmitting] = useState(false);
+    const [currentAssignment, setCurrentAssignment] = useState(null);
+    const [load, setLoad] = useState(true);
 
 
     useEffect(() => {
@@ -55,6 +60,7 @@ const StudentListingTable = () => {
 
     const fetchAssignment = async () => {
         try {
+            setLoad(true);
             const response = await api.get(`/api/assignments/student/class/${classId}`);
             const formattedData = response.data?.map((assignment, idx) => ({
                 key: assignment._id,
@@ -75,8 +81,10 @@ const StudentListingTable = () => {
         catch (error) {
             console.error('Error fetching assignments:', error);
             message.error('Failed to fetch assignments');
+        } finally {
+            setLoad(false);
         }
-    }
+    };
 
     const getAssignmentStatus = (assignment, userId) => {
         const now = new Date();
@@ -92,14 +100,49 @@ const StudentListingTable = () => {
     };
 
 
-    const uploadFileToFirebase = () => {
+    const handleSubmit = (assignment) => {
+        setCurrentAssignment(assignment);
+        setSubmitModalVisible(false);
+    }
+
+    const uploadFileToFirebase = (file) => {
         return new Promise((resolve, reject) => {
-            // const fileName = `assignments/${}`
+            const fileName = `assignments/${currentAssignment.key}/${user._id}_${file.name}`;
+            const storageRef = ref(storage, fileName);
+            const uploadTask = uploadBytesResumable(storageRef, fileName);
+
+            uploadTask.on('state_changed',
+                (snapShot) => {
+                    const progress = (snapShot.bytesTransferred / snapShot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.error("Upload error:", error);
+                    reject(error);
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        resolve(downloadURL);
+                    });
+                }
+            );
         })
     }
 
-    const handleSubmitOk = (file) => {
-        console.log("File --->", file);
+    const handleSubmitOk = async (file) => {
+        if (!file) {
+            message.error('Please select a file to submit');
+            return;
+        }
+
+        setSubmitting(true);
+
+        try {
+            const fileLink = await uploadFileToFirebase(file)
+        } catch (error) {
+            console.log(error);
+
+        }
     }
 
     const handleRowClick = (record) => {
@@ -239,6 +282,7 @@ const StudentListingTable = () => {
                 columns={columns}
                 dataSource={assignments}
                 onChange={handleChange}
+                loading={load}
                 pagination={{
                     pageSize: 10,
                     showSizeChanger: true,

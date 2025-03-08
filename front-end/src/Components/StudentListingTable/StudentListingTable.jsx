@@ -9,36 +9,6 @@ import app from '../../config/Config';
 
 const storage = getStorage(app);
 
-const data = [
-    {
-        key: '1',
-        number: 'Assignment 1',
-        date: '10-05-24',
-        topic: 'Html , Css',
-        tags: ['submitted'],
-    },
-    {
-        key: '2',
-        number: 'Assignment 2',
-        date: '12-05-24',
-        topic: 'JavaScript , React JS',
-        tags: ['expired'],
-    },
-    {
-        key: '3',
-        number: 'Assignment 3',
-        date: '14-05-24',
-        topic: 'Express JS , MongoDB',
-        tags: ['pending'],
-    },
-    {
-        key: '4',
-        number: 'Assignment 4',
-        date: '16-05-24',
-        topic: 'Node JS',
-        tags: ['submitted'],
-    },
-];
 const StudentListingTable = () => {
 
     const { classId } = useParams();

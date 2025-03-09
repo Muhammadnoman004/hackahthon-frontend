@@ -108,12 +108,24 @@ const StudentListingTable = () => {
         setSubmitting(true);
 
         try {
-            const fileLink = await uploadFileToFirebase(file)
-        } catch (error) {
-            console.log(error);
+            const fileLink = await uploadFileToFirebase(file);
 
+            await api.post(`/api/assignments/${currentAssignment.key}/submit`, {
+                fileLink: fileLink
+            });
+
+            message.success('Assignment submitted successfully');
+            setSubmitModalVisible(false);
+            fetchAssignment();
+        } catch (error) {
+            console.error('Error submitting assignment:', error);
+            message.error('Failed to submit assignment');
+
+        } finally {
+            setSubmitting(false);
+            setUploadProgress(0);
         }
-    }
+    };
 
     const handleRowClick = (record) => {
         navigate(`/student/class/${classId}/${record.key}`);

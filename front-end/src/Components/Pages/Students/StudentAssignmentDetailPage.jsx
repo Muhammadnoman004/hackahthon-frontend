@@ -121,6 +121,44 @@ function StudentAssignmentDetailPage() {
 
     };
 
+    const handleUnSubmit = async () => {
+        setLoading(true);
+        try {
+            const res = await api.delete(`/api/assignments/student/${assignmentId}`);
+            toast.success(res.data.message);
+            fetchAssignmentReport();
+            setLoading(false);
+        } catch (error) {
+            console.error("error --->", error);
+            setLoading(false);
+        }
+    };
+
+    const renderFilePreview = (fileLink) => {
+        if (!fileLink) return null;
+        if (fileLink.match(/\.(jpeg|jpg|gif|png)$/i)) {
+            return <img src={fileLink} alt="Assignment file" className="w-full h-64 object-contain" />;
+        } else if (fileLink.match(/\.pdf$/i)) {
+            return <iframe src={fileLink} className="w-full h-64 border rounded-md" title='PDF Preview'></iframe>
+        } else {
+            return (
+                <div className='mb-9'>
+                    <a className="bg-gray-100 p-4 rounded-md shadow text-center py-2 px-2 font-semibold break-all text-gray-500 hover:text-sky-blue" href={fileLink} target='_blank'>
+                        fileLink
+                    </a>
+                </div>
+            );
+        }
+    };
+
+    if (error) {
+        return (
+            <div className='p-4'>
+                <Alert message="Error" description={error} showIcon type='error' />
+            </div>
+        );
+    }
+
     const items = [
         {
             key: 'link',
@@ -199,52 +237,64 @@ function StudentAssignmentDetailPage() {
                         </section>
 
                         <section className='bg-gray-100 p-4 rounded-lg shadow h-max'>
-
                             <h2 className='text-xl mb-4'>Your Submission</h2>
+                            {
+                                report?.submissionDate ? (
+                                    <>
+                                        <div className='mb-4'>
+                                            <p>Submitted on: {new Date(report.submissionDate).toLocaleString()}</p>
+                                            <p>Status <Tag color={report.marks !== undefined ? "green" : "orange"}>
+                                                {report.marks !== undefined ? "Evaluated" : "Submitted"}
+                                            </Tag></p>
+                                            <p>Total Marks: {report.totalMarks}</p>
+                                            {report.marks !== undefined && (
+                                                <>
+                                                    <p>Obtained Marks: {report.marks}</p>
+                                                    <Progress
+                                                        percent={Math.round((report.marks / report.totalMarks) * 100)}
+                                                        status='active'
+                                                    />
+                                                </>
+                                            )}
+                                        </div>
+                                        {renderFilePreview(report.submittedFileLink)}
+                                        {report.rating && (
+                                            <div className='mt-4'>
+                                                <h3 className='font-bold mb-2'>Rating:</h3>
+                                                <p>{report.rating}</p>
+                                            </div>
+                                        )}
+                                        {report.remark && (
+                                            <div className='mt-4'>
+                                                <h3 className='font-bold mb-2'>Remark:</h3>
+                                                <p>{report.remark}</p>
+                                            </div>
+                                        )}
 
-                            <div className='mb-4'>
-                                <p>Submitted on: {new Date().toLocaleString()}</p>
-                                <p>Status <Tag color='green'>
-                                    Evaluated
-                                </Tag></p>
-                                <p>Total Marks: 10</p>
+                                        <div className='mt-3'>
+                                            <Button className='w-full text-sky-blue' onClick={handleUnSubmit}>Unsubmit</Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div>
+                                        <Dropdown
+                                            menu={{
+                                                items,
+                                                onClick
+                                            }}
+                                            trigger={['click']}
+                                        >
+                                            <Button className='w-full text-sky-blue'>
+                                                <Space>
+                                                    <FaPlus /> Add or create
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+                                    </div>
 
-                                <p>Obtained Marks: 5</p>
-                                <Progress
-                                    percent={Math.round((56.5) * 100)}
-                                    status='active'
-                                />
-                            </div>
+                                )
+                            }
 
-                            <div className='mt-4'>
-                                <h3 className='font-bold mb-2'>Rating:</h3>
-                                <p>5</p>
-                            </div>
-
-                            <div className='mt-4'>
-                                <h3 className='font-bold mb-2'>Remark:</h3>
-                                <p>Good</p>
-                            </div>
-
-                            <div className='mt-3'>
-                                <Button className='w-full text-sky-blue'>Unsubmit</Button>
-                            </div>
-
-                            <div>
-                                <Dropdown
-                                    menu={{
-                                        items,
-                                        onClick
-                                    }}
-                                    trigger={['click']}
-                                >
-                                    <Button className='w-full text-sky-blue'>
-                                        <Space>
-                                            <FaPlus /> Add or create
-                                        </Space>
-                                    </Button>
-                                </Dropdown>
-                            </div>
                         </section>
                     </div>
                 </div>
@@ -256,50 +306,57 @@ function StudentAssignmentDetailPage() {
                     onCancel={handleSubmitCancel}
                     footer={null}
                 >
-                    <>
-                        <Upload
-                            beforeUpload={(file) => {
-                                return false;
-                            }}
-                        >
-                            <Button icon={<FaPlus />}>
-                                Uploading
-                            </Button>
+                    {
+                        dropDownItem === 'file' ? (
+                            <>
+                                <Upload
+                                    beforeUpload={(file) => {
+                                        setFile(file);
+                                        return false;
+                                    }}
+                                    onRemove={() => setFile(null)}
+                                    fileList={file ? [file] : []}
+                                >
+                                    <Button icon={<FaPlus />} loading={submitting} disabled={submitting}>
+                                        {submitting ? 'Uploading...' : 'Select File to Submit'}
+                                    </Button>
+                                </Upload>
+                                {uploadProgress > 0 && (
+                                    <Progress percent={uploadProgress} status='active' />
+                                )}
 
-                        </Upload>
-                        {uploadProgress > 0 && (
-                            <Progress percent={uploadProgress} status='active' />
-                        )}
+                                <Button
+                                    type='primary'
+                                    onClick={handleSubmitOk}
+                                    disabled={!file || submitting}
+                                    loading={submitting}
+                                    style={{ marginTop: 16 }}
+                                >
+                                    Submit
+                                </Button>
+                            </>
+                        ) : (
+                            <>
+                                <Input
+                                    type='text'
+                                    placeholder='Enter your submission here...'
+                                    value={submissionText}
+                                    onChange={(e) => setSubmissionText(e.target.value)}
+                                    disabled={submitting}
+                                />
+                                <Button
+                                    type='primary'
+                                    onClick={handleSubmitOk}
+                                    disabled={!submissionText || submitting}
+                                    loading={submitting}
+                                    style={{ marginTop: 16 }}
+                                >
+                                    Submit
+                                </Button>
+                            </>
+                        )
 
-                        <Button
-                            type='primary'
-                            onClick={handleSubmitOk}
-                            disabled={!file || submitting}
-                            loading={submitting}
-                            style={{ marginTop: 16 }}
-                        >
-                            Submit
-                        </Button>
-                    </>
-
-                    <>
-                        <Input
-                            type='text'
-                            placeholder='Enter your submission here...'
-                            value={submissionText}
-                            onChange={(e) => setSubmissionText(e.target.value)}
-                            disabled={submitting}
-                        />
-                        <Button
-                            type='primary'
-                            onClick={handleSubmitOk}
-                            disabled={!submissionText || submitting}
-                            loading={submitting}
-                            style={{ marginTop: 16 }}
-                        >
-                            Submit
-                        </Button>
-                    </>
+                    }
 
                 </Modal>
 

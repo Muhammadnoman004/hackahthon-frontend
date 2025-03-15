@@ -1,41 +1,125 @@
 import { Alert, Button, Dropdown, Input, Modal, Progress, Space, Spin, Tag, Upload } from 'antd'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
 import { FaArrowLeft, FaPlus } from 'react-icons/fa'
 import { FaDownload } from 'react-icons/fa6'
-import { IoLink } from 'react-icons/io5'
+import { IoLink, IoReturnUpBack } from 'react-icons/io5'
 import { LiaClipboardListSolid } from 'react-icons/lia'
 import { MdAttachFile } from 'react-icons/md'
 import api from '../../../api/api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import useFetchProfile from '../../../utils/useFetchProfile'
+import loader from '../../../Context/LoaderContext'
+import uploadFileToFirebase from '../../../utils/uploadFileToFirebase'
+import { toast } from 'react-toastify'
 
 function StudentAssignmentDetailPage() {
 
     const { user } = useFetchProfile();
     const { classId, assignmentId } = useParams();
+    const [loading, setLoading] = useContext(loader);
+    const [load, setLoad] = useState(false);
     const [submitModalVisible, setSubmitModalVisible] = useState(false);
+    const [report, setReport] = useState(null);
+    const [error, setError] = useState(null);
+    const [dropDownItem, setDropDownItem] = useState(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [file, setFile] = useState(null);
+    const [submissionText, setSubmissionText] = useState();
+    const [submitting, setSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchAssignmentReport();
     }, [assignmentId])
 
     const fetchAssignmentReport = async () => {
+        setLoading(true)
+        setLoad(true);
+        setError(null);
         try {
             const userId = localStorage.getItem('userId');
             const response = await api.get(`/api/assignments/${assignmentId}/report/${userId}`);
             console.log(response.data);
+            setLoading(false);
+            setLoad(false);
+            setReport(response.data);
 
         } catch (error) {
-            console.log(error);
-
+            setLoading(false);
+            setLoad(false);
+            if (error.response && error.response.status === 404) {
+                setReport(null);
+                return;
+            }
+            setError('Failed to load assignment details. Please try again later.');
         }
     }
 
     const showSubmitModal = () => setSubmitModalVisible(true);
     const handleSubmitCancel = () => {
         setSubmitModalVisible(false);
+        setUploadProgress(0);
+        setFile(null);
+        setSubmissionText(null);
     }
+
+
+    const handleSubmitOk = async () => {
+        setSubmitting(true);
+        try {
+            if (dropDownItem === 'file') {
+                if (!file) {
+                    console.error('No file selected');
+                    return;
+                }
+                // Upload file to Firebase
+                const uploadedFileLink = await uploadFileToFirebase(
+                    file,
+                    `users/student/${user._id}/assignments/${file.name}`,
+                    (progress) => {
+                        setUploadProgress(progress);
+                    }
+                );
+
+                // Submit assignment data to your API
+                const assignmentData = {
+                    student: user._id,
+                    description: '', // Add description if needed
+                    date: new Date(),
+                    fileLink: uploadedFileLink
+                };
+
+                const res = await api.post(`/api/assignments/${assignmentId}/submit`, assignmentData);
+
+                toast.success(res.data.message);
+            } else {
+                const assignmentData = {
+                    student: user._id,
+                    description: '',
+                    date: new Date(),
+                    fileLink: submissionText
+                }
+
+                const res = await api.post(`/api/assignments/${assignmentId}/submit`, assignmentData);
+
+                toast.success(res.data.message);
+            }
+
+            setSubmitModalVisible(false);
+            fetchAssignmentReport();
+
+        } catch (error) {
+            console.error('Error submitting assignment:', error);
+            setError('Failed to submit assignment. Please try again.');
+
+        } finally {
+            setSubmitting(false);
+            setUploadProgress(0);
+            setFile(null);
+        }
+
+    };
 
     const items = [
         {
@@ -55,6 +139,7 @@ function StudentAssignmentDetailPage() {
     ];
 
     const onClick = ({ key }) => {
+        setDropDownItem(key);
         showSubmitModal()
     }
 
@@ -182,11 +267,15 @@ function StudentAssignmentDetailPage() {
                             </Button>
 
                         </Upload>
-
-                        <Progress percent={70} status='active' />
+                        {uploadProgress > 0 && (
+                            <Progress percent={uploadProgress} status='active' />
+                        )}
 
                         <Button
                             type='primary'
+                            onClick={handleSubmitOk}
+                            disabled={!file || submitting}
+                            loading={submitting}
                             style={{ marginTop: 16 }}
                         >
                             Submit
@@ -197,9 +286,15 @@ function StudentAssignmentDetailPage() {
                         <Input
                             type='text'
                             placeholder='Enter your submission here...'
+                            value={submissionText}
+                            onChange={(e) => setSubmissionText(e.target.value)}
+                            disabled={submitting}
                         />
                         <Button
                             type='primary'
+                            onClick={handleSubmitOk}
+                            disabled={!submissionText || submitting}
+                            loading={submitting}
                             style={{ marginTop: 16 }}
                         >
                             Submit

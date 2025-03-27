@@ -1,20 +1,34 @@
 import { BellFilled } from '@ant-design/icons'
 import React from 'react'
 import { Container } from 'react-bootstrap'
+import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting'
 
 export default function AllClassFellowsPage() {
     return (
         <div>
-            <Container>
-                <div className='flex m-4 text-2xl font-mono font-extrabold'>
-                    <h1 className='flex-1'>Classmates</h1>
-                    <BellFilled className='flex-2 text-amber-400' />
+            <div className='flex text-2xl font-extrabold mb-4 mt-4'>
+                <div className='flex-1'>
+                    <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight mb-1">Teacher</h3>
                 </div>
+            </div>
 
-                <div className='bg-stone-100 w-2/5 h-96 my-7 mx-8 p-3 rounded-lg border-solid border-2 border-sky-500'>
-                    <h1 className='text-center text-2xl font-bold text-stone-500'>Students</h1>
+            <div className='mb-4'>
+                {
+                    trainerData && <Classfellowslisting data={"sss"} />
+                }
+            </div>
+
+            <div className='flex text-2xl font-extrabold mb-4'>
+                <div className='flex-1'>
+                    <h3 className="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight mb-1">Classmates</h3>
+                    <p className='text-sm font-normal'>Get to know your fellow students!</p>
                 </div>
-            </Container>
+            </div>
+
+            <div className='mb-4'>
+                <Classfellowslisting data={'sss'} />
+            </div>
+
         </div>
     )
 }

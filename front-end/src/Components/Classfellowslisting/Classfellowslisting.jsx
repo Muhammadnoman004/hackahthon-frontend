@@ -22,25 +22,23 @@ export default function Classfellowslisting({ data, classId }) {
                                 </div>
                             )
                         }) :
-                        data.map((data, i) => {
-                            return (
-                                <div key={i}>
-                                    <div className='border-b-2 pb-3 w-full flex gap-3 mb-3'>
-                                        <div className='w-14 h-14 rounded-full bg-stone-200 overflow-hidden'>
-                                            <img src={data.profileImg ? data.profileImg : UserProIcon} alt="" />
-                                        </div>
-                                        <div >
-                                            <h2 className='text-xl font-semibold'>{data.username}</h2>
-                                            <p className='text-sm'>{data.email}</p>
-                                        </div>
-                                    </div>
+                        // data.map((data, i) => {
+                        //     return (
+                        <div>
+                            <div className='border-b-2 pb-3 w-full flex gap-3 mb-3'>
+                                <div className='w-14 h-14 rounded-full bg-stone-200 overflow-hidden'>
+                                    {/* <img src={data.profileImg ? data.profileImg : UserProIcon} alt="" /> */}
                                 </div>
-                            )
-                        })
+                                <div >
+                                    <h2 className='text-xl font-semibold'>username</h2>
+                                    <p className='text-sm'>email</p>
+                                </div>
+                            </div>
+                        </div>
+                    //     )
+                    // })
                 }
 
-            </div>
-            <div>
             </div>
         </div>
     )

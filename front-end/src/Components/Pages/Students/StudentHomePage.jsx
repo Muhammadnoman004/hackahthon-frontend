@@ -55,14 +55,10 @@ export default function StudentHomePage() {
         api.get("/api/classes/getClasses")
             .then(res => {
                 setloading(false);
-                console.log(res.data);
                 setClasses(res.data);
-
             })
             .catch(err => {
                 setloading(false);
-                console.log(err);
-
             })
     }
 

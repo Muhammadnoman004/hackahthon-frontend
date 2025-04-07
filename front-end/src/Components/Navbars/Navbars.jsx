@@ -112,8 +112,6 @@ export default memo(function Navbars({ title }) {
 
 
     useEffect(() => {
-        console.log(user);
-
         if (user?.role) {
             setUpdatedkey({
                 key: '0',

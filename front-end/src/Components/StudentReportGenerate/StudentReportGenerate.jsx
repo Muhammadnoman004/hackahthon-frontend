@@ -103,8 +103,6 @@ const StudentReportGenerate = () => {
                 const infoResponse = await api.get(`/api/users/student/${studentId}`);
                 setStudentData(reportResponse.data);
                 setStudentInfo(infoResponse.data);
-                console.log("studentData --->", reportResponse.data);
-                console.log("studentInfo --->", infoResponse.data);
             }
             catch (error) {
                 setError("Failed to fetch student data. Please try again later.");

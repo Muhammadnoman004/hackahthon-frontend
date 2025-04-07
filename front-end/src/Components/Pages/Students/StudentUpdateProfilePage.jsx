@@ -20,7 +20,6 @@ export default function StudentUpdateProfilePage() {
     const { user, setUser } = useFetchProfile();
 
 
-
     useEffect(() => {
         if (user) {
             form.setFieldsValue({
@@ -51,7 +50,6 @@ export default function StudentUpdateProfilePage() {
                 email: values.email,
                 profileImg: ImageURL
             })
-            console.log(response);
             setloading(false);
             toast.success('Profile updated successfully!')
         }

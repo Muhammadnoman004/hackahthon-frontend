@@ -10,12 +10,14 @@ import api from '../../../api/api';
 import { toast } from 'react-toastify';
 import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
+import AllClassFellowsPage from './AllClassFellowsPage';
 
 export default function StudentClassDetailDashboard() {
 
     const [selectedComponent, setSelectedComponent] = useState('Stream');
     const [classDetails, setClassDetails] = useState(null);
     const [loading, setloading] = useContext(loader);
+    const studentId = localStorage.getItem('userId');
     const [open, setOpen] = useState(false);
     const { classId } = useParams();
     const navigate = useNavigate();
@@ -29,7 +31,6 @@ export default function StudentClassDetailDashboard() {
         api.get(`/api/classes/student/class/${classId}`)
             .then(res => {
                 setloading(false);
-                console.log(res.data);
                 setClassDetails(res.data);
             })
             .catch(err => {
@@ -66,7 +67,7 @@ export default function StudentClassDetailDashboard() {
             case "Classwork":
                 return <StudentAllAssignmentListingPage />
             case "People":
-                return <Classfellowslisting />
+                return <AllClassFellowsPage />
             default:
                 return null;
         }
@@ -130,7 +131,7 @@ export default function StudentClassDetailDashboard() {
                                 borderColor: 'skyblue',
                                 color: 'black',
                             }}
-                            onClick={() => navigate('/student/report')}
+                            onClick={() => navigate(`/student/${classId}/${studentId}/report`)}
                         >View Report</Button>
                     </div>
                     <Popover

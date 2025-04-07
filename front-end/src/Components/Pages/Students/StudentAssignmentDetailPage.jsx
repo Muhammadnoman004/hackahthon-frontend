@@ -41,7 +41,6 @@ function StudentAssignmentDetailPage() {
         try {
             const userId = localStorage.getItem('userId');
             const response = await api.get(`/api/assignments/${assignmentId}/report/${userId}`);
-            console.log(response.data);
             setLoading(false);
             setLoad(false);
             setReport(response.data);

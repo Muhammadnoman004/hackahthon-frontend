@@ -1,9 +1,37 @@
-import { BellFilled } from '@ant-design/icons'
-import React from 'react'
-import { Container } from 'react-bootstrap'
+import React, { useContext, useEffect, useState } from 'react'
 import Classfellowslisting from '../../Classfellowslisting/Classfellowslisting'
+import api from '../../../api/api'
+import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import useFetchProfile from '../../../utils/useFetchProfile'
+import loader from '../../../Context/LoaderContext'
 
 export default function AllClassFellowsPage() {
+
+    const { classId } = useParams();
+    const { user } = useFetchProfile();
+    const [loading, setLoading] = useContext(loader);
+    const [trainerData, setTrainerData] = useState([]);
+    const [studentsData, setStudentsData] = useState([]);
+
+    useEffect(() => {
+        getAllClassFellows();
+    }, [user])
+
+    const getAllClassFellows = () => {
+        setLoading(true);
+        api.get(`/api/classes/classmates/${classId}`)
+            .then(res => {
+                setTrainerData([...trainerData, res.data.teacher]);
+                setStudentsData([...studentsData, ...res.data.students]);
+                setLoading(false);
+            })
+            .catch(error => {
+                setLoading(false);
+                toast.error(error?.response.data.error);
+            })
+    }
+
     return (
         <div>
             <div className='flex text-2xl font-extrabold mb-4 mt-4'>
@@ -14,7 +42,7 @@ export default function AllClassFellowsPage() {
 
             <div className='mb-4'>
                 {
-                    trainerData && <Classfellowslisting data={"sss"} />
+                    trainerData && <Classfellowslisting data={trainerData} classId={classId} />
                 }
             </div>
 
@@ -26,7 +54,7 @@ export default function AllClassFellowsPage() {
             </div>
 
             <div className='mb-4'>
-                <Classfellowslisting data={'sss'} />
+                <Classfellowslisting data={studentsData} classId={classId} />
             </div>
 
         </div>

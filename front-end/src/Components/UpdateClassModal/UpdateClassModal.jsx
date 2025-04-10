@@ -32,7 +32,6 @@ function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
     const { user } = useFetchProfile();
 
     useEffect(() => {
-        console.log(detail);
         if (detail) {
             form.setFieldsValue({
                 name: detail.name,
@@ -84,8 +83,6 @@ function UpdateClassModal({ open, closeModal, getClassDetail, detail }) {
                         return;
                     }
                 }
-                console.log("values", values);
-
                 await api.put(`/api/classes/${classId}`, values);
 
                 closeModal();

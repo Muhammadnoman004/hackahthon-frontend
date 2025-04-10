@@ -28,7 +28,6 @@ export default function AssignmentDetailPage() {
         try {
             const userId = localStorage.getItem('userId')
             const res = await api.get(`/api/assignments/${assignmentId}/report/${userId}`);
-            console.log(res.data);
             setloading(false);
             setload(false);
             setReport(res.data);

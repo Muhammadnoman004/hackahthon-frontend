@@ -20,7 +20,6 @@ export default function SignUpForm() {
 
     useEffect(() => {
         if (user) {
-            console.log(user);
             navigate('/')
         }
     }, [user])

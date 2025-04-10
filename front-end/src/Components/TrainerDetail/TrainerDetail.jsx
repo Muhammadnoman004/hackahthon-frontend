@@ -24,7 +24,6 @@ function TrainerDetail() {
         api.get(`/api/users/trainer/${teacherId}`)
             .then(res => {
                 setloading(false);
-                console.log(res.data);
                 setTeacher(res.data);
             })
             .catch(err => {

@@ -1,5 +1,6 @@
 import React from 'react'
 import UserProIcon from '../../assets/user-profile-icon.png';
+import { Link } from 'react-router-dom';
 
 export default function Classfellowslisting({ data, classId }) {
     return (
@@ -10,15 +11,17 @@ export default function Classfellowslisting({ data, classId }) {
                         data.map((data, i) => {
                             return (
                                 <div key={i}>
-                                    <div className='border-b-2 pb-3 w-full flex gap-3 mb-3'>
-                                        <div className='w-14 h-14 rounded-full bg-stone-200 overflow-hidden'>
-                                            <img src={data.profileImg ? data.profileImg : UserProIcon} alt="" />
+                                    <Link className='hover:text-sky-500' to={`/trainer/class/${classId}/student/${data._id}`}>
+                                        <div className='border-b-2 pb-3 w-full flex gap-3 mb-3'>
+                                            <div className='w-14 h-14 rounded-full bg-stone-200 overflow-hidden'>
+                                                <img src={data.profileImg ? data.profileImg : UserProIcon} alt="" />
+                                            </div>
+                                            <div >
+                                                <h2 className='text-xl font-semibold'>{data.username}</h2>
+                                                <p className='text-sm'>{data.email}</p>
+                                            </div>
                                         </div>
-                                        <div >
-                                            <h2 className='text-xl font-semibold'>{data.username}</h2>
-                                            <p className='text-sm'>{data.email}</p>
-                                        </div>
-                                    </div>
+                                    </Link>
                                 </div>
                             )
                         }) :
@@ -30,8 +33,8 @@ export default function Classfellowslisting({ data, classId }) {
                                             <img src={data.profileImg ? data.profileImg : UserProIcon} alt="" />
                                         </div>
                                         <div >
-                                            <h2 className='text-xl font-semibold'>username</h2>
-                                            <p className='text-sm'>email</p>
+                                            <h2 className='text-xl font-semibold'>{data.username}</h2>
+                                            <p className='text-sm'>{data.email}</p>
                                         </div>
                                     </div>
                                 </div>

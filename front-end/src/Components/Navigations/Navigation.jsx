@@ -182,6 +182,13 @@ const router = createBrowserRouter([
             <AssignmentSubmissions />
         </>
     },
+    {
+        path: "/trainer/class/:classId/student/:studentId",
+        element: <>
+            <Navbars title={"Teacher | Student Report"} />
+            <StudentReportGenerate />
+        </>
+    },
 
     // Admin Routes
 

@@ -53,8 +53,6 @@ export default function AllStudentPage() {
         setOpen(true);
         setIsEditing(true);
         setEditedStudent(student);
-        console.log(editedStudent);
-
     };
 
     const handleAddStudent = (values) => {
@@ -133,7 +131,6 @@ export default function AllStudentPage() {
 
             }))
             setload(false);
-            console.log(res.data);
             setStudents(studentWithSerial);
         }
         catch (error) {

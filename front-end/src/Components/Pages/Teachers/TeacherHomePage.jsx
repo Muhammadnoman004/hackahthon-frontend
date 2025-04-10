@@ -38,8 +38,6 @@ export default function TeacherHomePage() {
                 setClasses(res.data);
                 setloading(false);
                 setload(false);
-                console.log("response ---->", res.data);
-
             })
             .catch(err => {
                 setloading(false);

@@ -54,7 +54,6 @@ export default function AllTeacherPage() {
         setOpen(true);
         setIsEditing(true);
         setEditedTeacher(teacher);
-        console.log(editedTeacher);
 
     };
 
@@ -137,11 +136,8 @@ export default function AllTeacherPage() {
             }))
             setload(false);
             setTeachers(teachersWithSerial);
-            console.log(teachersWithSerial);
-
         } catch (error) {
             setload(false);
-            console.log(error);
         }
     }
 

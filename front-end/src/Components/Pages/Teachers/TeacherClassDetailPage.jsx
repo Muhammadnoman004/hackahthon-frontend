@@ -24,7 +24,6 @@ export default function TeacherClassDetailPage() {
             const res = await api.get(`/api/assignments/class/${classId}`);
             setAssignments(res.data);
             setDetail(response.data);
-            console.log(detail);
             setloading(false);
 
         } catch (error) {
@@ -38,7 +37,7 @@ export default function TeacherClassDetailPage() {
     }
 
     return (
-        <Container>
+        <Container fluid>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-2 mt-4'>
                 <section>
                     <div className='bg-gray-100 rounded-lg p-3 mb-3'>

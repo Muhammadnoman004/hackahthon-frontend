@@ -50,7 +50,6 @@ export default function AdminUpdateProfilePage() {
                 email: values.email,
                 profileImg: ImageURL
             })
-            console.log(response);
             setloading(false);
             toast.success("Profile updated successfully!");
 

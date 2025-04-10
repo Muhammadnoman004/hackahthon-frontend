@@ -22,8 +22,6 @@ export default function AssignmentSubmissions() {
 
     useEffect(() => {
         fetchData()
-        console.log("Submissions Data:", submissions);
-
     }, [assignmentId, classId]);
 
     const fetchData = async () => {
@@ -33,8 +31,6 @@ export default function AssignmentSubmissions() {
                 api.get(`/api/assignments/${assignmentId}/submissions`),
                 api.get(`api/classes/students/${classId}`)
             ]);
-            console.log(submissionsResponse);
-            console.log(studentsResponse);
 
             setSubmissions(submissionsResponse.data);
             setStudents(studentsResponse.data);
@@ -58,7 +54,6 @@ export default function AssignmentSubmissions() {
     }
 
     const handleEvalutionSubmit = async (values) => {
-        console.log("value", values);
         try {
             await api.post(`/api/assignments/${assignmentId}/evaluate`, {
                 studentId: currentSubmission.student._id,

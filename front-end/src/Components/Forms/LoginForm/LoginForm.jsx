@@ -20,7 +20,6 @@ export default function LoginForm() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log(user);
         if (user && user.isVerified) {
             if (user?.role === 'trainer') {
                 navigate('/trainer/dashboard');

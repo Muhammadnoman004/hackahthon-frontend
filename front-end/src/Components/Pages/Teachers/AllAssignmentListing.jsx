@@ -68,7 +68,6 @@ export default function AllAssignmentListing() {
 
             }))
             setAssignment(formattedAssignments)
-            console.log(formattedAssignments);
             setError('');
             setload(false);
             setloading(false);

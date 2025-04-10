@@ -73,7 +73,6 @@ function TrainerClassDetailPage() {
             try {
                 const res = await api.get("/api/users/students/unenrolled");
                 setUnEnrolledStudents(res.data);
-                console.log(res.data);
             }
             catch (error) {
                 setUnEnrolledStudentsError(error.response.data.message);
@@ -304,7 +303,6 @@ function TrainerClassDetailPage() {
                 classId: classId
             }
             const res = await api.post(`/api/users/students`, data);
-            console.log("res ==>", res);
             setLoading(false);
             getStudentOfClass();
             toast.success(res.data.message);

@@ -61,7 +61,6 @@ export default function ClassModal({ open, closeModal, getAllClasses }) {
                     try {
                         const fileURL = await uploadFileToFirebase(file, `classes/${user._id}/${file.name}`);
                         values.classImage = fileURL;
-                        // console.log(values);
                     } catch (error) {
                         setloading(false);
                         toast.error("Failed to upload image.");

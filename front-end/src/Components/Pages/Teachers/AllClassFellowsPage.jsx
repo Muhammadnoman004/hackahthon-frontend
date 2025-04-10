@@ -23,7 +23,6 @@ export default function AllClassFellowsPage() {
         setloading(true);
         api.get(`/api/classes/classmates/${classId}`)
             .then(res => {
-                console.log(res);
                 setTrainerData([...trainerData, res.data.teacher]);
                 setStudentsData([...studentsData, ...res.data.students]);
                 setloading(false);
@@ -56,7 +55,13 @@ export default function AllClassFellowsPage() {
             </div>
 
             <div className='mb-4'>
-                <Classfellowslisting data={studentsData} classId={classId} />
+                {!studentsData || studentsData.length === 0 ? (
+                    <div className="bg-white rounded-lg border shadow-md w-full max-w-3xl mt-4 p-4 text-center">
+                        <h1>You don't have any Classmates yet.</h1>
+                    </div>
+                ) : (
+                    <Classfellowslisting data={studentsData} classId={classId} />
+                )}
             </div>
 
         </div>

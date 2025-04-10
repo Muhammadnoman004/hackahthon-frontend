@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { BellFilled } from '@ant-design/icons'
-import { FaUserLock, FaBell } from "react-icons/fa";
+import { FaUserLock } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { Button, Form, Input, Menu, Modal } from 'antd';
 import { Container } from 'react-bootstrap';

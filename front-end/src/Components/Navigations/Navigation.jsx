@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from '../Pages/Home/Home';
 import Signup from '../Pages/Signup/Signup';
 import Login from '../Pages/Login/Login';
 import StudentHomePage from '../Pages/Students/StudentHomePage';

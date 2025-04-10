@@ -8,7 +8,6 @@ import Navbar from 'react-bootstrap/Navbar';
 import SmitLogo from '../../assets/smit.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import PageTitle from "../PageTitle/PageTitle";
-// import usefetchProfile from "../../utils/useFetchProfile";
 import useFetchProfile from "../../utils/useFetchProfile";
 import { Dropdown, Space } from 'antd';
 import api from "../../api/api";
@@ -16,53 +15,11 @@ import { toast } from "react-toastify";
 import loader from "../../Context/LoaderContext";
 import Loader from "../Loader/Loader";
 
-
-// const logOut = async () => {
-//     try {
-//         const res = await api.post("/api/users/logout")
-//         toast.success("Logged Out Successfully", {
-//             onClick: () => {
-//                 localStorage.removeItem("token");
-//             }
-//         })
-//         localStorage.removeItem('token');
-//     }
-//     catch (err) {
-//         console.log(err);
-//     }
-
-// }
-
-// const items = [
-//     {
-//         key: '1',
-//         label: (
-//             <Link to="/student/profile">
-//                 Profile
-//             </Link>
-//         ),
-//         icon: <FaUser />,
-
-//     },
-//     {
-//         key: '2',
-//         label: (
-//             <Link>
-//                 Logout
-//             </Link>
-//         ),
-//         icon: <MdLogout />,
-//         onClick: logOut,
-//     },
-// ];
-
-
 export default memo(function Navbars({ title }) {
 
     const { user, setUser } = useFetchProfile();
     const [loading, setloading] = useContext(loader);
     const navigate = useNavigate();
-    // const { user } = useProfile()
     const location = useLocation();
     const [updatedkey, setUpdatedkey] = useState({ key: '0', label: (<Link to="/student/profile"><HiUserCircle className="text-3xl" /></Link>) });
     const [homekey, setHomekey] = useState({ key: '1', label: (<Link to="/student/dashboard">Home</Link>) });
@@ -219,20 +176,6 @@ export default memo(function Navbars({ title }) {
     ]
 
     const getNavItem = () => {
-        // Admin Routes
-        // if (location.pathname.includes("/admin/dashboard")) return 1;
-        // if (location.pathname.includes("/admin/teacher")) return 3;
-        // if (location.pathname.includes("/admin/student")) return 4;
-        // if (location.pathname.includes("/admin/setting")) return 2;
-
-        // // Trainer Routes
-        // if (location.pathname.includes("/trainer/dashboard")) return 1;
-        // if (location.pathname.includes("/trainer/setting")) return 2;
-
-        // // Student Routes
-        // if (location.pathname.includes("/student/dashboard")) return 1;
-        // if (location.pathname.includes("/student/setting")) return 2;
-
         if (user?.role === 'admin') return AdminNavItems;
         if (user?.role === 'trainer') return TrainerNavItems;
         return StudentNavItems; // Default for students
@@ -246,21 +189,12 @@ export default memo(function Navbars({ title }) {
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="ms-auto mt-2 pl-5 sm:gap-4 md:gap-4 lg:gap-10 text-white">
-                            {/* {navlink.map((navText, index) => {
-                                return (
-                                    <Link className='text-white px-3 hover:drop-shadow-lg hover:underline' key={navText.key} to={navText.to}>{navText.text}</Link>
-                                )
-                            })} */}
+
                             {getNavItem().map((navItem) => (
                                 <Nav.Item key={navItem.key}>
                                     {navItem.label}
                                 </Nav.Item>
                             ))}
-                        </Nav>
-                        <Nav>
-                            {/* <Nav.Link className='text-white px-3 text-4xl hover:drop-shadow-lg' eventKey={2}>
-                                <HiUserCircle />
-                            </Nav.Link> */}
                         </Nav>
                         <div>
                             <PageTitle title={title} />

@@ -8,38 +8,6 @@ import loader from '../../../Context/LoaderContext';
 import Loader from '../../Loader/Loader';
 import useFetchProfile from '../../../utils/useFetchProfile';
 
-
-// const data = [
-//     {
-//         key: '1',
-//         serialNo: 1,
-//         name: 'Assignment',
-//         date: '10-05-24',
-//         marks: 100
-//     },
-//     {
-//         key: '2',
-//         serialNo: 2,
-//         name: 'Assignment',
-//         date: '12-05-24',
-//         marks: 10
-//     },
-//     {
-//         key: '3',
-//         serialNo: 3,
-//         name: 'Assignment',
-//         date: '14-05-24',
-//         marks: 50
-//     },
-//     {
-//         key: '4',
-//         serialNo: 4,
-//         name: 'Assignment',
-//         date: '16-05-24',
-//         marks: 20
-//     },
-// ];
-
 export default function AllAssignmentListing() {
 
     const { classId } = useParams();
